@@ -3,6 +3,55 @@
 # Load logging functions
 source ./scripts/logging.sh
 
+# Display help information
+show_help() {
+  echo "Utilux Installation Script"
+  echo ""
+  echo "Description:"
+  echo "  This script installs or uninstalls the Utilux utility management tool."
+  echo "  Utilux allows you to easily install and manage utilities across different Linux distributions."
+  echo ""
+  echo "Usage: $0 [options]"
+  echo ""
+  echo "Options:"
+  echo "  --help              Show this help message"
+  echo "  --uninstall [name]  Uninstall utilux or a custom-named installation"
+  echo "  --source <path>     Install from local source code"
+  echo "  --develop           Install from develop branch of the repository"
+  echo "  --release           Install from GitHub release (default)"
+  echo ""
+  echo "Installation Examples:"
+  echo "  $0                  Install utilux from GitHub release (default)"
+  echo "  $0 --source /path/to/source  Install from local source code"
+  echo "  $0 --develop        Install from develop branch"
+  echo "  $0 --help           Show this help message"
+  echo ""
+  echo "Uninstallation Examples:"
+  echo "  $0 --uninstall      Uninstall utilux (default name)"
+  echo "  $0 --uninstall myutilux  Uninstall a custom-named installation"
+  echo ""
+  echo "Post-Installation Usage:"
+  echo "  After installation, you can use the following commands:"
+  echo "    utilux install <package>              # Install a package"
+  echo "    utilux install github:owner/repo      # Install from GitHub Release"
+  echo "    utilux install https://example.com/pkg.tar.gz  # Install from URL"
+  echo "    utilux remove <package>               # Remove a package"
+  echo ""
+  echo "Custom Installation:"
+  echo "  If an application named 'utilux' already exists, you will be prompted to:"
+  echo "  1. Remove the existing application and install as 'utilux'"
+  echo "  2. Install with a different name (e.g., 'myutilux')"
+  echo "  3. Cancel the installation"
+  echo ""
+  echo "Requirements:"
+  echo "  - Linux distribution (Ubuntu, Fedora, Alpine, etc.)"
+  echo "  - Root privileges (sudo)"
+  echo "  - Internet connection for downloading packages"
+  echo ""
+  echo "Note: This script requires root privileges. Use sudo when running."
+  exit 0
+}
+
 # Check if script is run as root
 require_root() {
   if [ "$EUID" -ne 0 ]; then
@@ -24,7 +73,7 @@ detect_distro() {
 
 # Check and install required packages
 ensure_required_packages() {
-  local packages=("curl" "tar" "gzip" "whiptail")
+  local packages=("curl" "tar" "gzip" "whiptail" "git")
   for package in "${packages[@]}"; do
     if ! command -v "$package" &> /dev/null; then
       log_info "Installing $package..."
@@ -44,11 +93,51 @@ ensure_required_packages() {
   done
 }
 
-# Install utilux tool
-install_utilux() {
+# Install core scripts
+install_core_scripts() {
+  local source_dir="$1"
   local app_name="${UTILUX_APP_NAME:-utilux}"
   local install_dir="/usr/local/bin"
   local scripts_dir="/usr/local/lib/$app_name/scripts"
+
+  # Create installation directories
+  mkdir -p "$install_dir"
+  mkdir -p "$scripts_dir"
+
+  # Install main script
+  log_info "Installing $app_name..."
+  cp "$source_dir/tool.sh" "$install_dir/$app_name"
+  chmod +x "$install_dir/$app_name"
+
+  # Install core scripts (excluding distro-specific directories)
+  log_info "Installing core scripts..."
+  log_info "Source directory: $source_dir/scripts/"
+  log_info "Target directory: $scripts_dir/"
+
+  # First, copy only .sh files directly in the scripts directory (not in subdirectories)
+  if [ -d "$source_dir/scripts" ]; then
+    for file in "$source_dir/scripts/"*.sh; do
+      if [ -f "$file" ]; then
+        cp "$file" "$scripts_dir/"
+        log_info "Copied core script: $(basename "$file")"
+      fi
+    done
+  fi
+
+  # Make all scripts executable
+  chmod +x "$scripts_dir/"*.sh 2>/dev/null || true
+
+  # Create symbolic links for better PATH integration
+  ln -sf "$scripts_dir/core.sh" "/usr/local/bin/$app_name-core"
+  ln -sf "$scripts_dir/distro-detect.sh" "/usr/local/bin/$app_name-detect"
+
+  # Install distro-specific scripts
+  install_distro_scripts "$DISTRO_ID" "$source_dir"
+}
+
+# Install from GitHub release
+install_from_release() {
+  local app_name="${UTILUX_APP_NAME:-utilux}"
   local temp_dir="/tmp/${app_name}_install"
   local repo_owner="lamngockhuong"
   local repo_name="utilux"
@@ -68,7 +157,7 @@ install_utilux() {
   fi
 
   # Download release package
-  log_info "Downloading $app_name..."
+  log_info "Downloading $app_name from GitHub release..."
   if ! curl -s -L "$download_url" -o "$temp_dir/$app_name.tar.gz"; then
     log_error "Failed to download $app_name"
     rm -rf "$temp_dir"
@@ -114,27 +203,99 @@ install_utilux() {
     exit 1
   fi
 
-  # Create installation directories
-  mkdir -p "$install_dir"
-  mkdir -p "$scripts_dir"
-
-  # Install main script
-  log_info "Installing $app_name..."
-  cp "$extracted_dir/tool.sh" "$install_dir/$app_name"
-  chmod +x "$install_dir/$app_name"
-
   # Install core scripts
-  cp -r "$extracted_dir/scripts/"* "$scripts_dir/"
-  chmod +x "$scripts_dir/"*.sh 2>/dev/null || true
+  install_core_scripts "$extracted_dir"
 
   # Clean up
   rm -rf "$temp_dir"
 
-  # Create symbolic links for better PATH integration
-  ln -sf "$scripts_dir/core.sh" "/usr/local/bin/$app_name-core"
-  ln -sf "$scripts_dir/distro-detect.sh" "/usr/local/bin/$app_name-detect"
+  log_success "$app_name installed successfully from GitHub release!"
+  log_info "You can now use '$app_name' command to manage your utilities."
+}
 
-  log_success "$app_name installed successfully!"
+# Install from develop branch
+install_from_develop() {
+  local app_name="${UTILUX_APP_NAME:-utilux}"
+  local temp_dir="/tmp/${app_name}_install"
+  local repo_owner="lamngockhuong"
+  local repo_name="utilux"
+
+  # Create temporary directory
+  mkdir -p "$temp_dir"
+
+  # Clone develop branch
+  log_info "Cloning develop branch from repository..."
+  if ! git clone -b develop "https://github.com/$repo_owner/$repo_name.git" "$temp_dir/$repo_name"; then
+    log_error "Failed to clone repository"
+    rm -rf "$temp_dir"
+    exit 1
+  fi
+
+  # Check if tool.sh exists
+  if [ ! -f "$temp_dir/$repo_name/tool.sh" ]; then
+    log_error "tool.sh not found in the repository"
+    log_info "Contents of $temp_dir/$repo_name:"
+    ls -la "$temp_dir/$repo_name"
+    rm -rf "$temp_dir"
+    exit 1
+  fi
+
+  # Check if scripts directory exists
+  if [ ! -d "$temp_dir/$repo_name/scripts" ]; then
+    log_error "scripts directory not found in the repository"
+    log_info "Contents of $temp_dir/$repo_name:"
+    ls -la "$temp_dir/$repo_name"
+    rm -rf "$temp_dir"
+    exit 1
+  fi
+
+  # Install core scripts
+  install_core_scripts "$temp_dir/$repo_name"
+
+  # Clean up
+  rm -rf "$temp_dir"
+
+  log_success "$app_name installed successfully from develop branch!"
+  log_info "You can now use '$app_name' command to manage your utilities."
+}
+
+# Install from local source
+install_from_local() {
+  local source_path="$1"
+  local app_name="${UTILUX_APP_NAME:-utilux}"
+
+  # Check if source path is provided
+  if [ -z "$source_path" ]; then
+    log_error "Source path not provided. Use --source <path>"
+    exit 1
+  fi
+
+  # Check if source path exists
+  if [ ! -d "$source_path" ]; then
+    log_error "Source path does not exist: $source_path"
+    exit 1
+  fi
+
+  # Check if tool.sh exists
+  if [ ! -f "$source_path/tool.sh" ]; then
+    log_error "tool.sh not found in the source path"
+    log_info "Contents of $source_path:"
+    ls -la "$source_path"
+    exit 1
+  fi
+
+  # Check if scripts directory exists
+  if [ ! -d "$source_path/scripts" ]; then
+    log_error "scripts directory not found in the source path"
+    log_info "Contents of $source_path:"
+    ls -la "$source_path"
+    exit 1
+  fi
+
+  # Install core scripts
+  install_core_scripts "$source_path"
+
+  log_success "$app_name installed successfully from local source!"
   log_info "You can now use '$app_name' command to manage your utilities."
 }
 
@@ -143,17 +304,45 @@ install_distro_scripts() {
   local distro="$1"
   local app_name="${UTILUX_APP_NAME:-utilux}"
   local scripts_dir="/usr/local/lib/$app_name/scripts"
+  local source_dir="$2"  # Add source directory parameter
 
-  # Check if distro directory exists
-  if [ ! -d "$scripts_dir/$distro" ]; then
-    log_error "No scripts found for $distro"
+  # Check if source directory is provided
+  if [ -z "$source_dir" ]; then
+    log_error "Source directory not provided for distro scripts"
     return 1
   fi
 
-  # Install distro-specific scripts
-  log_info "Installing $distro specific scripts..."
-  cp -r "$scripts_dir/$distro/"* "$scripts_dir/"
-  chmod +x "$scripts_dir/"*.sh
+  # Check if distro directory exists in source
+  log_info "Checking for $distro specific scripts in $source_dir/scripts/$distro"
+  if [ ! -d "$source_dir/scripts/$distro" ]; then
+    log_warn "No scripts directory found for $distro at $source_dir/scripts/$distro"
+    log_info "Creating empty $distro directory for future use"
+    mkdir -p "$scripts_dir/$distro"
+    return 0
+  fi
+
+  # Create distro-specific directory if it doesn't exist
+  mkdir -p "$scripts_dir/$distro"
+
+  # Copy only .sh files from source to destination
+  log_info "Copying $distro specific scripts from $source_dir/scripts/$distro to $scripts_dir/$distro"
+  for file in "$source_dir/scripts/$distro/"*.sh; do
+    if [ -f "$file" ]; then
+      cp "$file" "$scripts_dir/$distro/"
+      log_info "Copied $distro script: $(basename "$file")"
+    fi
+  done
+
+  chmod +x "$scripts_dir/$distro/"*.sh 2>/dev/null || true
+
+  # Create symbolic links for distro-specific scripts
+  for script in "$scripts_dir/$distro/"*.sh; do
+    if [ -f "$script" ]; then
+      local script_name=$(basename "$script")
+      ln -sf "$script" "$scripts_dir/$script_name"
+      log_info "Created symbolic link for $script_name"
+    fi
+  done
 
   log_success "Installed $distro specific scripts"
   return 0
@@ -239,6 +428,11 @@ uninstall_utilux() {
 
 # Main installation process
 main() {
+  # Check for help option
+  if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
+    show_help
+  fi
+
   # Check if uninstall option is provided
   if [ "$1" == "--uninstall" ]; then
     local app_name="$2"
@@ -267,13 +461,36 @@ main() {
   ensure_required_packages
   check_existing_installation
   detect_distro
-  install_utilux
 
-  # Install distro-specific scripts
-  log_info "Installing $DISTRO_ID specific scripts..."
-  install_distro_scripts "$DISTRO_ID"
+  # Determine installation source
+  local install_source="release"
+  local source_path=""
+
+  # Parse command line arguments
+  if [ "$1" == "--source" ] && [ -n "$2" ]; then
+    install_source="local"
+    source_path="$2"
+  elif [ "$1" == "--develop" ]; then
+    install_source="develop"
+  elif [ "$1" == "--release" ]; then
+    install_source="release"
+  fi
+
+  # Install based on source
+  case "$install_source" in
+    "release")
+      install_from_release
+      ;;
+    "develop")
+      install_from_develop
+      ;;
+    "local")
+      install_from_local "$source_path"
+      ;;
+  esac
 
   log_success "Installation completed! Try running: $UTILUX_APP_NAME install <package>"
+  log_info "To uninstall later, run: sudo $0 --uninstall $UTILUX_APP_NAME"
 }
 
 # Run main installation
