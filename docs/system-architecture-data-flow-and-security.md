@@ -310,7 +310,7 @@ UTILUX_REGISTRY_URL=https://internal.company.com/manifest.json
 ```bash
 # Registry
 UTILUX_REGISTRY_URL       # Custom registry URL
-UTILUX_BRANCH="develop"   # Git branch
+UTILUX_BRANCH="main"      # Git branch
 
 # Cache
 UTILUX_CACHE_DIR="$HOME/.utilux/cache"

@@ -7,7 +7,7 @@ set -euo pipefail
 
 REGISTRY_DIR="registry"
 MANIFEST_FILE="$REGISTRY_DIR/manifest.json"
-BASE_URL="https://raw.githubusercontent.com/lamngockhuong/utilux/develop/registry"
+BASE_URL="https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry"
 
 # Colors
 BLUE='\033[0;34m'

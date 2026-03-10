@@ -7,7 +7,7 @@ Lightweight script aggregator with lazy loading. Scripts are downloaded on-deman
 ### Quick Install (Bash CLI)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/develop/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | sudo bash
 ```
 
 ### Go CLI (Optional)

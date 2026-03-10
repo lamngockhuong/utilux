@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	DefaultRegistryURL = "https://raw.githubusercontent.com/lamngockhuong/utilux/develop/registry/manifest.json"
+	DefaultRegistryURL = "https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry/manifest.json"
 	CacheTTL           = 1 * time.Hour
 )
 
