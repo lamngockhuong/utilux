@@ -365,7 +365,45 @@ _interactive_cache() {
 }
 
 _interactive_config() {
-  _tui_msg "Configuration" "$(cmd_config 2>&1)"
+  local actions=("Show current config" "Set registry URL" "Toggle offline mode" "Toggle auto-update" "Reset to defaults" "Back")
+  local choice=$(_tui_choose "Configuration" "${actions[@]}")
+  case "$choice" in
+    "Show current"*) _tui_msg "Configuration" "$(cmd_config 2>&1)" ;;
+    "Set registry"*)
+      local url=$(_tui_input "Enter new registry URL" "$UTILUX_REGISTRY_URL")
+      if [[ -n "$url" ]]; then
+        config_set UTILUX_REGISTRY_URL "$url"
+        _tui_msg "Configuration" "Registry URL updated to: $url"
+      fi
+      ;;
+    "Toggle offline"*)
+      if [[ "$UTILUX_OFFLINE" == "1" ]]; then
+        config_set UTILUX_OFFLINE "0"
+        _tui_msg "Configuration" "Offline mode: disabled"
+      else
+        config_set UTILUX_OFFLINE "1"
+        _tui_msg "Configuration" "Offline mode: enabled"
+      fi
+      ;;
+    "Toggle auto"*)
+      if [[ "$UTILUX_AUTO_UPDATE" == "1" ]]; then
+        config_set UTILUX_AUTO_UPDATE "0"
+        _tui_msg "Configuration" "Auto-update: disabled"
+      else
+        config_set UTILUX_AUTO_UPDATE "1"
+        _tui_msg "Configuration" "Auto-update: enabled"
+      fi
+      ;;
+    "Reset to"*)
+      if _tui_confirm "Reset configuration to defaults?"; then
+        UTILUX_REGISTRY_URL="https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry/manifest.json"
+        UTILUX_OFFLINE="0"
+        UTILUX_AUTO_UPDATE="1"
+        config_save
+        _tui_msg "Configuration" "Configuration reset to defaults"
+      fi
+      ;;
+  esac
 }
 
 # Check TUI availability

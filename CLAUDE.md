@@ -73,6 +73,15 @@ website/                     # Astro documentation site
 - Go CLI uses cobra (commands) + bubbletea (TUI)
 - Both CLIs share the same registry and cache format
 
+## CLI Parity Rule
+
+**IMPORTANT:** Both CLIs (Bash and Go) must maintain feature parity.
+
+- When modifying `./utilux` (Bash), apply equivalent changes to `./cli/` (Go)
+- When modifying `./cli/` (Go), apply equivalent changes to `./utilux` (Bash)
+- Features, menu options, and behaviors should match between both CLIs
+- TUI implementations differ (gum vs bubbletea) but UX should be consistent
+
 ## Adding New Scripts
 
 1. Create script in `registry/{category}/{script-name}.sh`
