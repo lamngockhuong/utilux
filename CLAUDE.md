@@ -10,6 +10,7 @@ Utilux is a Linux utility management tool written in bash. It provides a unified
 
 ```bash
 # Launch dev container (uses Podman)
+# Uses docker or podman (auto-detected)
 make dev                    # Ubuntu 22.04 (default)
 make dev DISTRO=alpine      # Alpine Linux
 make dev DISTRO=fedora      # Fedora

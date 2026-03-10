@@ -353,7 +353,7 @@ network:
 ```
 Developer Workstation
   ↓
-make dev (Podman container)
+make dev (Docker/Podman auto-detected)
   ├── Ubuntu 22.04
   ├── Alpine Linux
   └── Fedora

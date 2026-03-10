@@ -94,6 +94,7 @@ Environment variables:
 
 ```bash
 # Launch dev container
+# Uses docker or podman (auto-detected)
 make dev                    # Ubuntu 22.04 (default)
 make dev DISTRO=alpine      # Alpine Linux
 make dev DISTRO=fedora      # Fedora
@@ -111,6 +112,7 @@ cd cli && go build -o utilux-go .
 - curl
 - Optional: jq (better JSON parsing), whiptail (interactive UI)
 - Go 1.22+ (for Go CLI)
+- Docker or Podman (for development containers)
 
 ## Contributing
 

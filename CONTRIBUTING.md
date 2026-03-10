@@ -57,6 +57,7 @@ git clone https://github.com/lamngockhuong/utilux.git
 cd utilux
 
 # Launch dev container
+# Uses docker or podman (auto-detected)
 make dev                    # Ubuntu 22.04 (default)
 make dev DISTRO=alpine      # Alpine Linux
 make dev DISTRO=fedora      # Fedora
