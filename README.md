@@ -121,6 +121,10 @@ cd cli && go build -o utilux-go .
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute.
 
+## Author
+
+**Lam Ngoc Khuong** - [khuong.dev](https://khuong.dev) - [hi@khuong.dev](mailto:hi@khuong.dev)
+
 ## License
 
 MIT
