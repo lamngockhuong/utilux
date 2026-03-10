@@ -287,7 +287,7 @@ cli/
 
 ### 6. Website (`website/`)
 
-**Framework**: Astro 4.x
+**Framework**: Astro 5.x (pnpm)
 **Purpose**: Documentation and script catalog
 
 **Pages**:
@@ -438,6 +438,7 @@ detect_distro() {
 
 - **Go** 1.22+ (for Go CLI)
 - **Node.js** 20+ (for website)
+- **pnpm** 10+ (for website)
 
 ### CI/CD Dependencies
 
