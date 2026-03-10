@@ -1,100 +1,117 @@
 # Utilux
 
-A utility management tool for Linux distributions.
+Lightweight script aggregator with lazy loading. Scripts are downloaded on-demand from GitHub, cached locally, and executed.
 
 ## Installation
 
-### From GitHub Release
+### Quick Install (Bash CLI)
 
 ```bash
-# Download the installation script
-curl -s -L https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh -o install.sh
-
-# Make it executable
-chmod +x install.sh
-
-# Run the installation script
-sudo ./install.sh
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/develop/install.sh | sudo bash
 ```
 
-### From Source
+### Go CLI (Optional)
+
+Download pre-built binary from [Releases](https://github.com/lamngockhuong/utilux/releases) or build from source:
 
 ```bash
-# Clone the repository
-git clone https://github.com/lamngockhuong/utilux.git
-cd utilux
-
-# Run the installation script
-sudo ./install.sh --source .
+cd cli
+go build -ldflags "-s -w" -o utilux-go .
+sudo mv utilux-go /usr/local/bin/
 ```
-
-The installer auto-detects the source structure (new: `utilux` + `lib/`, or legacy: `tool.sh` + `scripts/`).
 
 ## Usage
 
-After installation, you can use the `utilux` command to manage your utilities:
-
 ```bash
-# Install a package
-utilux install <package>
+# Run a script (downloads on first use)
+utilux run git-clean
+utilux run backup-home /path/to/backup
 
-# Install from GitHub Release
-utilux install github:owner/repo
+# List available scripts
+utilux list
+utilux list dev
 
-# Install from URL
-utilux install https://example.com/pkg.tar.gz
+# Search scripts
+utilux search docker
 
-# Remove a package
-utilux remove <package>
+# Show script details
+utilux info git-clean
+
+# Update cached scripts
+utilux update --all
+
+# Cache management
+utilux cache list
+utilux cache size
+utilux cache clear
 ```
 
-## Uninstallation
+## Available Scripts
 
-To uninstall utilux, you can use the installation script with the `--uninstall` option:
+| Category | Script | Description |
+|----------|--------|-------------|
+| automation | backup-home | Backup home directory to compressed archive |
+| automation | cron-helper | Interactively manage cron jobs |
+| dev | docker-prune | Clean unused Docker images/containers/volumes |
+| dev | env-setup | Setup development environment with common tools |
+| dev | git-clean | Clean merged branches, prune remotes |
+| network | port-scan | Scan open ports on a host |
+| network | ssl-check | Check SSL certificate expiry and details |
+| system | disk-cleanup | Clean temporary files, old logs, package cache |
+| system | log-rotate | Rotate, compress, and manage log files |
+| system | system-info | Display comprehensive system information |
 
-```bash
-# Uninstall utilux
-sudo ./install.sh --uninstall
+## Architecture
 
-# Uninstall a custom-named installation
-sudo ./install.sh --uninstall myutilux
+```
+utilux (Bash CLI)          # Interactive menu + CLI commands
+├── lib/                   # Core modules (config, cache, registry, loader, ui)
+└── ~/.utilux/             # Local cache directory
+
+cli/ (Go CLI)              # Optional high-performance CLI
+├── cmd/                   # Cobra commands
+└── internal/              # Registry, cache, loader, TUI
+
+registry/                  # Script registry
+├── manifest.json          # Script metadata + SHA256 hashes
+└── {category}/*.sh        # Actual scripts
+
+website/                   # Astro documentation site
 ```
 
-## Custom Installation Name
+## Configuration
 
-If you already have an application named "utilux" installed, the installation script will prompt you to:
+Environment variables:
 
-1. Remove the existing application and install as "utilux"
-2. Install with a different name (e.g., "myutilux")
-3. Cancel the installation
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `UTILUX_LOG_LEVEL` | Log level: debug, info, warn, error | info |
+| `UTILUX_OFFLINE` | Offline mode (1/0) | 0 |
+| `UTILUX_CACHE_DIR` | Custom cache directory | ~/.utilux |
+| `UTILUX_REGISTRY_URL` | Custom registry URL | GitHub raw |
+
+## Development
+
+```bash
+# Launch dev container
+make dev                    # Ubuntu 22.04 (default)
+make dev DISTRO=alpine      # Alpine Linux
+make dev DISTRO=fedora      # Fedora
+
+# Build Go CLI
+cd cli && go build -o utilux-go .
+
+# Create release package
+./package.sh <version>
+```
 
 ## Requirements
 
-- Linux distribution (Ubuntu, Fedora, Alpine, etc.)
-- Root privileges (sudo)
-- Internet connection for downloading packages
+- Bash 4.0+
+- curl
+- Optional: jq (better JSON parsing), whiptail (interactive UI)
+- Go 1.22+ (for Go CLI)
 
 ## License
 
 MIT
-
-## Develop
-
-```bash
-make dev                # Launch with Ubuntu by default
-make dev DISTRO=alpine  # Launch with Alpine Linux
-make dev DISTRO=fedora  # Launch with Fedora
-```
-
-Inside the container:
-
-```bash
-apk add --no-cache bash curl whiptail   # Alpine
-apt update && apt install -y curl whiptail bash  # Ubuntu/Debian
-
-# Run the tool (new structure)
-chmod +x utilux && ./utilux
-
-# Or legacy structure
-chmod +x tool.sh && ./tool.sh
-```

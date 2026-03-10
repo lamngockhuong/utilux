@@ -33,29 +33,29 @@ make clean
 
 ## Architecture
 
-The codebase supports two installation structures:
-
-### New Structure (utilux + lib/)
-
 ```
-utilux                       # Entry point: CLI/interactive menu
+utilux                       # Bash CLI: interactive menu + commands
 └── lib/
     ├── core.sh              # Shared functions (logging, utilities)
-    ├── registry.sh          # Script registry management
-    └── *.sh                 # Additional library modules
-```
+    ├── config.sh            # Configuration management
+    ├── cache.sh             # Local script caching
+    ├── registry.sh          # Script registry (manifest.json)
+    ├── loader.sh            # Script download + execution
+    └── ui.sh                # Interactive UI (whiptail)
 
-### Legacy Structure (tool.sh + scripts/)
+cli/                         # Go CLI (optional, high-performance)
+├── cmd/                     # Cobra commands (run, list, search, info, update, cache)
+└── internal/
+    ├── registry/            # Manifest fetching + parsing
+    ├── cache/               # Local cache management
+    ├── loader/              # Download, verify, execute
+    └── tui/                 # Bubbletea spinner, list, styles
 
-```
-tool.sh                      # Entry point: CLI/interactive menu
-├── scripts/core.sh          # Shared functions (logging, install_utilities, require_root)
-├── scripts/distro-detect.sh # Auto-detects distro, loads appropriate adapter
-├── scripts/logging.sh       # Logging utilities with color support
-└── scripts/{distro}/        # Distro adapters implementing install_package/remove_package
-    ├── ubuntu/ubuntu.sh     # apt-get wrapper
-    ├── alpine/alpine.sh     # apk wrapper
-    └── fedora/fedora.sh     # dnf wrapper
+registry/                    # Script registry
+├── manifest.json            # Script metadata + SHA256 hashes
+└── {category}/*.sh          # Actual scripts (automation, dev, network, system)
+
+website/                     # Astro documentation site
 ```
 
 ### Installation Paths (Constants)
@@ -66,18 +66,17 @@ tool.sh                      # Entry point: CLI/interactive menu
 
 **Key patterns:**
 
-- `detect_source_structure()` returns "new", "legacy", or "invalid"
-- `install_core_scripts()` dispatches to appropriate installer based on structure
-- Each distro adapter must implement: `update_package_list()`, `install_package()`, `remove_package()`
-- Adapters call `require_root` at load time (not deferred)
-- `install.sh` handles installation from release, develop branch, or local source
-- `package.sh` creates .tar.gz releases for GitHub
+- Scripts are lazy-loaded: downloaded on first use, cached locally
+- `manifest.json` contains script metadata + SHA256 hashes for integrity verification
+- Bash CLI uses whiptail for interactive menus
+- Go CLI uses cobra (commands) + bubbletea (TUI)
+- Both CLIs share the same registry and cache format
 
-## Adding New Distribution Support
+## Adding New Scripts
 
-1. Create `scripts/{distro}/{distro}.sh` with the three required functions
-2. Add case entry in `scripts/distro-detect.sh:load_distro_script()`
-3. Test in container: `make dev DISTRO={distro}`
+1. Create script in `registry/{category}/{script-name}.sh`
+2. Add entry to `registry/manifest.json` with name, description, version, sha256, tags, requires
+3. Test: `utilux run {script-name}`
 
 ## Environment Variables
 
