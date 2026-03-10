@@ -26,8 +26,11 @@
 - [x] Installation script with multiple modes
 - [x] Astro documentation website
 - [x] GitHub Actions CI/CD
+- [x] Script documentation system with markdown docs
+- [x] `docs` command in both CLIs
+- [x] Documentation caching and rendering (glamour/glow/bat)
 
-**Scripts Available**:
+**Scripts Available** (all with full documentation):
 
 - automation: backup-home, cron-helper
 - dev: docker-prune, env-setup, git-clean

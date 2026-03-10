@@ -59,12 +59,23 @@ Utilux is a unified Linux utility management system that provides curated, produ
 - **network**: port-scan, ssl-check
 - **system**: disk-cleanup, log-rotate, system-info
 
-### 5. Developer-Friendly Features
+### 5. Documentation System
+
+- Markdown documentation files for each script in registry
+- `utilux docs <script>` command to view full documentation
+- `utilux info <script> --docs` to show metadata with docs
+- SHA256 verification for documentation files
+- Local documentation caching in `~/.utilux/docs_cache/`
+- Markdown rendering via glamour (Go) or glow/bat (Bash)
+- Website auto-generation from registry docs via `scripts/generate-website-docs.sh`
+
+### 6. Developer-Friendly Features
 
 - manifest.json as source of truth
 - generate-manifest.sh for automated SHA256 calculation
 - Astro-powered documentation website
 - GitHub Actions for website deployment and Go CLI releases
+- Website content auto-generation from registry documentation
 
 ## Non-Goals
 
@@ -87,6 +98,9 @@ Utilux is a unified Linux utility management system that provides curated, produ
 - [x] Multi-distro support
 - [x] Astro documentation website
 - [x] Go CLI with feature parity to Bash version
+- [x] Script documentation system with markdown docs
+- [x] Documentation caching and rendering
+- [x] Website content generation from registry docs
 
 ### Version 1.1 (Planned)
 
@@ -113,6 +127,7 @@ Utilux is a unified Linux utility management system that provides curated, produ
 - Users can list all available scripts by category
 - Search functionality for script names, tags, descriptions
 - Display script metadata (version, requirements, author)
+- View full documentation for any script via `docs` command
 
 **FR-2: Script Execution**
 
@@ -217,6 +232,7 @@ Utilux is a unified Linux utility management system that provides curated, produ
 - Binaries: /usr/local/bin/utilux, /usr/local/bin/utilux-go
 - Libraries: /usr/local/lib/utilux/lib/
 - Cache: ~/.utilux/cache/
+- Documentation cache: ~/.utilux/docs_cache/
 - Config: ~/.utilux/config (future)
 
 ## Risk Assessment

@@ -11,11 +11,12 @@
       "version": "v1.0.0",
       "file": "automation/backup-home.sh",
       "sha256": "37b6165ce014be3b1c3ee046a21871d3f5445634c0ee63a78988c647e5b64e1f",
+      "docs": "automation/backup-home.md",
+      "docs_sha256": "13286a05587a392f46a259b12d629805836cdae254fb476919b3a7a19d2e112c",
       "tags": ["backup","archive","home"],
       "requires": ["tar"],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "cron-helper",
       "category": "automation",
@@ -23,11 +24,12 @@
       "version": "v1.0.0",
       "file": "automation/cron-helper.sh",
       "sha256": "599614847032508b614b42d8f7234c4eaabf8c737be5e9b4565535c0ae0baafc",
+      "docs": "automation/cron-helper.md",
+      "docs_sha256": "063c9472a0104fe76f66d9db8e83536af3dc1f5ff74ed0ec1ae7b8c6d708b24e",
       "tags": ["cron","schedule","automation"],
       "requires": [],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "docker-prune",
       "category": "dev",
@@ -35,11 +37,12 @@
       "version": "v1.0.0",
       "file": "dev/docker-prune.sh",
       "sha256": "6d1daee97f25d789a7ed3aea46aba3f0f50a68fafc2f9de4abe25fe6d24cf569",
+      "docs": "dev/docker-prune.md",
+      "docs_sha256": "df05788bb75f9b524484eb7afae3b40a005909458f67e893ba389dbb8c567716",
       "tags": ["docker","cleanup","containers"],
       "requires": ["docker"],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "env-setup",
       "category": "dev",
@@ -47,11 +50,12 @@
       "version": "v1.0.0",
       "file": "dev/env-setup.sh",
       "sha256": "d7c3c103ee59a91ab07d184c3569949f4a6688bf77cee0e01b124097431be179",
+      "docs": "dev/env-setup.md",
+      "docs_sha256": "01c52af2462f09167f16dfb439b4c31c840b37875e6d38f8f24aa842ad3ff7a0",
       "tags": ["dev","setup","tools"],
       "requires": ["curl"],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "git-clean",
       "category": "dev",
@@ -59,11 +63,12 @@
       "version": "v1.0.0",
       "file": "dev/git-clean.sh",
       "sha256": "12bf62c4d279c62960fc4b71965cde802f5805407c9a49a9cb4d57eb77f00cd1",
+      "docs": "dev/git-clean.md",
+      "docs_sha256": "7de6a5796c5f6a8c6a06c7c008548bb21aaa23994d1a6e9ff597f30c5115d6df",
       "tags": ["git","cleanup","branches"],
       "requires": ["git"],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "port-scan",
       "category": "network",
@@ -71,11 +76,12 @@
       "version": "v1.0.0",
       "file": "network/port-scan.sh",
       "sha256": "9a37925beaec9ebe2df58683c337e9149311469ca2147846f46c86a5b080ccc7",
+      "docs": "network/port-scan.md",
+      "docs_sha256": "c00ac5781c8ab069eac0b34ac20225fe11c39224029a7bc99a9e3fce856594bc",
       "tags": ["network","ports","security"],
       "requires": [],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "ssl-check",
       "category": "network",
@@ -83,11 +89,12 @@
       "version": "v1.0.0",
       "file": "network/ssl-check.sh",
       "sha256": "c46522e78c9ae874c3e25556a297ae2cc26deff93982eb3845e67c813120f714",
+      "docs": "network/ssl-check.md",
+      "docs_sha256": "818c0af540e0a1acf080cca15b5bb17c1bdcf1cf26297acbbd7547c134443beb",
       "tags": ["ssl","certificate","security"],
       "requires": ["openssl"],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "disk-cleanup",
       "category": "system",
@@ -95,11 +102,12 @@
       "version": "v1.0.0",
       "file": "system/disk-cleanup.sh",
       "sha256": "c5c34504569ba3b94a5d7bc1e48e05a874a1e1a71160803f9f7a4414e5962488",
+      "docs": "system/disk-cleanup.md",
+      "docs_sha256": "5fb0a1acac328634a69cbbdcf0e1eb933a047dc18a699a2aa946afaef4b88212",
       "tags": ["cleanup","disk","storage"],
       "requires": [],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "log-rotate",
       "category": "system",
@@ -107,11 +115,12 @@
       "version": "v1.0.0",
       "file": "system/log-rotate.sh",
       "sha256": "8a479738bedc6539531a828a74d771d5c97793dfefc399a99d6542fee0b5de72",
+      "docs": "system/log-rotate.md",
+      "docs_sha256": "fa3d3192ecec9d63afae5a3274e5d9d29f60ae0dfa01bb1dcd68d9bd2769e593",
       "tags": ["logs","rotate","maintenance"],
       "requires": ["gzip"],
       "author": "lamngockhuong"
-    }
-,
+    },
     {
       "name": "system-info",
       "category": "system",
@@ -119,6 +128,8 @@
       "version": "v1.0.0",
       "file": "system/system-info.sh",
       "sha256": "41cbb842b959450e33521786efbb611f22bcf7c82a34cc8c8b6fea789bb9905e",
+      "docs": "system/system-info.md",
+      "docs_sha256": "e271bdca76fcc1abe5720087939a8c3fc4a2b4adbfcfe23c42b9ba5066ca933e",
       "tags": ["system","info","hardware"],
       "requires": [],
       "author": "lamngockhuong"

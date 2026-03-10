@@ -229,6 +229,98 @@ func TestParseScript(t *testing.T) {
 set -euo pipefail
 ```
 
+### Documentation Requirements
+
+Each script MUST have a corresponding Markdown documentation file:
+
+**Location**: `registry/{category}/{script-name}.md`
+
+**Template Structure**:
+
+```markdown
+# script-name
+
+Brief one-line description.
+
+## Overview
+
+Detailed explanation of what the script does and use cases.
+
+## Requirements
+
+| Dependency | Description |
+|------------|-------------|
+| `tool` | Purpose |
+
+## Usage
+
+\`\`\`bash
+utilux run script-name [COMMAND] [OPTIONS]
+\`\`\`
+
+### Commands (if applicable)
+
+| Command | Description |
+|---------|-------------|
+| `action` | What it does |
+
+### Options
+
+| Option | Short | Description |
+|--------|-------|-------------|
+| `--flag` | `-f` | Purpose |
+
+## Examples
+
+### Basic Usage
+
+\`\`\`bash
+# Example with explanation
+utilux run script-name
+\`\`\`
+
+### Advanced Usage
+
+\`\`\`bash
+# More complex examples
+utilux run script-name --advanced
+\`\`\`
+
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `VAR_NAME` | `value` | Purpose |
+
+## Troubleshooting
+
+### Issue Title
+
+**Problem:** Description
+
+**Solution:** How to fix
+
+## Related Scripts
+
+- `other-script` - Brief description
+
+## Changelog
+
+- **v1.0.0** - Initial release
+```
+
+**Manifest Entry**: Both `file` and `docs` fields required:
+
+```json
+{
+  "name": "script-name",
+  "file": "system/script-name.sh",
+  "sha256": "abc123...",
+  "docs": "system/script-name.md",
+  "docs_sha256": "def456..."
+}
+```
+
 ### Script Structure Template
 
 ```bash

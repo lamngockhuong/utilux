@@ -8,6 +8,7 @@ import (
 
 	"github.com/lamngockhuong/utilux/cli/internal/cache"
 	"github.com/lamngockhuong/utilux/cli/internal/config"
+	"github.com/lamngockhuong/utilux/cli/internal/docs"
 	"github.com/lamngockhuong/utilux/cli/internal/loader"
 	"github.com/lamngockhuong/utilux/cli/internal/registry"
 	"github.com/lamngockhuong/utilux/cli/internal/tui"
@@ -27,6 +28,7 @@ var (
 	reg *registry.Registry
 	cch *cache.Cache
 	ldr *loader.Loader
+	dcm *docs.Manager
 )
 
 var rootCmd = &cobra.Command{
@@ -96,6 +98,12 @@ func initApp() error {
 	// Initialize loader
 	ldr = loader.New(reg, cch)
 
+	// Initialize docs manager
+	dcm = docs.New(cfg.HomeDir, reg)
+	if err := dcm.Init(); err != nil {
+		return fmt.Errorf("failed to init docs: %w", err)
+	}
+
 	return nil
 }
 
@@ -109,6 +117,10 @@ func getCache() *cache.Cache {
 
 func getLoader() *loader.Loader {
 	return ldr
+}
+
+func getDocs() *docs.Manager {
+	return dcm
 }
 
 // runInteractiveMode shows main menu then handles selected action

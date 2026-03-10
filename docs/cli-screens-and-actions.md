@@ -52,20 +52,22 @@ This document describes all screens and actions for both Bash and Go CLIs to ens
 
 ## CLI Commands (Non-interactive)
 
-| Command          | Bash                      | Go                           | Description           |
-| ---------------- | ------------------------- | ---------------------------- | --------------------- |
-| `run <script>`   | `./utilux run <name>`     | `./utilux-go run <name>`     | Run script by name    |
-| `list`           | `./utilux list`           | `./utilux-go list`           | List all scripts      |
-| `list -i`        | -                         | `./utilux-go list -i`        | Interactive list mode |
-| `search <term>`  | `./utilux search <term>`  | `./utilux-go search <term>`  | Search scripts        |
-| `info <script>`  | `./utilux info <name>`    | `./utilux-go info <name>`    | Show script details   |
-| `update`         | `./utilux update`         | `./utilux-go update`         | Update cached scripts |
-| `cache list`     | `./utilux cache list`     | `./utilux-go cache list`     | List cached           |
-| `cache clear`    | `./utilux cache clear`    | `./utilux-go cache clear`    | Clear cache           |
-| `cache size`     | `./utilux cache size`     | `./utilux-go cache size`     | Show cache size       |
-| `config`         | `./utilux config`         | `./utilux-go config`         | Show all config       |
-| `config <key>`   | `./utilux config <key>`   | `./utilux-go config <key>`   | Get config value      |
-| `config <k> <v>` | `./utilux config <k> <v>` | `./utilux-go config <k> <v>` | Set config value      |
+| Command           | Bash                       | Go                           | Description                   |
+| ----------------- | -------------------------- | ---------------------------- | ----------------------------- |
+| `run <script>`    | `./utilux run <name>`      | `./utilux-go run <name>`     | Run script by name            |
+| `list`            | `./utilux list`            | `./utilux-go list`           | List all scripts              |
+| `list -i`         | -                          | `./utilux-go list -i`        | Interactive list mode         |
+| `search <term>`   | `./utilux search <term>`   | `./utilux-go search <term>`  | Search scripts                |
+| `info <script>`   | `./utilux info <name>`     | `./utilux-go info <name>`    | Show script details           |
+| `info -d`         | `./utilux info <name> -d`  | `./utilux-go info <name> -d` | Show script details with docs |
+| `docs <script>`   | `./utilux docs <name>`     | `./utilux-go docs <name>`    | Show full documentation       |
+| `update`          | `./utilux update`          | `./utilux-go update`         | Update cached scripts         |
+| `cache list`      | `./utilux cache list`      | `./utilux-go cache list`     | List cached                   |
+| `cache clear`     | `./utilux cache clear`     | `./utilux-go cache clear`    | Clear cache                   |
+| `cache size`      | `./utilux cache size`      | `./utilux-go cache size`     | Show cache size               |
+| `config`          | `./utilux config`          | `./utilux-go config`         | Show all config               |
+| `config <key>`    | `./utilux config <key>`    | `./utilux-go config <key>`   | Get config value              |
+| `config <k> <v>`  | `./utilux config <k> <v>`  | `./utilux-go config <k> <v>` | Set config value              |
 
 ## TUI Implementation
 

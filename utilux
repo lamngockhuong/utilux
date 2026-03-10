@@ -14,6 +14,7 @@ source "$UTILUX_SCRIPT_DIR/lib/config.sh"
 source "$UTILUX_SCRIPT_DIR/lib/cache.sh"
 source "$UTILUX_SCRIPT_DIR/lib/registry.sh"
 source "$UTILUX_SCRIPT_DIR/lib/loader.sh"
+source "$UTILUX_SCRIPT_DIR/lib/docs.sh"
 source "$UTILUX_SCRIPT_DIR/lib/ui.sh"
 
 # Initialize
@@ -36,7 +37,8 @@ COMMANDS:
   run <script> [args]     Run a script (downloads on first use)
   list [category]         List available scripts
   search <query>          Search scripts by name/description
-  info <script>           Show script details
+  info <script> [-d]      Show script details (--docs for full docs)
+  docs <script>           Show script documentation
   update [script|--all]   Update cached scripts
   cache <subcommand>      Cache management (clear, list, size)
   config <key> [value]    View/set configuration
@@ -48,6 +50,8 @@ EXAMPLES:
   utilux list dev
   utilux search docker
   utilux info disk-cleanup
+  utilux info disk-cleanup --docs
+  utilux docs backup-home
   utilux update --all
   utilux cache clear
   utilux config UTILUX_OFFLINE 1
@@ -147,12 +151,41 @@ cmd_search() {
   done
 }
 
-# Command: info
-cmd_info() {
+# Command: docs
+cmd_docs() {
   local name="${1:-}"
 
   if [[ -z "$name" ]]; then
-    die "Usage: utilux info <script>"
+    die "Usage: utilux docs <script>"
+  fi
+
+  docs_show "$name"
+}
+
+# Command: info
+cmd_info() {
+  local name=""
+  local show_docs=0
+
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -d|--docs)
+        show_docs=1
+        shift
+        ;;
+      -*)
+        die "Unknown option: $1"
+        ;;
+      *)
+        name="$1"
+        shift
+        ;;
+    esac
+  done
+
+  if [[ -z "$name" ]]; then
+    die "Usage: utilux info <script> [--docs|-d]"
   fi
 
   registry_fetch
@@ -201,6 +234,13 @@ cmd_info() {
     echo "Cache status: not cached"
   fi
   echo ""
+
+  # Show full docs if requested
+  if [[ "$show_docs" == "1" ]]; then
+    echo "Documentation:"
+    echo "============================================"
+    docs_show "$name" || true
+  fi
 }
 
 # Command: update
@@ -459,6 +499,9 @@ main() {
       ;;
     info|show)
       cmd_info "$@"
+      ;;
+    docs)
+      cmd_docs "$@"
       ;;
     update)
       cmd_update "$@"

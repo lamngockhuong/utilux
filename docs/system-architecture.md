@@ -79,8 +79,10 @@ Utilux is a distributed script management system with client-server architecture
       "version": "v1.0.0",
       "description": "Purpose",
       "category": "system",
-      "path": "registry/system/script-name.sh",
+      "file": "system/script-name.sh",
       "sha256": "abc123...",
+      "docs": "system/script-name.md",
+      "docs_sha256": "def456...",
       "requires": ["curl"],
       "tags": ["cleanup", "disk"],
       "author": "username"
@@ -103,6 +105,7 @@ utilux (main executable)
   ├── lib/cache.sh      ← Cache CRUD operations
   ├── lib/registry.sh   ← Manifest fetch/parse
   ├── lib/loader.sh     ← Script download/verify/execute
+  ├── lib/docs.sh       ← Documentation fetch/cache/render
   └── lib/ui.sh         ← Whiptail menus
 ```
 
@@ -146,6 +149,15 @@ loader_verify()     # Verify SHA256 checksum
 loader_execute()    # Execute script with args
 ```
 
+**lib/docs.sh**:
+
+```bash
+docs_fetch()        # Fetch script documentation
+docs_cache_get()    # Get cached docs
+docs_cache_store()  # Store docs in cache
+docs_render()       # Render markdown with glow/bat
+```
+
 ### 3. Go CLI Architecture
 
 **Entry Point**: `cli/main.go`
@@ -180,7 +192,10 @@ type Script struct {
   Version     string   `json:"version"`
   Description string   `json:"description"`
   Category    string   `json:"category"`
+  File        string   `json:"file"`
   SHA256      string   `json:"sha256"`
+  Docs        string   `json:"docs"`
+  DocsSHA256  string   `json:"docs_sha256"`
   Requires    []string `json:"requires"`
   Tags        []string `json:"tags"`
 }
@@ -207,6 +222,18 @@ type Loader struct {
 // Methods: LoadScript, VerifyChecksum, Execute, UpdateScript
 ```
 
+**internal/docs**:
+
+```go
+type DocsManager struct {
+  registry *registry.Registry
+  cache    *cache.Cache
+  renderer Renderer
+}
+
+// Methods: FetchDocs, RenderDocs, GetCachedDocs
+```
+
 ### 4. Cache System
 
 **Location**: `~/.utilux/cache/`
@@ -215,16 +242,20 @@ type Loader struct {
 
 ```
 ~/.utilux/
-└── cache/
-    ├── backup-home/
-    │   ├── backup-home.sh    ← Actual script
-    │   └── .version          ← Contains: v1.0.0
-    ├── docker-prune/
-    │   ├── docker-prune.sh
-    │   └── .version
-    └── git-clean/
-        ├── git-clean.sh
-        └── .version
+├── cache/
+│   ├── backup-home/
+│   │   ├── backup-home.sh    ← Actual script
+│   │   └── .version          ← Contains: v1.0.0
+│   ├── docker-prune/
+│   │   ├── docker-prune.sh
+│   │   └── .version
+│   └── git-clean/
+│       ├── git-clean.sh
+│       └── .version
+└── docs_cache/
+    ├── backup-home.md        ← Cached documentation
+    ├── docker-prune.md
+    └── git-clean.md
 ```
 
 **Cache Operations**:
@@ -269,7 +300,8 @@ COMMANDS:
   run <script> [args...]   # Execute script
   list [category]          # List scripts
   search <query>           # Search scripts
-  info <script>            # Show script details
+  info <script> [-d]       # Show script details (--docs for full docs)
+  docs <script>            # Show full documentation
   update [script]          # Update cached scripts
   cache <subcommand>       # Manage cache
   version                  # Show version
@@ -289,7 +321,8 @@ COMMANDS:
   run <script> [args...]   # Execute script
   list [category]          # List scripts (aliases: ls)
   search <query>           # Search scripts
-  info <script>            # Show details (aliases: show)
+  info <script> [-d]       # Show details (aliases: show, --docs for full docs)
+  docs <script>            # Show full documentation
   update [script]          # Update scripts
   cache <subcommand>       # Cache management
   version                  # Show version
