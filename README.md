@@ -48,18 +48,18 @@ utilux cache clear
 
 ## Available Scripts
 
-| Category | Script | Description |
-|----------|--------|-------------|
-| automation | backup-home | Backup home directory to compressed archive |
-| automation | cron-helper | Interactively manage cron jobs |
-| dev | docker-prune | Clean unused Docker images/containers/volumes |
-| dev | env-setup | Setup development environment with common tools |
-| dev | git-clean | Clean merged branches, prune remotes |
-| network | port-scan | Scan open ports on a host |
-| network | ssl-check | Check SSL certificate expiry and details |
-| system | disk-cleanup | Clean temporary files, old logs, package cache |
-| system | log-rotate | Rotate, compress, and manage log files |
-| system | system-info | Display comprehensive system information |
+| Category   | Script       | Description                                     |
+| ---------- | ------------ | ----------------------------------------------- |
+| automation | backup-home  | Backup home directory to compressed archive     |
+| automation | cron-helper  | Interactively manage cron jobs                  |
+| dev        | docker-prune | Clean unused Docker images/containers/volumes   |
+| dev        | env-setup    | Setup development environment with common tools |
+| dev        | git-clean    | Clean merged branches, prune remotes            |
+| network    | port-scan    | Scan open ports on a host                       |
+| network    | ssl-check    | Check SSL certificate expiry and details        |
+| system     | disk-cleanup | Clean temporary files, old logs, package cache  |
+| system     | log-rotate   | Rotate, compress, and manage log files          |
+| system     | system-info  | Display comprehensive system information        |
 
 ## Architecture
 
@@ -83,12 +83,12 @@ website/                   # Astro documentation site
 
 Environment variables:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `UTILUX_LOG_LEVEL` | Log level: debug, info, warn, error | info |
-| `UTILUX_OFFLINE` | Offline mode (1/0) | 0 |
-| `UTILUX_CACHE_DIR` | Custom cache directory | ~/.utilux |
-| `UTILUX_REGISTRY_URL` | Custom registry URL | GitHub raw |
+| Variable              | Description                         | Default    |
+| --------------------- | ----------------------------------- | ---------- |
+| `UTILUX_LOG_LEVEL`    | Log level: debug, info, warn, error | info       |
+| `UTILUX_OFFLINE`      | Offline mode (1/0)                  | 0          |
+| `UTILUX_CACHE_DIR`    | Custom cache directory              | ~/.utilux  |
+| `UTILUX_REGISTRY_URL` | Custom registry URL                 | GitHub raw |
 
 ## Development
 
