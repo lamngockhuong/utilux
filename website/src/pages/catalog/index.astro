@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScriptCard from '../../components/ScriptCard.astro';
+import manifest from '../../../../registry/manifest.json';
+
+const scripts = manifest.scripts;
+const categories = [...new Set(scripts.map(s => s.category))].sort();
+---
+
+<BaseLayout title="Script Catalog">
+  <section class="py-12">
+    <div class="container">
+      <h1 class="text-3xl font-bold mb-2">Script Catalog</h1>
+      <p class="text-slate-400 mb-8">{scripts.length} scripts available</p>
+
+      <!-- Search -->
+      <div class="mb-8">
+        <input
+          type="search"
+          id="search"
+          placeholder="Search scripts..."
+          class="w-full max-w-md px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Category filters -->
+      <div class="flex flex-wrap gap-2 mb-8">
+        <button class="category-btn active px-3 py-1.5 rounded-full text-sm font-medium bg-blue-600 text-white" data-category="all">
+          All
+        </button>
+        {categories.map(cat => (
+          <button class="category-btn px-3 py-1.5 rounded-full text-sm font-medium bg-slate-700 text-slate-300 hover:bg-slate-600" data-category={cat}>
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <!-- Scripts grid -->
+      <div id="scripts-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {scripts.map(script => (
+          <div class="script-card" data-name={script.name} data-category={script.category} data-description={script.description} data-tags={script.tags?.join(',') || ''}>
+            <ScriptCard
+              name={script.name}
+              description={script.description}
+              category={script.category}
+              tags={script.tags}
+            />
+          </div>
+        ))}
+      </div>
+
+      <p id="no-results" class="hidden text-center text-slate-400 py-8">
+        No scripts found matching your search.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const searchInput = document.getElementById('search') as HTMLInputElement;
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const scriptCards = document.querySelectorAll('.script-card');
+    const noResults = document.getElementById('no-results');
+
+    let currentCategory = 'all';
+
+    function filterScripts() {
+      const query = searchInput?.value.toLowerCase() || '';
+      let visibleCount = 0;
+
+      scriptCards.forEach(card => {
+        const name = card.getAttribute('data-name')?.toLowerCase() || '';
+        const desc = card.getAttribute('data-description')?.toLowerCase() || '';
+        const tags = card.getAttribute('data-tags')?.toLowerCase() || '';
+        const category = card.getAttribute('data-category') || '';
+
+        const matchesSearch = name.includes(query) || desc.includes(query) || tags.includes(query);
+        const matchesCategory = currentCategory === 'all' || category === currentCategory;
+
+        if (matchesSearch && matchesCategory) {
+          (card as HTMLElement).style.display = 'block';
+          visibleCount++;
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+
+      if (noResults) {
+        noResults.classList.toggle('hidden', visibleCount > 0);
+      }
+    }
+
+    searchInput?.addEventListener('input', filterScripts);
+
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryBtns.forEach(b => {
+          b.classList.remove('active', 'bg-blue-600', 'text-white');
+          b.classList.add('bg-slate-700', 'text-slate-300');
+        });
+        btn.classList.add('active', 'bg-blue-600', 'text-white');
+        btn.classList.remove('bg-slate-700', 'text-slate-300');
+        currentCategory = btn.getAttribute('data-category') || 'all';
+        filterScripts();
+      });
+    });
+  </script>
+</BaseLayout>

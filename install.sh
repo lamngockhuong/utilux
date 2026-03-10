@@ -3,6 +3,23 @@
 # Load logging functions
 source ./scripts/logging.sh
 
+# Installation paths (constants)
+readonly INSTALL_BIN_DIR="/usr/local/bin"
+readonly INSTALL_LIB_BASE="/usr/local/lib"
+readonly DEFAULT_APP_NAME="utilux"
+
+# Detect source structure: returns "new", "legacy", or "invalid"
+detect_source_structure() {
+  local src="$1"
+  if [ -f "$src/utilux" ] && [ -d "$src/lib" ]; then
+    echo "new"
+  elif [ -f "$src/tool.sh" ] && [ -d "$src/scripts" ]; then
+    echo "legacy"
+  else
+    echo "invalid"
+  fi
+}
+
 # Display help information
 show_help() {
   echo "Utilux Installation Script"
@@ -93,21 +110,70 @@ ensure_required_packages() {
   done
 }
 
-# Install core scripts
-install_core_scripts() {
+# Install core scripts (new structure with lib/)
+install_new_structure() {
   local source_dir="$1"
-  local app_name="${UTILUX_APP_NAME:-utilux}"
-  local install_dir="/usr/local/bin"
-  local scripts_dir="/usr/local/lib/$app_name/scripts"
+  local app_name="${UTILUX_APP_NAME:-$DEFAULT_APP_NAME}"
+  local lib_dir="$INSTALL_LIB_BASE/$app_name"
 
   # Create installation directories
-  mkdir -p "$install_dir"
-  mkdir -p "$scripts_dir"
+  mkdir -p "$INSTALL_BIN_DIR" "$lib_dir/lib"
+
+  # Install main entry point
+  log_info "Installing $app_name (new structure)..."
+  cp "$source_dir/utilux" "$INSTALL_BIN_DIR/$app_name"
+  chmod +x "$INSTALL_BIN_DIR/$app_name"
+
+  # Install lib modules (batch copy + chmod)
+  log_info "Installing library modules..."
+  cp "$source_dir/lib/"*.sh "$lib_dir/lib/" 2>/dev/null && \
+    chmod +x "$lib_dir/lib/"*.sh && \
+    log_info "Copied $(ls -1 "$source_dir/lib/"*.sh 2>/dev/null | wc -l) library modules"
+
+  # Update the main script to use installed lib path
+  sed -i "s|UTILUX_SCRIPT_DIR=.*|UTILUX_SCRIPT_DIR=\"$lib_dir\"|" "$INSTALL_BIN_DIR/$app_name"
+
+  # Install registry (let cp fail naturally if missing)
+  log_info "Installing script registry..."
+  cp -r "$source_dir/registry" "$lib_dir/" 2>/dev/null || log_debug "No registry to install"
+
+  log_success "$app_name installed successfully!"
+  log_info "Run '$app_name help' to get started."
+}
+
+# Install core scripts (dispatches to appropriate structure)
+install_core_scripts() {
+  local source_dir="$1"
+  local structure=$(detect_source_structure "$source_dir")
+
+  case "$structure" in
+    "new")
+      install_new_structure "$source_dir"
+      return
+      ;;
+    "legacy")
+      install_legacy_structure "$source_dir"
+      ;;
+    *)
+      log_error "Invalid source structure"
+      exit 1
+      ;;
+  esac
+}
+
+# Install legacy structure (tool.sh + scripts/)
+install_legacy_structure() {
+  local source_dir="$1"
+  local app_name="${UTILUX_APP_NAME:-$DEFAULT_APP_NAME}"
+  local scripts_dir="$INSTALL_LIB_BASE/$app_name/scripts"
+
+  # Create installation directories
+  mkdir -p "$INSTALL_BIN_DIR" "$scripts_dir"
 
   # Install main script
-  log_info "Installing $app_name..."
-  cp "$source_dir/tool.sh" "$install_dir/$app_name"
-  chmod +x "$install_dir/$app_name"
+  log_info "Installing $app_name (legacy structure)..."
+  cp "$source_dir/tool.sh" "$INSTALL_BIN_DIR/$app_name"
+  chmod +x "$INSTALL_BIN_DIR/$app_name"
 
   # Install core scripts (excluding distro-specific directories)
   log_info "Installing core scripts..."
@@ -128,8 +194,8 @@ install_core_scripts() {
   chmod +x "$scripts_dir/"*.sh 2>/dev/null || true
 
   # Create symbolic links for better PATH integration
-  ln -sf "$scripts_dir/core.sh" "/usr/local/bin/$app_name-core"
-  ln -sf "$scripts_dir/distro-detect.sh" "/usr/local/bin/$app_name-detect"
+  ln -sf "$scripts_dir/core.sh" "$INSTALL_BIN_DIR/$app_name-core"
+  ln -sf "$scripts_dir/distro-detect.sh" "$INSTALL_BIN_DIR/$app_name-detect"
 
   # Install distro-specific scripts
   install_distro_scripts "$DISTRO_ID" "$source_dir"
@@ -276,17 +342,12 @@ install_from_local() {
     exit 1
   fi
 
-  # Check if tool.sh exists
-  if [ ! -f "$source_path/tool.sh" ]; then
-    log_error "tool.sh not found in the source path"
-    log_info "Contents of $source_path:"
-    ls -la "$source_path"
-    exit 1
-  fi
-
-  # Check if scripts directory exists
-  if [ ! -d "$source_path/scripts" ]; then
-    log_error "scripts directory not found in the source path"
+  # Validate source structure
+  local structure=$(detect_source_structure "$source_path")
+  if [ "$structure" = "invalid" ]; then
+    log_error "Invalid source structure. Expected either:"
+    log_error "  - New structure: utilux + lib/"
+    log_error "  - Legacy structure: tool.sh + scripts/"
     log_info "Contents of $source_path:"
     ls -la "$source_path"
     exit 1
@@ -302,9 +363,9 @@ install_from_local() {
 # Install distro-specific scripts
 install_distro_scripts() {
   local distro="$1"
-  local app_name="${UTILUX_APP_NAME:-utilux}"
-  local scripts_dir="/usr/local/lib/$app_name/scripts"
-  local source_dir="$2"  # Add source directory parameter
+  local source_dir="$2"
+  local app_name="${UTILUX_APP_NAME:-$DEFAULT_APP_NAME}"
+  local scripts_dir="$INSTALL_LIB_BASE/$app_name/scripts"
 
   # Check if source directory is provided
   if [ -z "$source_dir" ]; then
@@ -350,8 +411,7 @@ install_distro_scripts() {
 
 # Check for existing installation
 check_existing_installation() {
-  local app_name="utilux"
-  local default_name="utilux"
+  local app_name="$DEFAULT_APP_NAME"
 
   if command -v "$app_name" &> /dev/null; then
     log_warn "An application named '$app_name' already exists in your system."
@@ -367,13 +427,13 @@ check_existing_installation() {
         case $choice in
           1) # Remove existing and install as utilux
             log_info "Removing existing '$app_name'..."
-            rm -f "/usr/local/bin/$app_name"
-            rm -f "/usr/local/bin/$app_name-core"
-            rm -f "/usr/local/bin/$app_name-detect"
-            rm -rf "/usr/local/lib/$app_name"
+            rm -f "$INSTALL_BIN_DIR/$app_name"
+            rm -f "$INSTALL_BIN_DIR/$app_name-core"
+            rm -f "$INSTALL_BIN_DIR/$app_name-detect"
+            rm -rf "$INSTALL_LIB_BASE/$app_name"
             ;;
           2) # Install with different name
-            app_name=$(whiptail --title "Choose Name" --inputbox "Enter a new name for the application:" 10 60 "$default_name" 3>&1 1>&2 2>&3)
+            app_name=$(whiptail --title "Choose Name" --inputbox "Enter a new name for the application:" 10 60 "$DEFAULT_APP_NAME" 3>&1 1>&2 2>&3)
             if [ $? -ne 0 ] || [ -z "$app_name" ]; then
               log_info "Installation cancelled by user."
               exit 0
@@ -408,20 +468,17 @@ check_existing_installation() {
 
 # Uninstall utilux tool
 uninstall_utilux() {
-  local app_name="$1"
-  if [ -z "$app_name" ]; then
-    app_name="utilux"
-  fi
+  local app_name="${1:-$DEFAULT_APP_NAME}"
 
   log_info "Uninstalling $app_name..."
 
   # Remove main script and symbolic links
-  rm -f "/usr/local/bin/$app_name"
-  rm -f "/usr/local/bin/$app_name-core"
-  rm -f "/usr/local/bin/$app_name-detect"
+  rm -f "$INSTALL_BIN_DIR/$app_name"
+  rm -f "$INSTALL_BIN_DIR/$app_name-core"
+  rm -f "$INSTALL_BIN_DIR/$app_name-detect"
 
   # Remove scripts directory
-  rm -rf "/usr/local/lib/$app_name"
+  rm -rf "$INSTALL_LIB_BASE/$app_name"
 
   log_success "$app_name has been uninstalled successfully."
 }
@@ -435,10 +492,7 @@ main() {
 
   # Check if uninstall option is provided
   if [ "$1" == "--uninstall" ]; then
-    local app_name="$2"
-    if [ -z "$app_name" ]; then
-      app_name="utilux"
-    fi
+    local app_name="${2:-$DEFAULT_APP_NAME}"
 
     # Check if the application exists
     if ! command -v "$app_name" &> /dev/null; then

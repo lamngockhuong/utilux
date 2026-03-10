@@ -1,0 +1,476 @@
+#!/bin/bash
+# @name: utilux
+# @description: Lightweight script aggregator with lazy loading
+# @version: v1.0.0
+
+set -euo pipefail
+
+# Resolve script directory
+UTILUX_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load library modules
+source "$UTILUX_SCRIPT_DIR/lib/core.sh"
+source "$UTILUX_SCRIPT_DIR/lib/config.sh"
+source "$UTILUX_SCRIPT_DIR/lib/cache.sh"
+source "$UTILUX_SCRIPT_DIR/lib/registry.sh"
+source "$UTILUX_SCRIPT_DIR/lib/loader.sh"
+source "$UTILUX_SCRIPT_DIR/lib/ui.sh"
+
+# Initialize
+config_init
+config_load
+cache_init
+
+# Version
+VERSION="1.0.0"
+
+# Help text
+show_help() {
+  cat << EOF
+utilux - Lightweight Script Aggregator v$VERSION
+
+USAGE:
+  utilux <command> [options] [arguments]
+
+COMMANDS:
+  run <script> [args]     Run a script (downloads on first use)
+  list [category]         List available scripts
+  search <query>          Search scripts by name/description
+  info <script>           Show script details
+  update [script|--all]   Update cached scripts
+  cache <subcommand>      Cache management (clear, list, size)
+  config <key> [value]    View/set configuration
+  help                    Show this help message
+  version                 Show version
+
+EXAMPLES:
+  utilux run git-clean
+  utilux list dev
+  utilux search docker
+  utilux info disk-cleanup
+  utilux update --all
+  utilux cache clear
+  utilux config UTILUX_OFFLINE 1
+
+ENVIRONMENT:
+  UTILUX_LOG_LEVEL     Log level: debug, info, warn, error
+  UTILUX_OFFLINE       Enable offline mode (1/0)
+  UTILUX_CACHE_DIR     Custom cache directory
+  UTILUX_REGISTRY_URL  Custom registry URL
+
+More info: https://github.com/lamngockhuong/utilux
+EOF
+}
+
+# Command: run
+cmd_run() {
+  local script="${1:-}"
+  shift || true
+
+  if [[ -z "$script" ]]; then
+    die "Usage: utilux run <script> [args...]"
+  fi
+
+  # Check requirements before running
+  if ! loader_check_requires "$script"; then
+    die "Missing dependencies for script: $script"
+  fi
+
+  loader_execute "$script" "$@"
+}
+
+# Command: list
+cmd_list() {
+  local category="${1:-}"
+
+  registry_fetch
+
+  echo "Available scripts:"
+  echo ""
+
+  if [[ -n "$category" ]]; then
+    echo "Category: $category"
+    echo "---"
+    registry_list "$category"
+  else
+    local categories
+    categories=$(registry_categories)
+
+    for cat in $categories; do
+      echo "${UTILUX_BLUE}[$cat]${UTILUX_NC}"
+      local scripts
+      scripts=$(registry_list "$cat")
+      for script in $scripts; do
+        local cached=""
+        if cache_get "$script" &>/dev/null; then
+          cached=" ${UTILUX_GREEN}(cached)${UTILUX_NC}"
+        fi
+        echo "  - $script$cached"
+      done
+      echo ""
+    done
+  fi
+}
+
+# Command: search
+cmd_search() {
+  local query="${1:-}"
+
+  if [[ -z "$query" ]]; then
+    die "Usage: utilux search <query>"
+  fi
+
+  registry_fetch
+
+  echo "Search results for '$query':"
+  echo ""
+
+  local results
+  results=$(registry_search "$query")
+
+  if [[ -z "$results" ]]; then
+    echo "No scripts found matching '$query'"
+    return 0
+  fi
+
+  for name in $results; do
+    local script_json
+    script_json=$(registry_get_script "$name")
+    local desc
+    desc=$(registry_get_field "$script_json" "description")
+    local cat
+    cat=$(registry_get_field "$script_json" "category")
+
+    echo "  ${UTILUX_CYAN}$name${UTILUX_NC} [$cat]"
+    echo "    $desc"
+    echo ""
+  done
+}
+
+# Command: info
+cmd_info() {
+  local name="${1:-}"
+
+  if [[ -z "$name" ]]; then
+    die "Usage: utilux info <script>"
+  fi
+
+  registry_fetch
+
+  local script_json
+  script_json=$(registry_get_script "$name")
+
+  if [[ -z "$script_json" ]]; then
+    die "Script not found: $name"
+  fi
+
+  local version desc category requires tags author file
+  version=$(registry_get_field "$script_json" "version")
+  desc=$(registry_get_field "$script_json" "description")
+  category=$(registry_get_field "$script_json" "category")
+  author=$(registry_get_field "$script_json" "author")
+  file=$(registry_get_field "$script_json" "file")
+
+  if has_cmd jq; then
+    requires=$(echo "$script_json" | jq -r '.requires // [] | join(", ")' 2>/dev/null)
+    tags=$(echo "$script_json" | jq -r '.tags // [] | join(", ")' 2>/dev/null)
+  else
+    requires=$(echo "$script_json" | grep -o '"requires"[[:space:]]*:[[:space:]]*\[[^]]*\]' | grep -o '"[^"]*"' | tr -d '"' | tr '\n' ',' | sed 's/,$//')
+    tags=$(echo "$script_json" | grep -o '"tags"[[:space:]]*:[[:space:]]*\[[^]]*\]' | grep -o '"[^"]*"' | tr -d '"' | tr '\n' ',' | sed 's/,$//')
+  fi
+
+  local cached_version=""
+  if cache_get "$name" &>/dev/null; then
+    cached_version=$(cache_version "$name")
+  fi
+
+  echo ""
+  echo "${UTILUX_CYAN}$name${UTILUX_NC}"
+  echo "============================================"
+  echo "Description:  $desc"
+  echo "Version:      $version"
+  echo "Category:     $category"
+  echo "Author:       $author"
+  echo "File:         $file"
+  [[ -n "$requires" ]] && echo "Requires:     $requires"
+  [[ -n "$tags" ]] && echo "Tags:         $tags"
+  echo ""
+  if [[ -n "$cached_version" ]]; then
+    echo "Cache status: ${UTILUX_GREEN}cached${UTILUX_NC} (v$cached_version)"
+  else
+    echo "Cache status: not cached"
+  fi
+  echo ""
+}
+
+# Command: update
+cmd_update() {
+  local target="${1:-}"
+
+  if [[ "$target" == "--all" || -z "$target" ]]; then
+    log_info "Updating all cached scripts..."
+    registry_fetch 1  # Force refresh
+    loader_update
+    log_success "All scripts updated"
+  else
+    log_info "Updating $target..."
+    registry_fetch 1
+    loader_update "$target"
+    log_success "$target updated"
+  fi
+}
+
+# Command: cache
+cmd_cache() {
+  local subcmd="${1:-}"
+
+  case "$subcmd" in
+    clear)
+      local target="${2:-}"
+      cache_clear "$target"
+      ;;
+    list)
+      echo "Cached scripts:"
+      local cached_scripts
+      cached_scripts=$(cache_list)
+      if [[ -n "$cached_scripts" ]]; then
+        while read -r name; do
+          local ver
+          ver=$(cache_version "$name")
+          echo "  - $name (v$ver)"
+        done <<< "$cached_scripts"
+      else
+        echo "  (none)"
+      fi
+      ;;
+    size)
+      echo "Cache size: $(cache_size_human)"
+      ;;
+    *)
+      echo "Usage: utilux cache <clear|list|size> [script]"
+      echo ""
+      echo "Subcommands:"
+      echo "  clear [script]   Clear cache (all or specific script)"
+      echo "  list             List cached scripts"
+      echo "  size             Show cache size"
+      ;;
+  esac
+}
+
+# Command: config
+cmd_config() {
+  local key="${1:-}"
+  local value="${2:-}"
+
+  if [[ -z "$key" ]]; then
+    echo "Current configuration:"
+    echo ""
+    echo "  UTILUX_REGISTRY_URL = $UTILUX_REGISTRY_URL"
+    echo "  UTILUX_OFFLINE      = $UTILUX_OFFLINE"
+    echo "  UTILUX_AUTO_UPDATE  = $UTILUX_AUTO_UPDATE"
+    echo "  UTILUX_CACHE_DIR    = $UTILUX_CACHE_DIR"
+    echo ""
+    echo "Config file: $UTILUX_CONFIG_FILE"
+    return
+  fi
+
+  if [[ -n "$value" ]]; then
+    config_set "$key" "$value"
+    log_success "Set $key = $value"
+  else
+    echo "$(config_get "$key")"
+  fi
+}
+
+# Command: interactive menu
+cmd_interactive() {
+  if ! _has_whiptail; then
+    die "Interactive mode requires whiptail. Install it or use CLI commands."
+  fi
+
+  while true; do
+    local choice
+    choice=$(whiptail --title "Utilux - Script Aggregator" --menu "Choose an action" 18 60 8 \
+      "1" "Run a script" \
+      "2" "List scripts" \
+      "3" "Search scripts" \
+      "4" "Script info" \
+      "5" "Update scripts" \
+      "6" "Cache management" \
+      "7" "Configuration" \
+      "8" "Exit" 3>&1 1>&2 2>&3)
+
+    case $? in
+      0)
+        case $choice in
+          1) _interactive_run ;;
+          2) _interactive_list ;;
+          3) _interactive_search ;;
+          4) _interactive_info ;;
+          5) cmd_update --all; ui_message "Update" "All scripts updated!" ;;
+          6) _interactive_cache ;;
+          7) _interactive_config ;;
+          8) exit 0 ;;
+        esac
+        ;;
+      *) exit 0 ;;
+    esac
+  done
+}
+
+_interactive_run() {
+  registry_fetch
+  local scripts
+  scripts=$(registry_list)
+
+  local menu_opts=()
+  local i=1
+  for s in $scripts; do
+    menu_opts+=("$s" "")
+    ((i++))
+  done
+
+  local selected
+  selected=$(whiptail --title "Run Script" --menu "Select script to run" 20 60 12 "${menu_opts[@]}" 3>&1 1>&2 2>&3)
+
+  if [[ $? -eq 0 && -n "$selected" ]]; then
+    local args
+    args=$(whiptail --title "Arguments" --inputbox "Enter arguments (optional):" 10 60 3>&1 1>&2 2>&3)
+    clear
+    cmd_run "$selected" $args
+    echo ""
+    read -r -p "Press Enter to continue..."
+  fi
+}
+
+_interactive_list() {
+  registry_fetch
+  local output
+  output=$(cmd_list 2>&1)
+  whiptail --title "Available Scripts" --scrolltext --msgbox "$output" 24 70
+}
+
+_interactive_search() {
+  local query
+  query=$(whiptail --title "Search" --inputbox "Enter search query:" 10 60 3>&1 1>&2 2>&3)
+
+  if [[ $? -eq 0 && -n "$query" ]]; then
+    local output
+    output=$(cmd_search "$query" 2>&1)
+    whiptail --title "Search Results" --scrolltext --msgbox "$output" 20 70
+  fi
+}
+
+_interactive_info() {
+  registry_fetch
+  local scripts
+  scripts=$(registry_list)
+
+  local menu_opts=()
+  for s in $scripts; do
+    menu_opts+=("$s" "")
+  done
+
+  local selected
+  selected=$(whiptail --title "Script Info" --menu "Select script" 20 60 12 "${menu_opts[@]}" 3>&1 1>&2 2>&3)
+
+  if [[ $? -eq 0 && -n "$selected" ]]; then
+    local output
+    output=$(cmd_info "$selected" 2>&1 | sed 's/\x1b\[[0-9;]*m//g')
+    whiptail --title "$selected" --scrolltext --msgbox "$output" 20 70
+  fi
+}
+
+_interactive_cache() {
+  local choice
+  choice=$(whiptail --title "Cache Management" --menu "Select action" 15 60 4 \
+    "1" "List cached scripts" \
+    "2" "Clear all cache" \
+    "3" "Show cache size" \
+    "4" "Back" 3>&1 1>&2 2>&3)
+
+  case $choice in
+    1)
+      local output
+      output=$(cmd_cache list 2>&1)
+      whiptail --title "Cached Scripts" --msgbox "$output" 15 60
+      ;;
+    2)
+      if whiptail --title "Confirm" --yesno "Clear all cached scripts?" 8 40; then
+        cache_clear
+        whiptail --title "Cache" --msgbox "Cache cleared!" 8 40
+      fi
+      ;;
+    3)
+      whiptail --title "Cache Size" --msgbox "Cache size: $(cache_size_human)" 8 40
+      ;;
+  esac
+}
+
+_interactive_config() {
+  local output
+  output=$(cmd_config 2>&1)
+  whiptail --title "Configuration" --msgbox "$output" 15 70
+}
+
+# Check has_whiptail (for interactive)
+_has_whiptail() {
+  has_cmd whiptail
+}
+
+# Main command router
+main() {
+  local cmd="${1:-}"
+  shift || true
+
+  case "$cmd" in
+    run)
+      cmd_run "$@"
+      ;;
+    list|ls)
+      cmd_list "$@"
+      ;;
+    search|find)
+      cmd_search "$@"
+      ;;
+    info|show)
+      cmd_info "$@"
+      ;;
+    update)
+      cmd_update "$@"
+      ;;
+    cache)
+      cmd_cache "$@"
+      ;;
+    config|cfg)
+      cmd_config "$@"
+      ;;
+    help|-h|--help)
+      show_help
+      ;;
+    version|-v|--version)
+      echo "utilux v$VERSION"
+      ;;
+    "")
+      # No command - run interactive mode or show help
+      if [[ -t 0 ]] && _has_whiptail; then
+        cmd_interactive
+      else
+        show_help
+      fi
+      ;;
+    *)
+      # Try to run as script name directly
+      if registry_get_script "$cmd" &>/dev/null 2>&1; then
+        cmd_run "$cmd" "$@"
+      else
+        log_error "Unknown command: $cmd"
+        echo ""
+        show_help
+        exit 1
+      fi
+      ;;
+  esac
+}
+
+main "$@"

@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Lightweight Linux utility scripts with lazy loading" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} | Utilux</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="border-b border-slate-800 sticky top-0 bg-slate-900/95 backdrop-blur z-50">
+      <nav class="container py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 text-xl font-bold text-white hover:text-blue-400 transition">
+          <span class="text-2xl">⚡</span>
+          <span>Utilux</span>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="/catalog" class="text-slate-300 hover:text-white transition">Catalog</a>
+          <a href="/docs" class="text-slate-300 hover:text-white transition">Docs</a>
+          <a href="https://github.com/lamngockhuong/utilux" target="_blank" rel="noopener" class="text-slate-300 hover:text-white transition">
+            GitHub
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-slate-800 py-8 mt-auto">
+      <div class="container text-center text-slate-400">
+        <p>&copy; {new Date().getFullYear()} Utilux. MIT License.</p>
+        <p class="mt-2 text-sm">Built with Astro</p>
+      </div>
+    </footer>
+  </body>
+</html>

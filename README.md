@@ -25,8 +25,10 @@ git clone https://github.com/lamngockhuong/utilux.git
 cd utilux
 
 # Run the installation script
-sudo ./install.sh
+sudo ./install.sh --source .
 ```
+
+The installer auto-detects the source structure (new: `utilux` + `lib/`, or legacy: `tool.sh` + `scripts/`).
 
 ## Usage
 
@@ -90,6 +92,9 @@ Inside the container:
 apk add --no-cache bash curl whiptail   # Alpine
 apt update && apt install -y curl whiptail bash  # Ubuntu/Debian
 
-chmod +x tool.sh
-./tool.sh
+# Run the tool (new structure)
+chmod +x utilux && ./utilux
+
+# Or legacy structure
+chmod +x tool.sh && ./tool.sh
 ```
