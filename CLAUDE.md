@@ -18,8 +18,8 @@ make dev DISTRO=fedora      # Fedora
 apk add --no-cache bash curl whiptail   # Alpine
 apt update && apt install -y curl whiptail bash  # Ubuntu/Debian
 
-# Run the tool interactively
-chmod +x tool.sh && ./tool.sh
+# Run the tool
+chmod +x utilux && ./utilux
 
 # Install from source (requires root)
 sudo ./install.sh --source .

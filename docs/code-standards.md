@@ -46,9 +46,13 @@ registry/                     # Script registry
 │   └── {script-name}.sh
 └── manifest.json
 
-scripts/                      # Legacy + utilities
-├── {distro}/                # Distro-specific
-└── *.sh                     # Core scripts
+lib/                          # Core library modules
+├── core.sh                   # Logging, error handling
+├── config.sh                 # Configuration
+├── cache.sh                  # Cache operations
+├── registry.sh               # Registry fetching
+├── loader.sh                 # Script execution
+└── ui.sh                     # Interactive UI
 ```
 
 ### Go CLI Organization

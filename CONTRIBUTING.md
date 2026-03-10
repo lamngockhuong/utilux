@@ -69,7 +69,7 @@ apk add --no-cache bash curl whiptail jq
 apt update && apt install -y curl whiptail jq
 
 # Run the tool
-chmod +x tool.sh && ./tool.sh
+chmod +x utilux && ./utilux
 ```
 
 ### Building Go CLI
@@ -134,12 +134,12 @@ Generate SHA256: `sha256sum registry/dev/script-name.sh`
 ./registry/dev/script-name.sh [args]
 
 # Test via CLI
-./tool.sh run script-name
+./utilux run script-name
 
 # Test on multiple distros
-make dev DISTRO=ubuntu && ./tool.sh run script-name
-make dev DISTRO=alpine && ./tool.sh run script-name
-make dev DISTRO=fedora && ./tool.sh run script-name
+make dev DISTRO=ubuntu && ./utilux run script-name
+make dev DISTRO=alpine && ./utilux run script-name
+make dev DISTRO=fedora && ./utilux run script-name
 ```
 
 ### Go CLI Tests
@@ -182,7 +182,7 @@ go test ./...
 
 ```
 utilux/
-├── tool.sh              # Main Bash CLI entry point
+├── utilux               # Main Bash CLI entry point
 ├── install.sh           # Installation script
 ├── lib/                 # Bash library modules
 ├── cli/                 # Go CLI (optional)

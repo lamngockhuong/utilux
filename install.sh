@@ -1,20 +1,26 @@
 #!/bin/bash
 
-# Load logging functions
-source ./scripts/logging.sh
+# Inline logging functions (install.sh must work standalone)
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly BLUE='\033[0;34m'
+readonly NC='\033[0m'
+
+log_info() { echo -e "${BLUE}[INFO]${NC} $*"; }
+log_success() { echo -e "${GREEN}[OK]${NC} $*"; }
+log_error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
+log_warn() { echo -e "${RED}[WARN]${NC} $*" >&2; }
 
 # Installation paths (constants)
 readonly INSTALL_BIN_DIR="/usr/local/bin"
 readonly INSTALL_LIB_BASE="/usr/local/lib"
 readonly DEFAULT_APP_NAME="utilux"
 
-# Detect source structure: returns "new", "legacy", or "invalid"
+# Detect source structure: returns "valid" or "invalid"
 detect_source_structure() {
   local src="$1"
   if [ -f "$src/utilux" ] && [ -d "$src/lib" ]; then
-    echo "new"
-  elif [ -f "$src/tool.sh" ] && [ -d "$src/scripts" ]; then
-    echo "legacy"
+    echo "valid"
   else
     echo "invalid"
   fi
@@ -141,64 +147,17 @@ install_new_structure() {
   log_info "Run '$app_name help' to get started."
 }
 
-# Install core scripts (dispatches to appropriate structure)
+# Install core scripts
 install_core_scripts() {
   local source_dir="$1"
   local structure=$(detect_source_structure "$source_dir")
 
-  case "$structure" in
-    "new")
-      install_new_structure "$source_dir"
-      return
-      ;;
-    "legacy")
-      install_legacy_structure "$source_dir"
-      ;;
-    *)
-      log_error "Invalid source structure"
-      exit 1
-      ;;
-  esac
-}
-
-# Install legacy structure (tool.sh + scripts/)
-install_legacy_structure() {
-  local source_dir="$1"
-  local app_name="${UTILUX_APP_NAME:-$DEFAULT_APP_NAME}"
-  local scripts_dir="$INSTALL_LIB_BASE/$app_name/scripts"
-
-  # Create installation directories
-  mkdir -p "$INSTALL_BIN_DIR" "$scripts_dir"
-
-  # Install main script
-  log_info "Installing $app_name (legacy structure)..."
-  cp "$source_dir/tool.sh" "$INSTALL_BIN_DIR/$app_name"
-  chmod +x "$INSTALL_BIN_DIR/$app_name"
-
-  # Install core scripts (excluding distro-specific directories)
-  log_info "Installing core scripts..."
-  log_info "Source directory: $source_dir/scripts/"
-  log_info "Target directory: $scripts_dir/"
-
-  # First, copy only .sh files directly in the scripts directory (not in subdirectories)
-  if [ -d "$source_dir/scripts" ]; then
-    for file in "$source_dir/scripts/"*.sh; do
-      if [ -f "$file" ]; then
-        cp "$file" "$scripts_dir/"
-        log_info "Copied core script: $(basename "$file")"
-      fi
-    done
+  if [ "$structure" = "valid" ]; then
+    install_new_structure "$source_dir"
+  else
+    log_error "Invalid source structure. Expected: utilux + lib/"
+    exit 1
   fi
-
-  # Make all scripts executable
-  chmod +x "$scripts_dir/"*.sh 2>/dev/null || true
-
-  # Create symbolic links for better PATH integration
-  ln -sf "$scripts_dir/core.sh" "$INSTALL_BIN_DIR/$app_name-core"
-  ln -sf "$scripts_dir/distro-detect.sh" "$INSTALL_BIN_DIR/$app_name-detect"
-
-  # Install distro-specific scripts
-  install_distro_scripts "$DISTRO_ID" "$source_dir"
 }
 
 # Install from GitHub release
@@ -253,16 +212,8 @@ install_from_release() {
   log_info "Found extracted directory: $extracted_dir"
 
   # Check extracted files
-  if [ ! -f "$extracted_dir/tool.sh" ]; then
-    log_error "tool.sh not found in the package"
-    log_info "Contents of $extracted_dir:"
-    ls -la "$extracted_dir"
-    rm -rf "$temp_dir"
-    exit 1
-  fi
-
-  if [ ! -d "$extracted_dir/scripts" ]; then
-    log_error "scripts directory not found in the package"
+  if [ ! -f "$extracted_dir/utilux" ] || [ ! -d "$extracted_dir/lib" ]; then
+    log_error "Invalid package structure. Expected: utilux + lib/"
     log_info "Contents of $extracted_dir:"
     ls -la "$extracted_dir"
     rm -rf "$temp_dir"
@@ -297,18 +248,9 @@ install_from_develop() {
     exit 1
   fi
 
-  # Check if tool.sh exists
-  if [ ! -f "$temp_dir/$repo_name/tool.sh" ]; then
-    log_error "tool.sh not found in the repository"
-    log_info "Contents of $temp_dir/$repo_name:"
-    ls -la "$temp_dir/$repo_name"
-    rm -rf "$temp_dir"
-    exit 1
-  fi
-
-  # Check if scripts directory exists
-  if [ ! -d "$temp_dir/$repo_name/scripts" ]; then
-    log_error "scripts directory not found in the repository"
+  # Check source structure
+  if [ ! -f "$temp_dir/$repo_name/utilux" ] || [ ! -d "$temp_dir/$repo_name/lib" ]; then
+    log_error "Invalid repository structure. Expected: utilux + lib/"
     log_info "Contents of $temp_dir/$repo_name:"
     ls -la "$temp_dir/$repo_name"
     rm -rf "$temp_dir"
@@ -345,9 +287,7 @@ install_from_local() {
   # Validate source structure
   local structure=$(detect_source_structure "$source_path")
   if [ "$structure" = "invalid" ]; then
-    log_error "Invalid source structure. Expected either:"
-    log_error "  - New structure: utilux + lib/"
-    log_error "  - Legacy structure: tool.sh + scripts/"
+    log_error "Invalid source structure. Expected: utilux + lib/"
     log_info "Contents of $source_path:"
     ls -la "$source_path"
     exit 1
@@ -358,55 +298,6 @@ install_from_local() {
 
   log_success "$app_name installed successfully from local source!"
   log_info "You can now use '$app_name' command to manage your utilities."
-}
-
-# Install distro-specific scripts
-install_distro_scripts() {
-  local distro="$1"
-  local source_dir="$2"
-  local app_name="${UTILUX_APP_NAME:-$DEFAULT_APP_NAME}"
-  local scripts_dir="$INSTALL_LIB_BASE/$app_name/scripts"
-
-  # Check if source directory is provided
-  if [ -z "$source_dir" ]; then
-    log_error "Source directory not provided for distro scripts"
-    return 1
-  fi
-
-  # Check if distro directory exists in source
-  log_info "Checking for $distro specific scripts in $source_dir/scripts/$distro"
-  if [ ! -d "$source_dir/scripts/$distro" ]; then
-    log_warn "No scripts directory found for $distro at $source_dir/scripts/$distro"
-    log_info "Creating empty $distro directory for future use"
-    mkdir -p "$scripts_dir/$distro"
-    return 0
-  fi
-
-  # Create distro-specific directory if it doesn't exist
-  mkdir -p "$scripts_dir/$distro"
-
-  # Copy only .sh files from source to destination
-  log_info "Copying $distro specific scripts from $source_dir/scripts/$distro to $scripts_dir/$distro"
-  for file in "$source_dir/scripts/$distro/"*.sh; do
-    if [ -f "$file" ]; then
-      cp "$file" "$scripts_dir/$distro/"
-      log_info "Copied $distro script: $(basename "$file")"
-    fi
-  done
-
-  chmod +x "$scripts_dir/$distro/"*.sh 2>/dev/null || true
-
-  # Create symbolic links for distro-specific scripts
-  for script in "$scripts_dir/$distro/"*.sh; do
-    if [ -f "$script" ]; then
-      local script_name=$(basename "$script")
-      ln -sf "$script" "$scripts_dir/$script_name"
-      log_info "Created symbolic link for $script_name"
-    fi
-  done
-
-  log_success "Installed $distro specific scripts"
-  return 0
 }
 
 # Check for existing installation

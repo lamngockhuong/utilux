@@ -36,7 +36,6 @@ Utilux is a unified Linux utility management system that provides curated, produ
 - Interactive whiptail-based menu system
 - Zero dependencies beyond bash, curl
 - Modular library architecture (lib/)
-- Legacy compatibility with tool.sh
 
 **Go CLI** (`utilux-go`):
 

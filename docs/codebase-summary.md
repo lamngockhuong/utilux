@@ -47,17 +47,6 @@ utilux/
 │   │   └── system-info.sh
 │   └── manifest.json        # Script metadata + SHA256 hashes
 │
-├── scripts/                  # Legacy scripts + distro detection
-│   ├── alpine/
-│   │   └── alpine.sh
-│   ├── fedora/
-│   │   └── fedora.sh
-│   ├── ubuntu/
-│   │   └── ubuntu.sh
-│   ├── core.sh              # Core utilities
-│   ├── distro-detect.sh     # Distribution detection
-│   ├── generate-manifest.sh # Generate manifest.json
-│   └── logging.sh           # Logging functions
 │
 ├── website/                  # Astro documentation site
 │   ├── src/
@@ -80,7 +69,6 @@ utilux/
 │       └── go-cli-release.yml    # Go CLI releases
 │
 ├── utilux                    # Main Bash CLI executable
-├── tool.sh                   # Legacy CLI (deprecated)
 ├── install.sh                # Installation script (4,504 tokens)
 ├── package.sh                # Release packager
 ├── Makefile                  # Dev container commands
@@ -349,7 +337,7 @@ User: utilux run docker-prune
 ```
 1. Developer modifies script in registry/
   ↓
-2. Run: scripts/generate-manifest.sh
+2. Run: ./generate-manifest.sh
   ↓
 3. Generates:
    - Extracts metadata from @name, @version, etc.
@@ -495,14 +483,13 @@ detect_distro() {
 - Script list (cached manifest): ~20-50ms
 - Script download + cache: 1-2s (network dependent)
 
-## Migration Notes
+## Architecture Notes
 
-**Legacy to Modern Architecture**:
+**Modern Architecture**:
 
-- `tool.sh` (legacy) → `utilux` (modern)
-- Monolithic script → Modular lib/ approach
-- Inline functions → Separate module files
-- Hard-coded paths → Environment variable driven
+- `utilux` - Main Bash CLI with modular lib/ approach
+- Separate module files for better maintainability
+- Environment variable driven configuration
 
 **Bash to Go Migration**:
 

@@ -341,7 +341,7 @@
 - [ ] Cache management is manual-only
 - [ ] No rollback mechanism for failed updates
 - [ ] Manifest schema not formally versioned
-- [ ] Legacy scripts/ directory needs cleanup
+- [x] Legacy scripts/ directory cleanup (removed)
 - [ ] Website needs SEO optimization
 
 **Prioritization**:
