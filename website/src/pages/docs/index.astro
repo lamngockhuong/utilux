@@ -16,6 +16,7 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
           <li><a href="#installation" class="hover:text-blue-300">Installation</a></li>
           <li><a href="#usage" class="hover:text-blue-300">Usage</a></li>
           <li><a href="#commands" class="hover:text-blue-300">Commands</a></li>
+          <li><a href="#go-cli" class="hover:text-blue-300">Go CLI (Optional)</a></li>
           <li><a href="#configuration" class="hover:text-blue-300">Configuration</a></li>
           <li><a href="#contributing" class="hover:text-blue-300">Contributing</a></li>
         </ul>
@@ -40,6 +41,11 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
         <p class="text-slate-300 mb-4">Utilux uses lazy loading - scripts are downloaded on first use and cached locally.</p>
 
         <div class="space-y-4">
+          <div class="bg-slate-800 rounded-lg p-4">
+            <p class="text-slate-400 text-sm mb-2"># Launch interactive TUI menu</p>
+            <code class="text-emerald-400">utilux</code>
+          </div>
+
           <div class="bg-slate-800 rounded-lg p-4">
             <p class="text-slate-400 text-sm mb-2"># List all available scripts</p>
             <code class="text-emerald-400">utilux list</code>
@@ -104,6 +110,33 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
               </tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- Go CLI -->
+      <section id="go-cli" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">Go CLI (Optional)</h2>
+        <p class="text-slate-300 mb-4">For better performance, you can use the Go-based CLI. It's a single binary with no dependencies.</p>
+
+        <h3 class="font-semibold mt-6 mb-2">Advantages over Bash CLI</h3>
+        <ul class="list-disc list-inside space-y-1 text-slate-300 mb-4">
+          <li>Single binary - no interpreter needed</li>
+          <li>Faster startup time (~ms vs ~100ms)</li>
+          <li>Native concurrency for parallel downloads</li>
+          <li>Rich TUI with Bubbletea framework</li>
+          <li>Cross-platform binaries available</li>
+        </ul>
+
+        <h3 class="font-semibold mt-6 mb-2">Installation</h3>
+        <div class="space-y-4">
+          <div class="bg-slate-800 rounded-lg p-4">
+            <p class="text-slate-400 text-sm mb-2"># Build from source (requires Go 1.21+)</p>
+            <code class="text-emerald-400">cd cli && go build -o utilux-go .</code>
+          </div>
+          <div class="bg-slate-800 rounded-lg p-4">
+            <p class="text-slate-400 text-sm mb-2"># Or download pre-built binary</p>
+            <code class="text-emerald-400">curl -fsSL https://github.com/lamngockhuong/utilux/releases/latest/download/utilux-go-linux-amd64 -o utilux-go</code>
+          </div>
         </div>
       </section>
 

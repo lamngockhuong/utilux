@@ -23,6 +23,9 @@ sudo mv utilux-go /usr/local/bin/
 ## Usage
 
 ```bash
+# Launch interactive TUI menu
+utilux
+
 # Run a script (downloads on first use)
 utilux run git-clean
 utilux run backup-home /path/to/backup

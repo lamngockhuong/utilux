@@ -6,9 +6,11 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
 
 const features = [
   { icon: '⚡', title: 'Lazy Loading', description: 'Scripts downloaded on-demand. Minimal footprint.' },
-  { icon: '📦', title: '10+ Scripts', description: 'System cleanup, Docker, Git, SSL checks, and more.' },
+  { icon: '📦', title: '10 Scripts', description: 'System cleanup, Docker, Git, SSL checks, and more.' },
   { icon: '🔒', title: 'Verified', description: 'SHA256 checksums for all scripts.' },
-  { icon: '🐧', title: 'Cross-Distro', description: 'Ubuntu, Debian, Fedora, Alpine supported.' }
+  { icon: '🐧', title: 'Cross-Distro', description: 'Ubuntu, Debian, Fedora, Alpine supported.' },
+  { icon: '🖥️', title: 'Interactive TUI', description: 'Modern gum-powered menu interface.' },
+  { icon: '🚀', title: 'Dual CLI', description: 'Bash CLI + optional Go binary for performance.' }
 ];
 ---
 
@@ -42,6 +44,10 @@ const features = [
       <h2 class="text-2xl font-bold text-center mb-10">Quick Start</h2>
       <div class="max-w-2xl mx-auto space-y-4">
         <div class="bg-slate-800 rounded-lg p-4">
+          <p class="text-slate-400 text-sm mb-2"># Launch interactive TUI menu</p>
+          <code class="text-emerald-400">utilux</code>
+        </div>
+        <div class="bg-slate-800 rounded-lg p-4">
           <p class="text-slate-400 text-sm mb-2"># List available scripts</p>
           <code class="text-emerald-400">utilux list</code>
         </div>
@@ -56,7 +62,7 @@ const features = [
   <section class="py-16">
     <div class="container">
       <h2 class="text-2xl font-bold text-center mb-10">Why Utilux?</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map(f => (
           <div class="p-6 bg-slate-800/50 rounded-lg border border-slate-700">
             <div class="text-3xl mb-3">{f.icon}</div>
