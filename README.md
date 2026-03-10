@@ -112,6 +112,10 @@ cd cli && go build -o utilux-go .
 - Optional: jq (better JSON parsing), whiptail (interactive UI)
 - Go 1.22+ (for Go CLI)
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute.
+
 ## License
 
 MIT
