@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CopyButton from '../../components/CopyButton.astro';
+import manifest from '../../../../registry/manifest.json';
+
+export function getStaticPaths() {
+  return manifest.scripts.map(script => ({
+    params: { slug: script.name },
+    props: { script }
+  }));
+}
+
+const { script } = Astro.props;
+const runCommand = `utilux run ${script.name}`;
+---
+
+<BaseLayout title={script.name} description={script.description}>
+  <section class="py-12">
+    <div class="container max-w-3xl">
+      <a href="/catalog" class="text-blue-400 hover:text-blue-300 mb-4 inline-block">&larr; Back to Catalog</a>
+
+      <div class="flex items-start justify-between gap-4 mb-6">
+        <h1 class="text-3xl font-bold">{script.name}</h1>
+        <span class="px-3 py-1 bg-slate-700 rounded text-sm">{script.category}</span>
+      </div>
+
+      <p class="text-xl text-slate-300 mb-8">{script.description}</p>
+
+      <!-- Run command -->
+      <div class="bg-slate-800 rounded-lg p-4 mb-8">
+        <p class="text-slate-400 text-sm mb-2">Run this script:</p>
+        <div class="flex items-center gap-2">
+          <code class="flex-1 text-emerald-400 font-mono">{runCommand}</code>
+          <CopyButton text={runCommand} />
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div class="grid md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-slate-800/50 rounded-lg p-4">
+          <h3 class="font-semibold mb-2 text-slate-300">Version</h3>
+          <p class="text-white">{script.version}</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4">
+          <h3 class="font-semibold mb-2 text-slate-300">Author</h3>
+          <p class="text-white">{script.author}</p>
+        </div>
+        {script.requires && script.requires.length > 0 && (
+          <div class="bg-slate-800/50 rounded-lg p-4">
+            <h3 class="font-semibold mb-2 text-slate-300">Requirements</h3>
+            <p class="text-white">{script.requires.join(', ')}</p>
+          </div>
+        )}
+        {script.tags && script.tags.length > 0 && (
+          <div class="bg-slate-800/50 rounded-lg p-4">
+            <h3 class="font-semibold mb-2 text-slate-300">Tags</h3>
+            <div class="flex flex-wrap gap-1">
+              {script.tags.map((tag: string) => (
+                <span class="px-2 py-0.5 bg-slate-700 rounded text-sm">{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <!-- Source link -->
+      <div class="border-t border-slate-700 pt-6">
+        <a
+          href={`https://github.com/lamngockhuong/utilux/blob/main/registry/${script.file}`}
+          target="_blank"
+          rel="noopener"
+          class="text-blue-400 hover:text-blue-300"
+        >
+          View source on GitHub &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
