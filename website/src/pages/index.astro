@@ -26,7 +26,7 @@ const features = [
       </p>
 
       <div class="max-w-3xl mx-auto mb-10">
-        <div class="bg-surface rounded-xl p-4 font-mono text-sm border border-slate-700/50">
+        <div class="bg-surface rounded-xl p-4 font-mono text-sm border border-border">
           <div class="flex items-start gap-3">
             <span class="text-muted select-none shrink-0">$</span>
             <code class="flex-1 text-left text-accent break-all">{installCommand}</code>
@@ -37,7 +37,7 @@ const features = [
 
       <div class="flex flex-wrap justify-center gap-4">
         <a href="/catalog" class="px-6 py-3 bg-cta hover:bg-primary text-white rounded-lg font-medium transition-colors duration-200 cursor-pointer">Browse Scripts</a>
-        <a href="/docs" class="px-6 py-3 bg-surface hover:bg-slate-600 text-white rounded-lg font-medium transition-colors duration-200 border border-slate-700 cursor-pointer">Documentation</a>
+        <a href="/docs" class="px-6 py-3 bg-surface hover:bg-secondary text-text rounded-lg font-medium transition-colors duration-200 border border-border cursor-pointer">Documentation</a>
       </div>
     </div>
   </section>
@@ -46,15 +46,15 @@ const features = [
     <div class="container">
       <h2 class="text-2xl font-bold text-center mb-10">Quick Start</h2>
       <div class="max-w-2xl mx-auto space-y-4">
-        <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+        <div class="bg-surface rounded-xl p-4 border border-border">
           <p class="text-muted text-sm mb-2 font-mono"># Launch interactive TUI menu</p>
           <code class="text-accent font-mono">utilux</code>
         </div>
-        <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+        <div class="bg-surface rounded-xl p-4 border border-border">
           <p class="text-muted text-sm mb-2 font-mono"># List available scripts</p>
           <code class="text-accent font-mono">utilux list</code>
         </div>
-        <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+        <div class="bg-surface rounded-xl p-4 border border-border">
           <p class="text-muted text-sm mb-2 font-mono"># Run a script</p>
           <code class="text-accent font-mono">utilux run git-clean</code>
         </div>
@@ -67,7 +67,7 @@ const features = [
       <h2 class="text-2xl font-bold text-center mb-10">Why Utilux?</h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map(f => (
-          <div class="p-6 bg-surface/50 rounded-xl border border-slate-700/50 hover:border-primary/50 transition-colors duration-200 cursor-pointer group">
+          <div class="p-6 bg-surface/50 rounded-xl border border-border hover:border-primary/50 transition-colors duration-200 cursor-pointer group">
             <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-200">
               <Icon name={f.icon} class="w-6 h-6 text-primary" />
             </div>

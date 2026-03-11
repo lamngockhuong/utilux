@@ -10,7 +10,7 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
     <div class="container max-w-3xl">
       <h1 class="text-3xl font-bold mb-8">Documentation</h1>
 
-      <nav class="bg-surface/50 rounded-xl p-5 mb-8 border border-slate-700/50">
+      <nav class="bg-surface/50 rounded-xl p-5 mb-8 border border-border">
         <h2 class="font-semibold mb-3 text-muted">Contents</h2>
         <ul class="space-y-2 text-primary">
           <li><a href="#installation" class="hover:text-accent transition-colors duration-200 cursor-pointer">Installation</a></li>
@@ -26,7 +26,7 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
       <section id="installation" class="mb-12">
         <h2 class="text-2xl font-bold mb-4">Installation</h2>
         <p class="text-text/90 mb-4">Install Utilux with a single command:</p>
-        <div class="bg-surface rounded-xl p-4 mb-4 border border-slate-700/50">
+        <div class="bg-surface rounded-xl p-4 mb-4 border border-border">
           <div class="flex items-start gap-3">
             <code class="flex-1 text-accent font-mono text-sm break-all">{installCommand}</code>
             <CopyButton text={installCommand} />
@@ -41,27 +41,27 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
         <p class="text-text/90 mb-4">Utilux uses lazy loading - scripts are downloaded on first use and cached locally.</p>
 
         <div class="space-y-4">
-          <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+          <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Launch interactive TUI menu</p>
             <code class="text-accent font-mono">utilux</code>
           </div>
 
-          <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+          <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># List all available scripts</p>
             <code class="text-accent font-mono">utilux list</code>
           </div>
 
-          <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+          <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Run a script</p>
             <code class="text-accent font-mono">utilux run git-clean</code>
           </div>
 
-          <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+          <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Search for scripts</p>
             <code class="text-accent font-mono">utilux search docker</code>
           </div>
 
-          <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+          <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Get script info</p>
             <code class="text-accent font-mono">utilux info disk-cleanup</code>
           </div>
@@ -71,36 +71,36 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
       <!-- Commands -->
       <section id="commands" class="mb-12">
         <h2 class="text-2xl font-bold mb-4">Commands</h2>
-        <div class="overflow-x-auto bg-surface/30 rounded-xl border border-slate-700/50">
+        <div class="overflow-x-auto bg-surface/30 rounded-xl border border-border">
           <table class="w-full text-left">
             <thead>
-              <tr class="border-b border-slate-700/50">
+              <tr class="border-b border-border">
                 <th class="py-3 px-4 text-muted font-medium">Command</th>
                 <th class="py-3 px-4 text-muted font-medium">Description</th>
               </tr>
             </thead>
             <tbody class="text-text/90">
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-border">
                 <td class="py-3 px-4 font-mono text-sm text-accent">run &lt;script&gt;</td>
                 <td class="py-3 px-4">Run a script (downloads on first use)</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-border">
                 <td class="py-3 px-4 font-mono text-sm text-accent">list [category]</td>
                 <td class="py-3 px-4">List available scripts</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-border">
                 <td class="py-3 px-4 font-mono text-sm text-accent">search &lt;query&gt;</td>
                 <td class="py-3 px-4">Search scripts by name/description</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-border">
                 <td class="py-3 px-4 font-mono text-sm text-accent">info &lt;script&gt;</td>
                 <td class="py-3 px-4">Show script details</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-border">
                 <td class="py-3 px-4 font-mono text-sm text-accent">update [--all]</td>
                 <td class="py-3 px-4">Update cached scripts</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-border">
                 <td class="py-3 px-4 font-mono text-sm text-accent">cache list|clear|size</td>
                 <td class="py-3 px-4">Manage local cache</td>
               </tr>
@@ -129,11 +129,11 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
 
         <h3 class="font-semibold mt-6 mb-3 text-text">Installation</h3>
         <div class="space-y-4">
-          <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+          <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Build from source (requires Go 1.21+)</p>
             <code class="text-accent font-mono">cd cli && go build -o utilux-go .</code>
           </div>
-          <div class="bg-surface rounded-xl p-4 border border-slate-700/50">
+          <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Or download pre-built binary</p>
             <code class="text-accent font-mono text-sm break-all">curl -fsSL https://github.com/lamngockhuong/utilux/releases/latest/download/utilux-go-linux-amd64 -o utilux-go</code>
           </div>
@@ -146,20 +146,20 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
         <p class="text-text/90 mb-4">Configuration is stored in <code class="bg-surface px-2 py-0.5 rounded-md font-mono text-accent text-sm">~/.utilux/config</code></p>
 
         <h3 class="font-semibold mt-6 mb-3 text-text">Environment Variables</h3>
-        <div class="overflow-x-auto bg-surface/30 rounded-xl border border-slate-700/50">
+        <div class="overflow-x-auto bg-surface/30 rounded-xl border border-border">
           <table class="w-full text-left">
             <thead>
-              <tr class="border-b border-slate-700/50">
+              <tr class="border-b border-border">
                 <th class="py-3 px-4 text-muted font-medium">Variable</th>
                 <th class="py-3 px-4 text-muted font-medium">Description</th>
               </tr>
             </thead>
             <tbody class="text-text/90">
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-border">
                 <td class="py-3 px-4 font-mono text-sm text-accent">UTILUX_OFFLINE</td>
                 <td class="py-3 px-4">Enable offline mode (use cached only)</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-border">
                 <td class="py-3 px-4 font-mono text-sm text-accent">UTILUX_LOG_LEVEL</td>
                 <td class="py-3 px-4">Log level: debug, info, warn, error</td>
               </tr>
@@ -186,7 +186,7 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
         </ol>
 
         <h3 class="font-semibold mt-6 mb-3 text-text">Script Template</h3>
-        <pre class="bg-surface rounded-xl p-4 text-sm overflow-x-auto border border-slate-700/50"><code class="text-accent font-mono">#!/bin/bash
+        <pre class="bg-surface rounded-xl p-4 text-sm overflow-x-auto border border-border"><code class="text-accent font-mono">#!/bin/bash
 # @name: script-name
 # @version: v1.0.0
 # @description: Brief description
@@ -204,7 +204,7 @@ main() &#123;
 main "$@"</code></pre>
       </section>
 
-      <div class="border-t border-slate-700/50 pt-6">
+      <div class="border-t border-border pt-6">
         <a href="https://github.com/lamngockhuong/utilux" target="_blank" rel="noopener" class="text-primary hover:text-accent transition-colors duration-200 cursor-pointer font-medium">
           View on GitHub &rarr;
         </a>
