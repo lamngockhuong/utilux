@@ -96,6 +96,19 @@
       "author": "lamngockhuong"
     },
     {
+      "name": "protect-port",
+      "category": "network",
+      "description": "Add basic auth to any port via nginx reverse proxy",
+      "version": "v1.0.0",
+      "file": "network/protect-port.sh",
+      "sha256": "29a298d166d1d1f3358862128b5d905e66528e944d2c9b09a9e4a154c96029bf",
+      "docs": "network/protect-port.md",
+      "docs_sha256": "e9ca0c7546ec8b03068df3f66faba57180dc41b407aa6ffe3335edf72468e37a",
+      "tags": ["nginx","auth","proxy","security"],
+      "requires": ["nginx"],
+      "author": "lamngockhuong"
+    },
+    {
       "name": "disk-cleanup",
       "category": "system",
       "description": "Clean temporary files, old logs, and package cache",
