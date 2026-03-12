@@ -22,7 +22,7 @@ Connects to HTTPS servers and displays certificate information including expiry 
 ## Usage
 
 ```bash
-utilux run ssl-check [OPTIONS] HOST[:PORT]
+utix run ssl-check [OPTIONS] HOST[:PORT]
 ```
 
 ### Options
@@ -41,30 +41,30 @@ utilux run ssl-check [OPTIONS] HOST[:PORT]
 
 ```bash
 # Check certificate for a domain
-utilux run ssl-check example.com
+utix run ssl-check example.com
 
 # Check custom port
-utilux run ssl-check example.com:8443
+utix run ssl-check example.com:8443
 
 # Check with URL (protocol stripped automatically)
-utilux run ssl-check https://example.com
+utix run ssl-check https://example.com
 ```
 
 ### Expiry Warnings
 
 ```bash
 # Warn if expiring within 60 days
-utilux run ssl-check -w 60 example.com
+utix run ssl-check -w 60 example.com
 
 # Warn if expiring within 90 days
-utilux run ssl-check -w 90 mysite.com
+utix run ssl-check -w 90 mysite.com
 ```
 
 ### Batch Checking
 
 ```bash
 # Check multiple hosts from file
-utilux run ssl-check -f hosts.txt
+utix run ssl-check -f hosts.txt
 
 # File format (one per line):
 # example.com
@@ -76,7 +76,7 @@ utilux run ssl-check -f hosts.txt
 
 ```bash
 # Show full certificate chain
-utilux run ssl-check -c example.com
+utix run ssl-check -c example.com
 ```
 
 ## Output Format
@@ -136,10 +136,10 @@ Summary:
 **Solution:** Verify the host and port:
 ```bash
 # Check if port is open
-utilux run port-scan -p 443 hostname
+utix run port-scan -p 443 hostname
 
 # Try with explicit port
-utilux run ssl-check hostname:443
+utix run ssl-check hostname:443
 ```
 
 ### Certificate parse error

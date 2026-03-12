@@ -1,6 +1,6 @@
 VERSION ?= 1.0.0
-BINARY = utilux-go
-LDFLAGS = -ldflags "-s -w -X github.com/lamngockhuong/utilux/cli/cmd.Version=$(VERSION)"
+BINARY = utix-go
+LDFLAGS = -ldflags "-s -w -X github.com/lamngockhuong/utix/cli/cmd.Version=$(VERSION)"
 
 .PHONY: build build-all clean test
 
@@ -35,7 +35,7 @@ clean:
 
 # Install locally
 install: build
-	cp $(BINARY) /usr/local/bin/utilux-go
+	cp $(BINARY) /usr/local/bin/utix-go
 
 # Check binary size
 size: build-optimized

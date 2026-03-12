@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/lamngockhuong/utilux/cli/internal/registry"
+	"github.com/lamngockhuong/utix/cli/internal/registry"
 )
 
 // Manager handles documentation loading, caching, and rendering

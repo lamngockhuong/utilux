@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/lamngockhuong/utilux/cli/internal/tui"
+	"github.com/lamngockhuong/utix/cli/internal/tui"
 )
 
 var cacheCmd = &cobra.Command{
@@ -18,8 +18,8 @@ var cacheClearCmd = &cobra.Command{
 	Use:   "clear [script]",
 	Short: "Clear cache",
 	Long:  `Clear all cached scripts or a specific one.`,
-	Example: `  utilux cache clear
-  utilux cache clear git-clean`,
+	Example: `  utix cache clear
+  utix cache clear git-clean`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 0 {
 			name := args[0]

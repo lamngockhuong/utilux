@@ -19,7 +19,7 @@ const { title, description, category, version, author, tags, requires } = script
 
 // Get file path from manifest for GitHub link
 const manifestScript = manifest.scripts.find(s => s.name === script.slug);
-const runCommand = `utilux run ${script.slug}`;
+const runCommand = `utix run ${script.slug}`;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -80,7 +80,7 @@ const runCommand = `utilux run ${script.slug}`;
       {manifestScript && (
         <div class="border-t border-border pt-6">
           <a
-            href={`https://github.com/lamngockhuong/utilux/blob/main/registry/${manifestScript.file}`}
+            href={`https://github.com/lamngockhuong/utix/blob/main/registry/${manifestScript.file}`}
             target="_blank"
             rel="noopener"
             class="text-primary hover:text-accent transition-colors duration-200 cursor-pointer font-medium"

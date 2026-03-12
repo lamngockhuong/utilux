@@ -4,19 +4,19 @@
 # @version: v1.0.0
 
 # Prevent double sourcing
-[[ -n "${_UTILUX_REGISTRY_LOADED:-}" ]] && return 0
-_UTILUX_REGISTRY_LOADED=1
+[[ -n "${_UTIX_REGISTRY_LOADED:-}" ]] && return 0
+_UTIX_REGISTRY_LOADED=1
 
 # Fetch manifest from registry URL
 registry_fetch() {
   local force="${1:-0}"
 
   # Dev mode: use local manifest from source
-  if [[ "$UTILUX_DEV_MODE" == "1" ]]; then
-    local local_manifest="$UTILUX_SCRIPT_DIR/registry/manifest.json"
+  if [[ "$UTIX_DEV_MODE" == "1" ]]; then
+    local local_manifest="$UTIX_SCRIPT_DIR/registry/manifest.json"
     if [[ -f "$local_manifest" ]]; then
       log_debug "Dev mode: using local manifest"
-      cp "$local_manifest" "$UTILUX_MANIFEST_FILE"
+      cp "$local_manifest" "$UTIX_MANIFEST_FILE"
       return 0
     else
       die "Dev mode: local manifest not found: $local_manifest"
@@ -24,8 +24,8 @@ registry_fetch() {
   fi
 
   # Skip if offline mode
-  if [[ "$UTILUX_OFFLINE" == "1" ]]; then
-    if [[ -f "$UTILUX_MANIFEST_FILE" ]]; then
+  if [[ "$UTIX_OFFLINE" == "1" ]]; then
+    if [[ -f "$UTIX_MANIFEST_FILE" ]]; then
       log_debug "Offline mode, using cached manifest"
       return 0
     else
@@ -34,9 +34,9 @@ registry_fetch() {
   fi
 
   # Check if manifest exists and is fresh (< 1 hour old)
-  if [[ "$force" != "1" && -f "$UTILUX_MANIFEST_FILE" ]]; then
+  if [[ "$force" != "1" && -f "$UTIX_MANIFEST_FILE" ]]; then
     local age
-    age=$(( $(date +%s) - $(stat -c %Y "$UTILUX_MANIFEST_FILE" 2>/dev/null || echo 0) ))
+    age=$(( $(date +%s) - $(stat -c %Y "$UTIX_MANIFEST_FILE" 2>/dev/null || echo 0) ))
     if [[ $age -lt 3600 ]]; then
       log_debug "Using cached manifest (age: ${age}s)"
       return 0
@@ -45,15 +45,15 @@ registry_fetch() {
 
   log_info "Fetching manifest..."
 
-  if ! curl -sfL "$UTILUX_REGISTRY_URL" -o "$UTILUX_MANIFEST_FILE.tmp"; then
-    if [[ -f "$UTILUX_MANIFEST_FILE" ]]; then
+  if ! curl -sfL "$UTIX_REGISTRY_URL" -o "$UTIX_MANIFEST_FILE.tmp"; then
+    if [[ -f "$UTIX_MANIFEST_FILE" ]]; then
       log_warn "Failed to fetch manifest, using cached version"
       return 0
     fi
-    die "Failed to fetch manifest from $UTILUX_REGISTRY_URL"
+    die "Failed to fetch manifest from $UTIX_REGISTRY_URL"
   fi
 
-  mv "$UTILUX_MANIFEST_FILE.tmp" "$UTILUX_MANIFEST_FILE"
+  mv "$UTIX_MANIFEST_FILE.tmp" "$UTIX_MANIFEST_FILE"
   log_debug "Manifest updated"
 }
 
@@ -96,8 +96,8 @@ registry_get_script() {
   local name="$1"
   local manifest
 
-  [[ -f "$UTILUX_MANIFEST_FILE" ]] || registry_fetch
-  manifest=$(cat "$UTILUX_MANIFEST_FILE")
+  [[ -f "$UTIX_MANIFEST_FILE" ]] || registry_fetch
+  manifest=$(cat "$UTIX_MANIFEST_FILE")
 
   if has_cmd jq; then
     echo "$manifest" | jq -r ".scripts[] | select(.name == \"$name\")" 2>/dev/null
@@ -158,8 +158,8 @@ registry_list() {
   local category="${1:-}"
   local manifest
 
-  [[ -f "$UTILUX_MANIFEST_FILE" ]] || registry_fetch
-  manifest=$(cat "$UTILUX_MANIFEST_FILE")
+  [[ -f "$UTIX_MANIFEST_FILE" ]] || registry_fetch
+  manifest=$(cat "$UTIX_MANIFEST_FILE")
 
   if has_cmd jq; then
     if [[ -n "$category" ]]; then
@@ -201,8 +201,8 @@ registry_search() {
   local query="$1"
   local manifest
 
-  [[ -f "$UTILUX_MANIFEST_FILE" ]] || registry_fetch
-  manifest=$(cat "$UTILUX_MANIFEST_FILE")
+  [[ -f "$UTIX_MANIFEST_FILE" ]] || registry_fetch
+  manifest=$(cat "$UTIX_MANIFEST_FILE")
 
   if has_cmd jq; then
     # Single jq call: filter drafts, then match name OR description OR tags
@@ -231,24 +231,24 @@ registry_search() {
 # Get manifest version
 registry_version() {
   local manifest
-  [[ -f "$UTILUX_MANIFEST_FILE" ]] || return 1
-  manifest=$(cat "$UTILUX_MANIFEST_FILE")
+  [[ -f "$UTIX_MANIFEST_FILE" ]] || return 1
+  manifest=$(cat "$UTIX_MANIFEST_FILE")
   _parse_json "$manifest" '.version'
 }
 
 # Get base URL from manifest
 registry_base_url() {
   local manifest
-  [[ -f "$UTILUX_MANIFEST_FILE" ]] || return 1
-  manifest=$(cat "$UTILUX_MANIFEST_FILE")
+  [[ -f "$UTIX_MANIFEST_FILE" ]] || return 1
+  manifest=$(cat "$UTIX_MANIFEST_FILE")
   _parse_json "$manifest" '.base_url'
 }
 
 # List categories (only from non-draft scripts)
 registry_categories() {
   local manifest
-  [[ -f "$UTILUX_MANIFEST_FILE" ]] || registry_fetch
-  manifest=$(cat "$UTILUX_MANIFEST_FILE")
+  [[ -f "$UTIX_MANIFEST_FILE" ]] || registry_fetch
+  manifest=$(cat "$UTIX_MANIFEST_FILE")
 
   if has_cmd jq; then
     echo "$manifest" | jq -r '.scripts[] | select(.draft | not) | .category' 2>/dev/null | sort -u

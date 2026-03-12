@@ -16,13 +16,13 @@ Extended description explaining the script's purpose, key features, and use case
 
 ```bash
 # Script is downloaded automatically on first use
-utilux run script-name
+utix run script-name
 ```
 
 ## Usage
 
 ```bash
-utilux run script-name [COMMAND] [OPTIONS]
+utix run script-name [COMMAND] [OPTIONS]
 ```
 
 ### Commands
@@ -43,17 +43,17 @@ utilux run script-name [COMMAND] [OPTIONS]
 
 ```bash
 # Example 1: Basic use case
-utilux run script-name
+utix run script-name
 
 # Example 2: With options
-utilux run script-name --option value
+utix run script-name --option value
 ```
 
 ### Advanced Usage
 
 ```bash
 # Example: Complex use case
-utilux run script-name command --flag
+utix run script-name command --flag
 ```
 
 ## Environment Variables

@@ -9,8 +9,8 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/lamngockhuong/utilux/cli/internal/cache"
-	"github.com/lamngockhuong/utilux/cli/internal/registry"
+	"github.com/lamngockhuong/utix/cli/internal/cache"
+	"github.com/lamngockhuong/utix/cli/internal/registry"
 )
 
 // Loader handles script downloading and execution

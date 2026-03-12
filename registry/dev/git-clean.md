@@ -15,7 +15,7 @@ Removes merged local branches, prunes stale remote-tracking references, optional
 ## Usage
 
 ```bash
-utilux run git-clean [OPTIONS]
+utix run git-clean [OPTIONS]
 ```
 
 ### Options
@@ -37,46 +37,46 @@ utilux run git-clean [OPTIONS]
 
 ```bash
 # Delete local merged branches (default)
-utilux run git-clean
+utix run git-clean
 
 # Preview what would be deleted
-utilux run git-clean -n
+utix run git-clean -n
 
 # Run all cleanup tasks
-utilux run git-clean -a
+utix run git-clean -a
 ```
 
 ### Selective Cleanup
 
 ```bash
 # Delete merged + prune remotes
-utilux run git-clean -m -p
+utix run git-clean -m -p
 
 # Prune remote tracking only
-utilux run git-clean -p
+utix run git-clean -p
 
 # Garbage collection only
-utilux run git-clean -g
+utix run git-clean -g
 ```
 
 ### Custom Default Branch
 
 ```bash
 # Use develop as default branch
-utilux run git-clean -b develop
+utix run git-clean -b develop
 
 # Clean against main branch
-utilux run git-clean -b main
+utix run git-clean -b main
 ```
 
 ### Remote Branch Cleanup
 
 ```bash
 # Preview remote branch deletion
-utilux run git-clean -r -n
+utix run git-clean -r -n
 
 # Delete merged remote branches (with confirmation)
-utilux run git-clean -r
+utix run git-clean -r
 ```
 
 ## What Gets Cleaned
@@ -127,7 +127,7 @@ git branch -D branch-name  # Force delete (use with caution)
 **Solution:** Navigate to repository root:
 ```bash
 cd /path/to/repo
-utilux run git-clean
+utix run git-clean
 ```
 
 ### Permission denied on remote
@@ -146,7 +146,7 @@ git remote -v  # Check remote URL
 
 **Solution:** Specify explicitly:
 ```bash
-utilux run git-clean -b main
+utix run git-clean -b main
 ```
 
 ## Related Scripts

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Utilux is a distributed script management system with client-server architecture where the "server" is a static GitHub repository and clients are CLI tools (Bash or Go) that fetch, cache, and execute scripts on-demand.
+Utix is a distributed script management system with client-server architecture where the "server" is a static GitHub repository and clients are CLI tools (Bash or Go) that fetch, cache, and execute scripts on-demand.
 
 ## Architecture Diagram
 
@@ -25,7 +25,7 @@ Utilux is a distributed script management system with client-server architecture
         ↓                                              ↓
 ┌───────────────┐                              ┌──────────────┐
 │  Bash CLI     │                              │  Go CLI      │
-│  (utilux)     │                              │  (utilux-go) │
+│  (utix)     │                              │  (utix-go) │
 ├───────────────┤                              ├──────────────┤
 │ • lib/core.sh │                              │ • cmd/       │
 │ • lib/cache   │                              │ • internal/  │
@@ -38,7 +38,7 @@ Utilux is a distributed script management system with client-server architecture
                       ↓
             ┌─────────────────────┐
             │   Local Cache       │
-            │   ~/.utilux/cache/  │
+            │   ~/.utix/cache/  │
             ├─────────────────────┤
             │ script-name/        │
             │  ├── script.sh      │
@@ -93,12 +93,12 @@ Utilux is a distributed script management system with client-server architecture
 
 ### 2. Bash CLI Architecture
 
-**Entry Point**: `utilux` executable
+**Entry Point**: `utix` executable
 
 **Module Structure**:
 
 ```
-utilux (main executable)
+utix (main executable)
   ↓
   ├── lib/core.sh       ← Logging, error handling
   ├── lib/config.sh     ← Configuration, env vars
@@ -236,12 +236,12 @@ type DocsManager struct {
 
 ### 4. Cache System
 
-**Location**: `~/.utilux/cache/`
+**Location**: `~/.utix/cache/`
 
 **Structure**:
 
 ```
-~/.utilux/
+~/.utix/
 ├── cache/
 │   ├── backup-home/
 │   │   ├── backup-home.sh    ← Actual script
@@ -262,14 +262,14 @@ type DocsManager struct {
 
 **Read (cache hit)**:
 
-1. Check if `~/.utilux/cache/{script}/{script}.sh` exists
+1. Check if `~/.utix/cache/{script}/{script}.sh` exists
 2. Read version from `.version` file
 3. Compare with manifest version (if online)
 4. Execute if version matches
 
 **Write (cache miss)**:
 
-1. Create directory: `~/.utilux/cache/{script}/`
+1. Create directory: `~/.utix/cache/{script}/`
 2. Download script to temp location
 3. Verify SHA256 checksum
 4. Atomically move to cache
@@ -285,8 +285,8 @@ type DocsManager struct {
 **Clear**:
 
 ```bash
-rm -rf ~/.utilux/cache/{script}/  # Specific
-rm -rf ~/.utilux/cache/*          # All
+rm -rf ~/.utix/cache/{script}/  # Specific
+rm -rf ~/.utix/cache/*          # All
 ```
 
 ## API Reference
@@ -294,7 +294,7 @@ rm -rf ~/.utilux/cache/*          # All
 ### Bash CLI Commands
 
 ```bash
-utilux [OPTIONS] <COMMAND> [ARGS]
+utix [OPTIONS] <COMMAND> [ARGS]
 
 COMMANDS:
   run <script> [args...]   # Execute script
@@ -315,7 +315,7 @@ CACHE SUBCOMMANDS:
 ### Go CLI Commands
 
 ```bash
-utilux-go [OPTIONS] <COMMAND> [ARGS]
+utix-go [OPTIONS] <COMMAND> [ARGS]
 
 COMMANDS:
   run <script> [args...]   # Execute script

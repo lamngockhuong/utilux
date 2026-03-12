@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/lamngockhuong/utilux/cli/internal/tui"
+	"github.com/lamngockhuong/utix/cli/internal/tui"
 )
 
 var searchCmd = &cobra.Command{
@@ -13,9 +13,9 @@ var searchCmd = &cobra.Command{
 	Aliases: []string{"find"},
 	Short:   "Search scripts by name/description",
 	Long:    `Search for scripts matching the query in name, description, or tags.`,
-	Example: `  utilux search docker
-  utilux search backup
-  utilux find git`,
+	Example: `  utix search docker
+  utix search backup
+  utix find git`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		query := args[0]

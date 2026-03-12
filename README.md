@@ -1,4 +1,4 @@
-# Utilux
+# Utix
 
 Lightweight script aggregator with lazy loading. Scripts are downloaded on-demand from GitHub, cached locally, and executed.
 
@@ -7,46 +7,46 @@ Lightweight script aggregator with lazy loading. Scripts are downloaded on-deman
 ### Quick Install (Bash CLI)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | sudo bash
 ```
 
 ### Go CLI (Optional)
 
-Download pre-built binary from [Releases](https://github.com/lamngockhuong/utilux/releases) or build from source:
+Download pre-built binary from [Releases](https://github.com/lamngockhuong/utix/releases) or build from source:
 
 ```bash
 cd cli
-go build -ldflags "-s -w" -o utilux-go .
-sudo mv utilux-go /usr/local/bin/
+go build -ldflags "-s -w" -o utix-go .
+sudo mv utix-go /usr/local/bin/
 ```
 
 ## Usage
 
 ```bash
 # Launch interactive TUI menu
-utilux
+utix
 
 # Run a script (downloads on first use)
-utilux run git-clean
-utilux run backup-home /path/to/backup
+utix run git-clean
+utix run backup-home /path/to/backup
 
 # List available scripts
-utilux list
-utilux list dev
+utix list
+utix list dev
 
 # Search scripts
-utilux search docker
+utix search docker
 
 # Show script details
-utilux info git-clean
+utix info git-clean
 
 # Update cached scripts
-utilux update --all
+utix update --all
 
 # Cache management
-utilux cache list
-utilux cache size
-utilux cache clear
+utix cache list
+utix cache size
+utix cache clear
 ```
 
 ## Available Scripts
@@ -67,9 +67,9 @@ utilux cache clear
 ## Architecture
 
 ```
-utilux (Bash CLI)          # Interactive menu + CLI commands
+utix (Bash CLI)          # Interactive menu + CLI commands
 ├── lib/                   # Core modules (config, cache, registry, loader, ui)
-└── ~/.utilux/             # Local cache directory
+└── ~/.utix/             # Local cache directory
 
 cli/ (Go CLI)              # Optional high-performance CLI
 ├── cmd/                   # Cobra commands
@@ -88,11 +88,11 @@ Environment variables:
 
 | Variable              | Description                          | Default    |
 | --------------------- | ------------------------------------ | ---------- |
-| `UTILUX_LOG_LEVEL`    | Log level: debug, info, warn, error  | info       |
-| `UTILUX_OFFLINE`      | Offline mode (1/0)                   | 0          |
-| `UTILUX_DEV_MODE`     | Run from local source, no cache (1/0)| 0          |
-| `UTILUX_CACHE_DIR`    | Custom cache directory               | ~/.utilux  |
-| `UTILUX_REGISTRY_URL` | Custom registry URL                  | GitHub raw |
+| `UTIX_LOG_LEVEL`    | Log level: debug, info, warn, error  | info       |
+| `UTIX_OFFLINE`      | Offline mode (1/0)                   | 0          |
+| `UTIX_DEV_MODE`     | Run from local source, no cache (1/0)| 0          |
+| `UTIX_CACHE_DIR`    | Custom cache directory               | ~/.utix  |
+| `UTIX_REGISTRY_URL` | Custom registry URL                  | GitHub raw |
 
 ## Development
 
@@ -104,7 +104,7 @@ make dev DISTRO=alpine      # Alpine Linux
 make dev DISTRO=fedora      # Fedora
 
 # Build Go CLI
-cd cli && go build -o utilux-go .
+cd cli && go build -o utix-go .
 
 # Create release package
 ./package.sh <version>

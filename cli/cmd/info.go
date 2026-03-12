@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/lamngockhuong/utilux/cli/internal/tui"
+	"github.com/lamngockhuong/utix/cli/internal/tui"
 )
 
 var showDocs bool
@@ -15,9 +15,9 @@ var infoCmd = &cobra.Command{
 	Aliases: []string{"show"},
 	Short:   "Show script details",
 	Long:    `Display detailed information about a specific script.`,
-	Example: `  utilux info git-clean
-  utilux info docker-prune --docs
-  utilux show backup-home -d`,
+	Example: `  utix info git-clean
+  utix info docker-prune --docs
+  utix show backup-home -d`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		name := args[0]

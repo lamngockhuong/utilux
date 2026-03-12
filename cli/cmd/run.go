@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/lamngockhuong/utilux/cli/internal/tui"
+	"github.com/lamngockhuong/utix/cli/internal/tui"
 )
 
 var runCmd = &cobra.Command{
@@ -15,9 +15,9 @@ var runCmd = &cobra.Command{
 and cached on first use, then executed locally.
 
 Any additional arguments are passed to the script.`,
-	Example: `  utilux run git-clean
-  utilux run backup-home /path/to/backup
-  utilux run docker-prune --force`,
+	Example: `  utix run git-clean
+  utix run backup-home /path/to/backup
+  utix run docker-prune --force`,
 	Args: cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		scriptName := args[0]

@@ -4,14 +4,14 @@
 # @version: v1.0.0
 
 # Prevent double sourcing
-[[ -n "${_UTILUX_LOADER_LOADED:-}" ]] && return 0
-_UTILUX_LOADER_LOADED=1
+[[ -n "${_UTIX_LOADER_LOADED:-}" ]] && return 0
+_UTIX_LOADER_LOADED=1
 
 # Download script from URL
 loader_download() {
   local name="$1"
   local url="$2"
-  local dest="$UTILUX_CACHE_DIR/${name}.sh.tmp"
+  local dest="$UTIX_CACHE_DIR/${name}.sh.tmp"
 
   log_debug "Downloading $name from $url"
 
@@ -61,7 +61,7 @@ loader_load() {
   [[ -z "$name" ]] && die "Invalid script name"
 
   # Dev mode: always use local source (skip cache)
-  if [[ "$UTILUX_DEV_MODE" == "1" ]]; then
+  if [[ "$UTIX_DEV_MODE" == "1" ]]; then
     registry_fetch
     local script_json
     script_json=$(registry_get_script "$name")
@@ -69,7 +69,7 @@ loader_load() {
 
     local file_path
     file_path=$(registry_get_field "$script_json" "file")
-    local local_path="$UTILUX_SCRIPT_DIR/registry/${file_path}"
+    local local_path="$UTIX_SCRIPT_DIR/registry/${file_path}"
 
     if [[ -f "$local_path" ]]; then
       log_debug "Dev mode: running $local_path directly"
@@ -84,7 +84,7 @@ loader_load() {
   local cached_path
   if cached_path=$(cache_get "$name"); then
     # Check if we should update
-    if [[ "$UTILUX_AUTO_UPDATE" == "1" && "$UTILUX_OFFLINE" != "1" ]]; then
+    if [[ "$UTIX_AUTO_UPDATE" == "1" && "$UTIX_OFFLINE" != "1" ]]; then
       local script_json
       script_json=$(registry_get_script "$name")
 
@@ -133,12 +133,12 @@ _loader_fetch_and_cache() {
   sha256=$(registry_get_field "$script_json" "sha256")
 
   # Dev mode: use local source files (skip download and verification)
-  if [[ "$UTILUX_DEV_MODE" == "1" ]]; then
-    local local_path="$UTILUX_SCRIPT_DIR/registry/${file_path}"
+  if [[ "$UTIX_DEV_MODE" == "1" ]]; then
+    local local_path="$UTIX_SCRIPT_DIR/registry/${file_path}"
     if [[ -f "$local_path" ]]; then
       log_debug "Dev mode: using local $local_path"
-      cp "$local_path" "$UTILUX_CACHE_DIR/${name}.sh"
-      chmod +x "$UTILUX_CACHE_DIR/${name}.sh"
+      cp "$local_path" "$UTIX_CACHE_DIR/${name}.sh"
+      chmod +x "$UTIX_CACHE_DIR/${name}.sh"
       cache_set_version "$name" "$version" "$sha256"
       return 0
     else
@@ -165,8 +165,8 @@ _loader_fetch_and_cache() {
   fi
 
   # Move to cache
-  mv "$tmp_file" "$UTILUX_CACHE_DIR/${name}.sh"
-  chmod +x "$UTILUX_CACHE_DIR/${name}.sh"
+  mv "$tmp_file" "$UTIX_CACHE_DIR/${name}.sh"
+  chmod +x "$UTIX_CACHE_DIR/${name}.sh"
 
   # Save metadata
   cache_set_version "$name" "$version" "$sha256"

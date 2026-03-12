@@ -11,10 +11,10 @@ var configCmd = &cobra.Command{
 	Aliases: []string{"cfg"},
 	Short:   "View or set configuration",
 	Long:    `View all configuration values or get/set a specific key.`,
-	Example: `  utilux config
-  utilux config UTILUX_OFFLINE
-  utilux config UTILUX_OFFLINE 1
-  utilux config UTILUX_REGISTRY_URL https://example.com/manifest.json`,
+	Example: `  utix config
+  utix config UTIX_OFFLINE
+  utix config UTIX_OFFLINE 1
+  utix config UTIX_REGISTRY_URL https://example.com/manifest.json`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 0 {
 			cfg.Print()

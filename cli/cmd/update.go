@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/lamngockhuong/utilux/cli/internal/tui"
+	"github.com/lamngockhuong/utix/cli/internal/tui"
 )
 
 var updateCmd = &cobra.Command{
@@ -14,9 +14,9 @@ var updateCmd = &cobra.Command{
 	Long: `Update cached scripts to their latest versions.
 
 If no script is specified, updates all cached scripts.`,
-	Example: `  utilux update
-  utilux update --all
-  utilux update git-clean`,
+	Example: `  utix update
+  utix update --all
+  utix update git-clean`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		all, _ := cmd.Flags().GetBool("all")
 

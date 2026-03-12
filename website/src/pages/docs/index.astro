@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CopyButton from '../../components/CopyButton.astro';
 
-const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | bash';
+const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | bash';
 ---
 
 <BaseLayout title="Documentation">
@@ -25,7 +25,7 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
       <!-- Installation -->
       <section id="installation" class="mb-12">
         <h2 class="text-2xl font-bold mb-4">Installation</h2>
-        <p class="text-text/90 mb-4">Install Utilux with a single command:</p>
+        <p class="text-text/90 mb-4">Install Utix with a single command:</p>
         <div class="bg-surface rounded-xl p-4 mb-4 border border-border">
           <div class="flex items-start gap-3">
             <code class="flex-1 text-accent font-mono text-sm break-all">{installCommand}</code>
@@ -38,32 +38,32 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
       <!-- Usage -->
       <section id="usage" class="mb-12">
         <h2 class="text-2xl font-bold mb-4">Usage</h2>
-        <p class="text-text/90 mb-4">Utilux uses lazy loading - scripts are downloaded on first use and cached locally.</p>
+        <p class="text-text/90 mb-4">Utix uses lazy loading - scripts are downloaded on first use and cached locally.</p>
 
         <div class="space-y-4">
           <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Launch interactive TUI menu</p>
-            <code class="text-accent font-mono">utilux</code>
+            <code class="text-accent font-mono">utix</code>
           </div>
 
           <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># List all available scripts</p>
-            <code class="text-accent font-mono">utilux list</code>
+            <code class="text-accent font-mono">utix list</code>
           </div>
 
           <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Run a script</p>
-            <code class="text-accent font-mono">utilux run git-clean</code>
+            <code class="text-accent font-mono">utix run git-clean</code>
           </div>
 
           <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Search for scripts</p>
-            <code class="text-accent font-mono">utilux search docker</code>
+            <code class="text-accent font-mono">utix search docker</code>
           </div>
 
           <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Get script info</p>
-            <code class="text-accent font-mono">utilux info disk-cleanup</code>
+            <code class="text-accent font-mono">utix info disk-cleanup</code>
           </div>
         </div>
       </section>
@@ -131,11 +131,11 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
         <div class="space-y-4">
           <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Build from source (requires Go 1.21+)</p>
-            <code class="text-accent font-mono">cd cli && go build -o utilux-go .</code>
+            <code class="text-accent font-mono">cd cli && go build -o utix-go .</code>
           </div>
           <div class="bg-surface rounded-xl p-4 border border-border">
             <p class="text-muted text-sm mb-2 font-mono"># Or download pre-built binary</p>
-            <code class="text-accent font-mono text-sm break-all">curl -fsSL https://github.com/lamngockhuong/utilux/releases/latest/download/utilux-go-linux-amd64 -o utilux-go</code>
+            <code class="text-accent font-mono text-sm break-all">curl -fsSL https://github.com/lamngockhuong/utix/releases/latest/download/utix-go-linux-amd64 -o utix-go</code>
           </div>
         </div>
       </section>
@@ -143,7 +143,7 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
       <!-- Configuration -->
       <section id="configuration" class="mb-12">
         <h2 class="text-2xl font-bold mb-4">Configuration</h2>
-        <p class="text-text/90 mb-4">Configuration is stored in <code class="bg-surface px-2 py-0.5 rounded-md font-mono text-accent text-sm">~/.utilux/config</code></p>
+        <p class="text-text/90 mb-4">Configuration is stored in <code class="bg-surface px-2 py-0.5 rounded-md font-mono text-accent text-sm">~/.utix/config</code></p>
 
         <h3 class="font-semibold mt-6 mb-3 text-text">Environment Variables</h3>
         <div class="overflow-x-auto bg-surface/30 rounded-xl border border-border">
@@ -156,15 +156,15 @@ const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuo
             </thead>
             <tbody class="text-text/90">
               <tr class="border-b border-border">
-                <td class="py-3 px-4 font-mono text-sm text-accent">UTILUX_OFFLINE</td>
+                <td class="py-3 px-4 font-mono text-sm text-accent">UTIX_OFFLINE</td>
                 <td class="py-3 px-4">Enable offline mode (use cached only)</td>
               </tr>
               <tr class="border-b border-border">
-                <td class="py-3 px-4 font-mono text-sm text-accent">UTILUX_LOG_LEVEL</td>
+                <td class="py-3 px-4 font-mono text-sm text-accent">UTIX_LOG_LEVEL</td>
                 <td class="py-3 px-4">Log level: debug, info, warn, error</td>
               </tr>
               <tr>
-                <td class="py-3 px-4 font-mono text-sm text-accent">UTILUX_CACHE_DIR</td>
+                <td class="py-3 px-4 font-mono text-sm text-accent">UTIX_CACHE_DIR</td>
                 <td class="py-3 px-4">Custom cache directory</td>
               </tr>
             </tbody>
@@ -205,7 +205,7 @@ main "$@"</code></pre>
       </section>
 
       <div class="border-t border-border pt-6">
-        <a href="https://github.com/lamngockhuong/utilux" target="_blank" rel="noopener" class="text-primary hover:text-accent transition-colors duration-200 cursor-pointer font-medium">
+        <a href="https://github.com/lamngockhuong/utix" target="_blank" rel="noopener" class="text-primary hover:text-accent transition-colors duration-200 cursor-pointer font-medium">
           View on GitHub &rarr;
         </a>
       </div>

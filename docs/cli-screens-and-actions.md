@@ -4,7 +4,7 @@ This document describes all screens and actions for both Bash and Go CLIs to ens
 
 ## Main Menu
 
-**Title:** "Utilux - Choose an action"
+**Title:** "Utix - Choose an action"
 
 | #   | Action           | Bash              | Go                          | Description                           |
 | --- | ---------------- | ----------------- | --------------------------- | ------------------------------------- |
@@ -54,20 +54,20 @@ This document describes all screens and actions for both Bash and Go CLIs to ens
 
 | Command           | Bash                       | Go                           | Description                   |
 | ----------------- | -------------------------- | ---------------------------- | ----------------------------- |
-| `run <script>`    | `./utilux run <name>`      | `./utilux-go run <name>`     | Run script by name            |
-| `list`            | `./utilux list`            | `./utilux-go list`           | List all scripts              |
-| `list -i`         | -                          | `./utilux-go list -i`        | Interactive list mode         |
-| `search <term>`   | `./utilux search <term>`   | `./utilux-go search <term>`  | Search scripts                |
-| `info <script>`   | `./utilux info <name>`     | `./utilux-go info <name>`    | Show script details           |
-| `info -d`         | `./utilux info <name> -d`  | `./utilux-go info <name> -d` | Show script details with docs |
-| `docs <script>`   | `./utilux docs <name>`     | `./utilux-go docs <name>`    | Show full documentation       |
-| `update`          | `./utilux update`          | `./utilux-go update`         | Update cached scripts         |
-| `cache list`      | `./utilux cache list`      | `./utilux-go cache list`     | List cached                   |
-| `cache clear`     | `./utilux cache clear`     | `./utilux-go cache clear`    | Clear cache                   |
-| `cache size`      | `./utilux cache size`      | `./utilux-go cache size`     | Show cache size               |
-| `config`          | `./utilux config`          | `./utilux-go config`         | Show all config               |
-| `config <key>`    | `./utilux config <key>`    | `./utilux-go config <key>`   | Get config value              |
-| `config <k> <v>`  | `./utilux config <k> <v>`  | `./utilux-go config <k> <v>` | Set config value              |
+| `run <script>`    | `./utix run <name>`      | `./utix-go run <name>`     | Run script by name            |
+| `list`            | `./utix list`            | `./utix-go list`           | List all scripts              |
+| `list -i`         | -                          | `./utix-go list -i`        | Interactive list mode         |
+| `search <term>`   | `./utix search <term>`   | `./utix-go search <term>`  | Search scripts                |
+| `info <script>`   | `./utix info <name>`     | `./utix-go info <name>`    | Show script details           |
+| `info -d`         | `./utix info <name> -d`  | `./utix-go info <name> -d` | Show script details with docs |
+| `docs <script>`   | `./utix docs <name>`     | `./utix-go docs <name>`    | Show full documentation       |
+| `update`          | `./utix update`          | `./utix-go update`         | Update cached scripts         |
+| `cache list`      | `./utix cache list`      | `./utix-go cache list`     | List cached                   |
+| `cache clear`     | `./utix cache clear`     | `./utix-go cache clear`    | Clear cache                   |
+| `cache size`      | `./utix cache size`      | `./utix-go cache size`     | Show cache size               |
+| `config`          | `./utix config`          | `./utix-go config`         | Show all config               |
+| `config <key>`    | `./utix config <key>`    | `./utix-go config <key>`   | Get config value              |
+| `config <k> <v>`  | `./utix config <k> <v>`  | `./utix-go config <k> <v>` | Set config value              |
 
 ## TUI Implementation
 

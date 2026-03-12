@@ -4,18 +4,18 @@
 # @version: v1.0.0
 
 # Prevent double sourcing
-[[ -n "${_UTILUX_CACHE_LOADED:-}" ]] && return 0
-_UTILUX_CACHE_LOADED=1
+[[ -n "${_UTIX_CACHE_LOADED:-}" ]] && return 0
+_UTIX_CACHE_LOADED=1
 
 # Initialize cache directory
 cache_init() {
-  mkdir -p "$UTILUX_CACHE_DIR"
+  mkdir -p "$UTIX_CACHE_DIR"
 }
 
 # Get cached script path (returns empty if not cached)
 cache_get() {
   local name="$1"
-  local cached_path="$UTILUX_CACHE_DIR/${name}.sh"
+  local cached_path="$UTIX_CACHE_DIR/${name}.sh"
 
   if [[ -f "$cached_path" ]]; then
     echo "$cached_path"
@@ -28,7 +28,7 @@ cache_get() {
 cache_set() {
   local name="$1"
   local content="$2"
-  local cached_path="$UTILUX_CACHE_DIR/${name}.sh"
+  local cached_path="$UTIX_CACHE_DIR/${name}.sh"
 
   echo "$content" > "$cached_path"
   chmod +x "$cached_path"
@@ -40,7 +40,7 @@ cache_set() {
 cache_set_file() {
   local name="$1"
   local source_path="$2"
-  local cached_path="$UTILUX_CACHE_DIR/${name}.sh"
+  local cached_path="$UTIX_CACHE_DIR/${name}.sh"
 
   cp "$source_path" "$cached_path"
   chmod +x "$cached_path"
@@ -51,7 +51,7 @@ cache_set_file() {
 # Get cached script version from metadata file
 cache_version() {
   local name="$1"
-  local meta_file="$UTILUX_CACHE_DIR/${name}.meta"
+  local meta_file="$UTIX_CACHE_DIR/${name}.meta"
 
   if [[ -f "$meta_file" ]]; then
     grep -m1 "^version=" "$meta_file" 2>/dev/null | cut -d= -f2
@@ -63,7 +63,7 @@ cache_set_version() {
   local name="$1"
   local version="$2"
   local sha256="${3:-}"
-  local meta_file="$UTILUX_CACHE_DIR/${name}.meta"
+  local meta_file="$UTIX_CACHE_DIR/${name}.meta"
 
   cat > "$meta_file" << EOF
 version=$version
@@ -88,10 +88,10 @@ cache_clear() {
   local name="${1:-}"
 
   if [[ -n "$name" ]]; then
-    rm -f "$UTILUX_CACHE_DIR/${name}.sh" "$UTILUX_CACHE_DIR/${name}.meta"
+    rm -f "$UTIX_CACHE_DIR/${name}.sh" "$UTIX_CACHE_DIR/${name}.meta"
     log_info "Cleared cache for: $name"
   else
-    rm -rf "$UTILUX_CACHE_DIR"/*
+    rm -rf "$UTIX_CACHE_DIR"/*
     log_info "Cleared all cache"
   fi
 }
@@ -102,7 +102,7 @@ cache_list() {
   local f
 
   shopt -s nullglob
-  for f in "$UTILUX_CACHE_DIR"/*.sh; do
+  for f in "$UTIX_CACHE_DIR"/*.sh; do
     [[ -f "$f" ]] || continue
     local name
     name=$(basename "$f" .sh)
@@ -117,10 +117,10 @@ cache_list() {
 
 # Get cache size in bytes
 cache_size() {
-  du -sb "$UTILUX_CACHE_DIR" 2>/dev/null | cut -f1
+  du -sb "$UTIX_CACHE_DIR" 2>/dev/null | cut -f1
 }
 
 # Get cache size in human readable format
 cache_size_human() {
-  du -sh "$UTILUX_CACHE_DIR" 2>/dev/null | cut -f1
+  du -sh "$UTIX_CACHE_DIR" 2>/dev/null | cut -f1
 }

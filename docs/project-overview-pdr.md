@@ -2,7 +2,7 @@
 
 ## Project Vision
 
-Utilux is a unified Linux utility management system that provides curated, production-ready scripts across Ubuntu/Debian, Alpine, and Fedora distributions. The project aims to eliminate repetitive system administration tasks through a lazy-loading script registry accessible via both Bash and Go CLI interfaces.
+Utix is a unified Linux utility management system that provides curated, production-ready scripts across Ubuntu/Debian, Alpine, and Fedora distributions. The project aims to eliminate repetitive system administration tasks through a lazy-loading script registry accessible via both Bash and Go CLI interfaces.
 
 ## Target Users
 
@@ -26,18 +26,18 @@ Utilux is a unified Linux utility management system that provides curated, produ
 
 - Scripts downloaded on-demand from GitHub registry
 - SHA256 integrity verification via manifest.json
-- Local caching (~/.utilux) for offline execution
+- Local caching (~/.utix) for offline execution
 - Automatic version checking and updates
 
 ### 2. Dual CLI Interfaces
 
-**Bash CLI** (`utilux`):
+**Bash CLI** (`utix`):
 
 - Interactive gum-based menu system (whiptail fallback)
 - Zero dependencies beyond bash, curl
 - Modular library architecture (lib/)
 
-**Go CLI** (`utilux-go`):
+**Go CLI** (`utix-go`):
 
 - High-performance compiled binary
 - Cobra command framework
@@ -62,10 +62,10 @@ Utilux is a unified Linux utility management system that provides curated, produ
 ### 5. Documentation System
 
 - Markdown documentation files for each script in registry
-- `utilux docs <script>` command to view full documentation
-- `utilux info <script> --docs` to show metadata with docs
+- `utix docs <script>` command to view full documentation
+- `utix info <script> --docs` to show metadata with docs
 - SHA256 verification for documentation files
-- Local documentation caching in `~/.utilux/docs_cache/`
+- Local documentation caching in `~/.utix/docs_cache/`
 - Markdown rendering via glamour (Go) or glow/bat (Bash)
 - Website auto-generation from registry docs via `scripts/generate-website-docs.sh`
 
@@ -147,7 +147,7 @@ Utilux is a unified Linux utility management system that provides curated, produ
 
 - Execute cached scripts without network
 - Graceful fallback when registry unreachable
-- UTILUX_OFFLINE environment variable
+- UTIX_OFFLINE environment variable
 
 **FR-5: Update Mechanism**
 
@@ -222,18 +222,18 @@ Utilux is a unified Linux utility management system that provides curated, produ
 
 **Environment Variables:**
 
-- `UTILUX_LOG_LEVEL`: debug, info, warn, error (default: info)
-- `UTILUX_OFFLINE`: Enable offline mode (1/0)
-- `UTILUX_CACHE_DIR`: Custom cache location (default: ~/.utilux)
-- `UTILUX_REGISTRY_URL`: Custom registry URL for enterprise deployments
+- `UTIX_LOG_LEVEL`: debug, info, warn, error (default: info)
+- `UTIX_OFFLINE`: Enable offline mode (1/0)
+- `UTIX_CACHE_DIR`: Custom cache location (default: ~/.utix)
+- `UTIX_REGISTRY_URL`: Custom registry URL for enterprise deployments
 
 **File Locations:**
 
-- Binaries: /usr/local/bin/utilux, /usr/local/bin/utilux-go
-- Libraries: /usr/local/lib/utilux/lib/
-- Cache: ~/.utilux/cache/
-- Documentation cache: ~/.utilux/docs_cache/
-- Config: ~/.utilux/config (future)
+- Binaries: /usr/local/bin/utix, /usr/local/bin/utix-go
+- Libraries: /usr/local/lib/utix/lib/
+- Cache: ~/.utix/cache/
+- Documentation cache: ~/.utix/docs_cache/
+- Config: ~/.utix/config (future)
 
 ## Risk Assessment
 

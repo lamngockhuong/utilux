@@ -19,11 +19,11 @@ log_error() {
   echo -e "${RED}[ERROR]${NC} $1" >&2
 }
 
-# Package utilux for release
-package_utilux() {
+# Package utix for release
+package_utix() {
   local version="$1"
   local temp_dir="build"
-  local package_name="utilux-${version}"
+  local package_name="utix-${version}"
 
   # Check if version is provided
   if [ -z "$version" ]; then
@@ -59,7 +59,7 @@ main() {
     exit 1
   fi
 
-  package_utilux "$1"
+  package_utix "$1"
 }
 
 # Run main packaging process

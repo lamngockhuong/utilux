@@ -1,6 +1,6 @@
 # Feature Ideas
 
-> Danh sách các tính năng tiềm năng cho Utilux. Đánh dấu `[x]` khi hoàn thành.
+> Danh sách các tính năng tiềm năng cho Utix. Đánh dấu `[x]` khi hoàn thành.
 
 ## Scripts Mới
 
@@ -34,36 +34,36 @@
 
 ### Essential
 
-- [ ] Self-update - `utilux self-update` update CLI
-- [ ] Doctor - `utilux doctor` chẩn đoán vấn đề (deps, cache, config)
-- [ ] Uninstall - `utilux uninstall` clean removal
-- [ ] Verify - `utilux verify <script>` check SHA256 integrity
-- [ ] Changelog - `utilux changelog <script>` xem thay đổi versions
-- [ ] Aliases - `utilux alias gc=git-clean` shortcut
+- [ ] Self-update - `utix self-update` update CLI
+- [ ] Doctor - `utix doctor` chẩn đoán vấn đề (deps, cache, config)
+- [ ] Uninstall - `utix uninstall` clean removal
+- [ ] Verify - `utix verify <script>` check SHA256 integrity
+- [ ] Changelog - `utix changelog <script>` xem thay đổi versions
+- [ ] Aliases - `utix alias gc=git-clean` shortcut
 
 ### Easy
 
-- [ ] Script favorites - `utilux fav add/list/rm`
-- [ ] Script history - `utilux history` (recently used)
+- [ ] Script favorites - `utix fav add/list/rm`
+- [ ] Script history - `utix history` (recently used)
 - [ ] Man pages - Generate từ docs
-- [ ] Script templates - `utilux new <name>` boilerplate tạo script mới
+- [ ] Script templates - `utix new <name>` boilerplate tạo script mới
 - [ ] Update notifications - Alert khi có script version mới
-- [ ] Script preview - `utilux preview <script>` xem source trước khi chạy
-- [ ] JSON output - `utilux list --json` cho piping/scripting
-- [ ] Quiet mode - `utilux run -q` suppress output
+- [ ] Script preview - `utix preview <script>` xem source trước khi chạy
+- [ ] JSON output - `utix list --json` cho piping/scripting
+- [ ] Quiet mode - `utix run -q` suppress output
 - [ ] Execution log - History với timestamps, exit codes
 
 ### Medium
 
 - [ ] Shell completions - Bash/Zsh/Fish autocomplete
-- [ ] Dry-run mode - `utilux run --dry-run` preview script
-- [ ] Script chaining - `utilux run script1 script2`
+- [ ] Dry-run mode - `utix run --dry-run` preview script
+- [ ] Script chaining - `utix run script1 script2`
 - [ ] Export/import settings
 - [ ] Script linting - Validate với shellcheck trước khi chạy
 - [ ] Backup before run - Auto backup files trước khi script modify
 - [ ] Notifications - Desktop notify khi script chạy xong
-- [ ] Config profiles - `utilux --profile work` cho different environments
-- [ ] Timeout - `utilux run --timeout 60s` giới hạn thời gian
+- [ ] Config profiles - `utix --profile work` cho different environments
+- [ ] Timeout - `utix run --timeout 60s` giới hạn thời gian
 - [ ] Pre/post hooks - Chạy commands trước/sau script
 - [ ] Custom scripts - User's own scripts trong local registry
 
@@ -71,9 +71,9 @@
 
 - [ ] Script dependencies auto-install
 - [ ] Sandboxed execution (firejail/bubblewrap)
-- [ ] Remote execution - `utilux run --host user@server` via SSH
+- [ ] Remote execution - `utix run --host user@server` via SSH
 - [ ] Script bundles - Gom nhóm scripts liên quan (vd: `security-bundle`)
-- [ ] Plugin system - Extend utilux với custom commands
+- [ ] Plugin system - Extend utix với custom commands
 - [ ] WSL support - Windows Subsystem for Linux
 - [ ] macOS support - Mở rộng ngoài Linux
 
@@ -82,7 +82,7 @@
 ## Registry Features
 
 - [ ] Private registries - Custom URL với auth
-- [ ] Script versions - `utilux run git-clean@v1.0.0`
+- [ ] Script versions - `utix run git-clean@v1.0.0`
 - [ ] Community scripts - User contributions
 - [ ] Script ratings/reviews
 

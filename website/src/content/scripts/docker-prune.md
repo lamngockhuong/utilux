@@ -22,7 +22,7 @@ Reclaim disk space by removing unused Docker resources. Supports selective clean
 ## Usage
 
 ```bash
-utilux run docker-prune [OPTIONS]
+utix run docker-prune [OPTIONS]
 ```
 
 ### Options
@@ -46,42 +46,42 @@ utilux run docker-prune [OPTIONS]
 
 ```bash
 # Show Docker disk usage
-utilux run docker-prune
+utix run docker-prune
 
 # Remove everything unused
-utilux run docker-prune -a
+utix run docker-prune -a
 
 # Preview what would be removed
-utilux run docker-prune -a --dry-run
+utix run docker-prune -a --dry-run
 ```
 
 ### Selective Cleanup
 
 ```bash
 # Remove stopped containers only
-utilux run docker-prune -c
+utix run docker-prune -c
 
 # Remove dangling images (no tag)
-utilux run docker-prune -d
+utix run docker-prune -d
 
 # Remove all unused images
-utilux run docker-prune -i
+utix run docker-prune -i
 
 # Remove containers and images
-utilux run docker-prune -c -i
+utix run docker-prune -c -i
 
 # Remove unused volumes (data loss warning!)
-utilux run docker-prune -v
+utix run docker-prune -v
 ```
 
 ### System Prune
 
 ```bash
 # Docker system prune (no volumes)
-utilux run docker-prune -s
+utix run docker-prune -s
 
 # System prune including volumes
-utilux run docker-prune -s -v
+utix run docker-prune -s -v
 ```
 
 ## What Gets Removed

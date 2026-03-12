@@ -20,7 +20,7 @@ No strict dependencies. Works with standard Linux utilities.
 ## Usage
 
 ```bash
-utilux run disk-cleanup [OPTIONS]
+utix run disk-cleanup [OPTIONS]
 ```
 
 ### Options
@@ -35,13 +35,13 @@ utilux run disk-cleanup [OPTIONS]
 
 ```bash
 # Run cleanup (user-level)
-utilux run disk-cleanup
+utix run disk-cleanup
 
 # Preview what would be cleaned
-utilux run disk-cleanup --dry-run
+utix run disk-cleanup --dry-run
 
 # Full system cleanup (requires root)
-sudo utilux run disk-cleanup
+sudo utix run disk-cleanup
 ```
 
 ## What Gets Cleaned
@@ -120,7 +120,7 @@ Everything above, plus:
 
 **Solution:** Run with sudo:
 ```bash
-sudo utilux run disk-cleanup
+sudo utix run disk-cleanup
 ```
 
 ### Disk still full after cleanup

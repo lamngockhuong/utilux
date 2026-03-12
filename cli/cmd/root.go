@@ -6,12 +6,12 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/lamngockhuong/utilux/cli/internal/cache"
-	"github.com/lamngockhuong/utilux/cli/internal/config"
-	"github.com/lamngockhuong/utilux/cli/internal/docs"
-	"github.com/lamngockhuong/utilux/cli/internal/loader"
-	"github.com/lamngockhuong/utilux/cli/internal/registry"
-	"github.com/lamngockhuong/utilux/cli/internal/tui"
+	"github.com/lamngockhuong/utix/cli/internal/cache"
+	"github.com/lamngockhuong/utix/cli/internal/config"
+	"github.com/lamngockhuong/utix/cli/internal/docs"
+	"github.com/lamngockhuong/utix/cli/internal/loader"
+	"github.com/lamngockhuong/utix/cli/internal/registry"
+	"github.com/lamngockhuong/utix/cli/internal/tui"
 )
 
 var (
@@ -32,9 +32,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "utilux",
+	Use:   "utix",
 	Short: "Lightweight script aggregator with lazy loading",
-	Long: `Utilux is a lightweight utility that aggregates useful scripts
+	Long: `Utix is a lightweight utility that aggregates useful scripts
 with on-demand downloading and local caching.
 
 Scripts are fetched from GitHub on first use and cached locally
@@ -57,7 +57,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default $HOME/.utilux/config)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default $HOME/.utix/config)")
 	rootCmd.PersistentFlags().StringVar(&registryURL, "registry", "", "custom registry URL")
 	rootCmd.PersistentFlags().BoolVar(&offline, "offline", false, "offline mode (use cached only)")
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
@@ -142,7 +142,7 @@ func runInteractiveMode() error {
 	}
 
 	for {
-		selected, err := tui.RunMenu("Utilux - Choose an action", menuItems)
+		selected, err := tui.RunMenu("Utix - Choose an action", menuItems)
 		if err != nil {
 			return err
 		}
@@ -352,7 +352,7 @@ func manageConfigInteractive() error {
 		var url string
 		fmt.Scanln(&url)
 		if url != "" {
-			if err := cfg.Set("UTILUX_REGISTRY_URL", url); err != nil {
+			if err := cfg.Set("UTIX_REGISTRY_URL", url); err != nil {
 				return err
 			}
 			fmt.Println("Registry URL updated")

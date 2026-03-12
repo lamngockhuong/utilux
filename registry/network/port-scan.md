@@ -18,7 +18,7 @@ No strict dependencies. Optional:
 ## Usage
 
 ```bash
-utilux run port-scan [OPTIONS] HOST [PORTS]
+utix run port-scan [OPTIONS] HOST [PORTS]
 ```
 
 ### Options
@@ -38,49 +38,49 @@ utilux run port-scan [OPTIONS] HOST [PORTS]
 
 ```bash
 # Scan common ports on localhost
-utilux run port-scan localhost
+utix run port-scan localhost
 
 # Scan common ports on remote host
-utilux run port-scan example.com
+utix run port-scan example.com
 
 # Show local listening ports
-utilux run port-scan -l
+utix run port-scan -l
 ```
 
 ### Port Range Scanning
 
 ```bash
 # Scan ports 1-100
-utilux run port-scan -r 1 100 192.168.1.1
+utix run port-scan -r 1 100 192.168.1.1
 
 # Scan ports 8000-9000
-utilux run port-scan -r 8000 9000 localhost
+utix run port-scan -r 8000 9000 localhost
 
 # Full scan (slow!)
-utilux run port-scan -r 1 65535 localhost
+utix run port-scan -r 1 65535 localhost
 ```
 
 ### Specific Ports
 
 ```bash
 # Scan web ports
-utilux run port-scan -p 80,443,8080 example.com
+utix run port-scan -p 80,443,8080 example.com
 
 # Scan database ports
-utilux run port-scan -p 3306,5432,27017 localhost
+utix run port-scan -p 3306,5432,27017 localhost
 
 # Scan SSH and HTTP
-utilux run port-scan -p 22,80 server.local
+utix run port-scan -p 22,80 server.local
 ```
 
 ### Timeout Adjustment
 
 ```bash
 # Faster scan (may miss slow responses)
-utilux run port-scan -t 0.5 localhost
+utix run port-scan -t 0.5 localhost
 
 # Slower scan for unreliable networks
-utilux run port-scan -t 3 remote-server.com
+utix run port-scan -t 3 remote-server.com
 ```
 
 ## Common Ports Reference
@@ -133,7 +133,7 @@ Found 3 open ports
 
 **Solution:** Some ports require root:
 ```bash
-sudo utilux run port-scan -r 1 1024 localhost
+sudo utix run port-scan -r 1 1024 localhost
 ```
 
 ### Host unreachable
@@ -151,7 +151,7 @@ ping hostname
 
 **Solution:** Increase timeout:
 ```bash
-utilux run port-scan -t 5 slow-server.com
+utix run port-scan -t 5 slow-server.com
 ```
 
 ## Limitations

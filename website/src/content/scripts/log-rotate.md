@@ -22,7 +22,7 @@ Rotates log files that exceed a size threshold, compresses old logs, and removes
 ## Usage
 
 ```bash
-utilux run log-rotate [OPTIONS] [DIRECTORY]
+utix run log-rotate [OPTIONS] [DIRECTORY]
 ```
 
 ### Options
@@ -49,36 +49,36 @@ utilux run log-rotate [OPTIONS] [DIRECTORY]
 
 ```bash
 # Rotate /var/log (requires sudo)
-sudo utilux run log-rotate
+sudo utix run log-rotate
 
 # Rotate custom directory
-utilux run log-rotate /home/user/app/logs
+utix run log-rotate /home/user/app/logs
 
 # Preview what would be rotated
-utilux run log-rotate --dry-run
+utix run log-rotate --dry-run
 ```
 
 ### Custom Settings
 
 ```bash
 # Rotate at 50MB, keep 7 days
-utilux run log-rotate -s 50M -k 7 /var/log/myapp
+utix run log-rotate -s 50M -k 7 /var/log/myapp
 
 # Rotate at 100MB, keep 14 days
-utilux run log-rotate -s 100M -k 14 ./logs
+utix run log-rotate -s 100M -k 14 ./logs
 
 # Don't compress rotated files
-utilux run log-rotate -n /var/log/myapp
+utix run log-rotate -n /var/log/myapp
 ```
 
 ### Application Logs
 
 ```bash
 # Rotate Node.js app logs
-utilux run log-rotate -s 20M ~/apps/myapp/logs
+utix run log-rotate -s 20M ~/apps/myapp/logs
 
 # Rotate nginx logs
-sudo utilux run log-rotate -s 100M /var/log/nginx
+sudo utix run log-rotate -s 100M /var/log/nginx
 ```
 
 ## How Rotation Works
@@ -130,7 +130,7 @@ app.log.10.gz   # Oldest rotation
 
 **Solution:** Run with sudo:
 ```bash
-sudo utilux run log-rotate /var/log
+sudo utix run log-rotate /var/log
 ```
 
 ### Disk full
@@ -139,7 +139,7 @@ sudo utilux run log-rotate /var/log
 
 **Solution:**
 1. Reduce retention: `-k 7`
-2. Run cleanup first: `utilux run disk-cleanup`
+2. Run cleanup first: `utix run disk-cleanup`
 3. Remove old rotations manually
 
 ### Log file in use

@@ -24,7 +24,7 @@ ui_menu() {
   elif _has_whiptail && [[ -t 0 ]]; then
     local menu_opts=(); local i=1
     for opt in "${options[@]}"; do menu_opts+=("$i" "$opt"); ((i++)); done
-    local choice=$(whiptail --title "Utilux" --menu "$title" 15 60 5 "${menu_opts[@]}" 3>&1 1>&2 2>&3)
+    local choice=$(whiptail --title "Utix" --menu "$title" 15 60 5 "${menu_opts[@]}" 3>&1 1>&2 2>&3)
     [[ $? -eq 0 && -n "$choice" ]] && echo "${options[$((choice-1))]}"
   else
     echo "$title" >&2; local i=1
@@ -39,7 +39,7 @@ ui_input() {
   if _has_gum && [[ -t 0 ]]; then
     gum input --placeholder "$msg" --value "$default"
   elif _has_whiptail && [[ -t 0 ]]; then
-    whiptail --title "Utilux" --inputbox "$msg" 10 60 "$default" 3>&1 1>&2 2>&3
+    whiptail --title "Utix" --inputbox "$msg" 10 60 "$default" 3>&1 1>&2 2>&3
   else
     read -rp "$msg [$default]: " input; echo "${input:-$default}"
   fi
@@ -50,7 +50,7 @@ ui_confirm() {
   if _has_gum && [[ -t 0 ]]; then
     [[ "$default" == "y" ]] && gum confirm "$msg" --default=true || gum confirm "$msg" --default=false
   elif _has_whiptail && [[ -t 0 ]]; then
-    whiptail --title "Utilux" --yesno "$msg" 10 60
+    whiptail --title "Utix" --yesno "$msg" 10 60
   else
     local prompt="[y/N]"; [[ "$default" == "y" ]] && prompt="[Y/n]"
     read -rp "$msg $prompt " resp; resp="${resp:-$default}"; [[ "$resp" =~ ^[Yy] ]]
@@ -60,12 +60,12 @@ ui_confirm() {
 # Installation paths (constants)
 readonly INSTALL_BIN_DIR="/usr/local/bin"
 readonly INSTALL_LIB_BASE="/usr/local/lib"
-readonly DEFAULT_APP_NAME="utilux"
+readonly DEFAULT_APP_NAME="utix"
 
 # Detect source structure: returns "valid" or "invalid"
 detect_source_structure() {
   local src="$1"
-  if [ -f "$src/utilux" ] && [ -d "$src/lib" ]; then
+  if [ -f "$src/utix" ] && [ -d "$src/lib" ]; then
     echo "valid"
   else
     echo "invalid"
@@ -74,42 +74,42 @@ detect_source_structure() {
 
 # Display help information
 show_help() {
-  echo "Utilux Installation Script"
+  echo "Utix Installation Script"
   echo ""
   echo "Description:"
-  echo "  This script installs or uninstalls the Utilux utility management tool."
-  echo "  Utilux allows you to easily install and manage utilities across different Linux distributions."
+  echo "  This script installs or uninstalls the Utix utility management tool."
+  echo "  Utix allows you to easily install and manage utilities across different Linux distributions."
   echo ""
   echo "Usage: $0 [options]"
   echo ""
   echo "Options:"
   echo "  --help              Show this help message"
-  echo "  --uninstall [name]  Uninstall utilux or a custom-named installation"
+  echo "  --uninstall [name]  Uninstall utix or a custom-named installation"
   echo "  --source <path>     Install from local source code"
   echo "  --develop           Install from develop branch of the repository"
   echo "  --release           Install from GitHub release (default)"
   echo ""
   echo "Installation Examples:"
-  echo "  $0                  Install utilux from GitHub release (default)"
+  echo "  $0                  Install utix from GitHub release (default)"
   echo "  $0 --source /path/to/source  Install from local source code"
   echo "  $0 --develop        Install from develop branch"
   echo "  $0 --help           Show this help message"
   echo ""
   echo "Uninstallation Examples:"
-  echo "  $0 --uninstall      Uninstall utilux (default name)"
-  echo "  $0 --uninstall myutilux  Uninstall a custom-named installation"
+  echo "  $0 --uninstall      Uninstall utix (default name)"
+  echo "  $0 --uninstall myutix  Uninstall a custom-named installation"
   echo ""
   echo "Post-Installation Usage:"
   echo "  After installation, you can use the following commands:"
-  echo "    utilux install <package>              # Install a package"
-  echo "    utilux install github:owner/repo      # Install from GitHub Release"
-  echo "    utilux install https://example.com/pkg.tar.gz  # Install from URL"
-  echo "    utilux remove <package>               # Remove a package"
+  echo "    utix install <package>              # Install a package"
+  echo "    utix install github:owner/repo      # Install from GitHub Release"
+  echo "    utix install https://example.com/pkg.tar.gz  # Install from URL"
+  echo "    utix remove <package>               # Remove a package"
   echo ""
   echo "Custom Installation:"
-  echo "  If an application named 'utilux' already exists, you will be prompted to:"
-  echo "  1. Remove the existing application and install as 'utilux'"
-  echo "  2. Install with a different name (e.g., 'myutilux')"
+  echo "  If an application named 'utix' already exists, you will be prompted to:"
+  echo "  1. Remove the existing application and install as 'utix'"
+  echo "  2. Install with a different name (e.g., 'myutix')"
   echo "  3. Cancel the installation"
   echo ""
   echo "Requirements:"
@@ -169,7 +169,7 @@ ensure_required_packages() {
 # Install core scripts (new structure with lib/)
 install_new_structure() {
   local source_dir="$1"
-  local app_name="${UTILUX_APP_NAME:-$DEFAULT_APP_NAME}"
+  local app_name="${UTIX_APP_NAME:-$DEFAULT_APP_NAME}"
   local lib_dir="$INSTALL_LIB_BASE/$app_name"
 
   # Create installation directories
@@ -177,7 +177,7 @@ install_new_structure() {
 
   # Install main entry point
   log_info "Installing $app_name (new structure)..."
-  cp "$source_dir/utilux" "$INSTALL_BIN_DIR/$app_name"
+  cp "$source_dir/utix" "$INSTALL_BIN_DIR/$app_name"
   chmod +x "$INSTALL_BIN_DIR/$app_name"
 
   # Install lib modules (batch copy + chmod)
@@ -187,7 +187,7 @@ install_new_structure() {
     log_info "Copied $(ls -1 "$source_dir/lib/"*.sh 2>/dev/null | wc -l) library modules"
 
   # Update the main script to use installed lib path
-  sed -i "s|UTILUX_SCRIPT_DIR=.*|UTILUX_SCRIPT_DIR=\"$lib_dir\"|" "$INSTALL_BIN_DIR/$app_name"
+  sed -i "s|UTIX_SCRIPT_DIR=.*|UTIX_SCRIPT_DIR=\"$lib_dir\"|" "$INSTALL_BIN_DIR/$app_name"
 
   # Install registry (let cp fail naturally if missing)
   log_info "Installing script registry..."
@@ -205,17 +205,17 @@ install_core_scripts() {
   if [ "$structure" = "valid" ]; then
     install_new_structure "$source_dir"
   else
-    log_error "Invalid source structure. Expected: utilux + lib/"
+    log_error "Invalid source structure. Expected: utix + lib/"
     exit 1
   fi
 }
 
 # Install from GitHub release
 install_from_release() {
-  local app_name="${UTILUX_APP_NAME:-utilux}"
+  local app_name="${UTIX_APP_NAME:-utix}"
   local temp_dir="/tmp/${app_name}_install"
   local repo_owner="lamngockhuong"
-  local repo_name="utilux"
+  local repo_name="utix"
 
   # Create temporary directory
   mkdir -p "$temp_dir"
@@ -249,7 +249,7 @@ install_from_release() {
 
   # Find the extracted directory
   log_info "Checking extracted files..."
-  local extracted_dir=$(find "$temp_dir" -maxdepth 1 -type d -name "utilux-*" | head -n 1)
+  local extracted_dir=$(find "$temp_dir" -maxdepth 1 -type d -name "utix-*" | head -n 1)
 
   if [ -z "$extracted_dir" ]; then
     log_error "Could not find extracted directory"
@@ -262,8 +262,8 @@ install_from_release() {
   log_info "Found extracted directory: $extracted_dir"
 
   # Check extracted files
-  if [ ! -f "$extracted_dir/utilux" ] || [ ! -d "$extracted_dir/lib" ]; then
-    log_error "Invalid package structure. Expected: utilux + lib/"
+  if [ ! -f "$extracted_dir/utix" ] || [ ! -d "$extracted_dir/lib" ]; then
+    log_error "Invalid package structure. Expected: utix + lib/"
     log_info "Contents of $extracted_dir:"
     ls -la "$extracted_dir"
     rm -rf "$temp_dir"
@@ -282,10 +282,10 @@ install_from_release() {
 
 # Install from develop branch
 install_from_develop() {
-  local app_name="${UTILUX_APP_NAME:-utilux}"
+  local app_name="${UTIX_APP_NAME:-utix}"
   local temp_dir="/tmp/${app_name}_install"
   local repo_owner="lamngockhuong"
-  local repo_name="utilux"
+  local repo_name="utix"
 
   # Create temporary directory
   mkdir -p "$temp_dir"
@@ -299,8 +299,8 @@ install_from_develop() {
   fi
 
   # Check source structure
-  if [ ! -f "$temp_dir/$repo_name/utilux" ] || [ ! -d "$temp_dir/$repo_name/lib" ]; then
-    log_error "Invalid repository structure. Expected: utilux + lib/"
+  if [ ! -f "$temp_dir/$repo_name/utix" ] || [ ! -d "$temp_dir/$repo_name/lib" ]; then
+    log_error "Invalid repository structure. Expected: utix + lib/"
     log_info "Contents of $temp_dir/$repo_name:"
     ls -la "$temp_dir/$repo_name"
     rm -rf "$temp_dir"
@@ -320,7 +320,7 @@ install_from_develop() {
 # Install from local source
 install_from_local() {
   local source_path="$1"
-  local app_name="${UTILUX_APP_NAME:-utilux}"
+  local app_name="${UTIX_APP_NAME:-utix}"
 
   # Check if source path is provided
   if [ -z "$source_path" ]; then
@@ -337,7 +337,7 @@ install_from_local() {
   # Validate source structure
   local structure=$(detect_source_structure "$source_path")
   if [ "$structure" = "invalid" ]; then
-    log_error "Invalid source structure. Expected: utilux + lib/"
+    log_error "Invalid source structure. Expected: utix + lib/"
     log_info "Contents of $source_path:"
     ls -la "$source_path"
     exit 1
@@ -364,7 +364,7 @@ check_existing_installation() {
       "Cancel installation")
 
     case "$choice" in
-      "Remove existing"*) # Remove existing and install as utilux
+      "Remove existing"*) # Remove existing and install as utix
         log_info "Removing existing '$app_name'..."
         rm -f "$INSTALL_BIN_DIR/$app_name"
         rm -f "$INSTALL_BIN_DIR/$app_name-core"
@@ -392,11 +392,11 @@ check_existing_installation() {
   fi
 
   # Export the app name for use in other functions
-  export UTILUX_APP_NAME="$app_name"
+  export UTIX_APP_NAME="$app_name"
 }
 
-# Uninstall utilux tool
-uninstall_utilux() {
+# Uninstall utix tool
+uninstall_utix() {
   local app_name="${1:-$DEFAULT_APP_NAME}"
 
   log_info "Uninstalling $app_name..."
@@ -435,7 +435,7 @@ main() {
       exit 0
     fi
 
-    uninstall_utilux "$app_name"
+    uninstall_utix "$app_name"
     exit 0
   fi
 
@@ -472,8 +472,8 @@ main() {
       ;;
   esac
 
-  log_success "Installation completed! Try running: $UTILUX_APP_NAME install <package>"
-  log_info "To uninstall later, run: sudo $0 --uninstall $UTILUX_APP_NAME"
+  log_success "Installation completed! Try running: $UTIX_APP_NAME install <package>"
+  log_info "To uninstall later, run: sudo $0 --uninstall $UTIX_APP_NAME"
 }
 
 # Run main installation

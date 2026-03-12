@@ -1,21 +1,21 @@
 #!/bin/bash
-# @name: utilux
+# @name: utix
 # @description: Lightweight script aggregator with lazy loading
 # @version: v1.0.0
 
 set -euo pipefail
 
 # Resolve script directory
-UTILUX_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+UTIX_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Load library modules
-source "$UTILUX_SCRIPT_DIR/lib/core.sh"
-source "$UTILUX_SCRIPT_DIR/lib/config.sh"
-source "$UTILUX_SCRIPT_DIR/lib/cache.sh"
-source "$UTILUX_SCRIPT_DIR/lib/registry.sh"
-source "$UTILUX_SCRIPT_DIR/lib/loader.sh"
-source "$UTILUX_SCRIPT_DIR/lib/docs.sh"
-source "$UTILUX_SCRIPT_DIR/lib/ui.sh"
+source "$UTIX_SCRIPT_DIR/lib/core.sh"
+source "$UTIX_SCRIPT_DIR/lib/config.sh"
+source "$UTIX_SCRIPT_DIR/lib/cache.sh"
+source "$UTIX_SCRIPT_DIR/lib/registry.sh"
+source "$UTIX_SCRIPT_DIR/lib/loader.sh"
+source "$UTIX_SCRIPT_DIR/lib/docs.sh"
+source "$UTIX_SCRIPT_DIR/lib/ui.sh"
 
 # Initialize
 config_init
@@ -28,10 +28,10 @@ VERSION="1.0.0"
 # Help text
 show_help() {
   cat << EOF
-utilux - Lightweight Script Aggregator v$VERSION
+utix - Lightweight Script Aggregator v$VERSION
 
 USAGE:
-  utilux <command> [options] [arguments]
+  utix <command> [options] [arguments]
 
 COMMANDS:
   run <script> [args]     Run a script (downloads on first use)
@@ -46,23 +46,23 @@ COMMANDS:
   version                 Show version
 
 EXAMPLES:
-  utilux run git-clean
-  utilux list dev
-  utilux search docker
-  utilux info disk-cleanup
-  utilux info disk-cleanup --docs
-  utilux docs backup-home
-  utilux update --all
-  utilux cache clear
-  utilux config UTILUX_OFFLINE 1
+  utix run git-clean
+  utix list dev
+  utix search docker
+  utix info disk-cleanup
+  utix info disk-cleanup --docs
+  utix docs backup-home
+  utix update --all
+  utix cache clear
+  utix config UTIX_OFFLINE 1
 
 ENVIRONMENT:
-  UTILUX_LOG_LEVEL     Log level: debug, info, warn, error
-  UTILUX_OFFLINE       Enable offline mode (1/0)
-  UTILUX_CACHE_DIR     Custom cache directory
-  UTILUX_REGISTRY_URL  Custom registry URL
+  UTIX_LOG_LEVEL     Log level: debug, info, warn, error
+  UTIX_OFFLINE       Enable offline mode (1/0)
+  UTIX_CACHE_DIR     Custom cache directory
+  UTIX_REGISTRY_URL  Custom registry URL
 
-More info: https://github.com/lamngockhuong/utilux
+More info: https://github.com/lamngockhuong/utix
 EOF
 }
 
@@ -72,7 +72,7 @@ cmd_run() {
   shift || true
 
   if [[ -z "$script" ]]; then
-    die "Usage: utilux run <script> [args...]"
+    die "Usage: utix run <script> [args...]"
   fi
 
   # Check requirements before running
@@ -101,13 +101,13 @@ cmd_list() {
     categories=$(registry_categories)
 
     for cat in $categories; do
-      echo "${UTILUX_BLUE}[$cat]${UTILUX_NC}"
+      echo "${UTIX_BLUE}[$cat]${UTIX_NC}"
       local scripts
       scripts=$(registry_list "$cat")
       for script in $scripts; do
         local cached=""
         if cache_get "$script" &>/dev/null; then
-          cached=" ${UTILUX_GREEN}(cached)${UTILUX_NC}"
+          cached=" ${UTIX_GREEN}(cached)${UTIX_NC}"
         fi
         echo "  - $script$cached"
       done
@@ -121,7 +121,7 @@ cmd_search() {
   local query="${1:-}"
 
   if [[ -z "$query" ]]; then
-    die "Usage: utilux search <query>"
+    die "Usage: utix search <query>"
   fi
 
   registry_fetch
@@ -145,7 +145,7 @@ cmd_search() {
     local cat
     cat=$(registry_get_field "$script_json" "category")
 
-    echo "  ${UTILUX_CYAN}$name${UTILUX_NC} [$cat]"
+    echo "  ${UTIX_CYAN}$name${UTIX_NC} [$cat]"
     echo "    $desc"
     echo ""
   done
@@ -156,7 +156,7 @@ cmd_docs() {
   local name="${1:-}"
 
   if [[ -z "$name" ]]; then
-    die "Usage: utilux docs <script>"
+    die "Usage: utix docs <script>"
   fi
 
   docs_show "$name"
@@ -185,7 +185,7 @@ cmd_info() {
   done
 
   if [[ -z "$name" ]]; then
-    die "Usage: utilux info <script> [--docs|-d]"
+    die "Usage: utix info <script> [--docs|-d]"
   fi
 
   registry_fetch
@@ -218,7 +218,7 @@ cmd_info() {
   fi
 
   echo ""
-  echo "${UTILUX_CYAN}$name${UTILUX_NC}"
+  echo "${UTIX_CYAN}$name${UTIX_NC}"
   echo "============================================"
   echo "Description:  $desc"
   echo "Version:      $version"
@@ -229,7 +229,7 @@ cmd_info() {
   [[ -n "$tags" ]] && echo "Tags:         $tags"
   echo ""
   if [[ -n "$cached_version" ]]; then
-    echo "Cache status: ${UTILUX_GREEN}cached${UTILUX_NC} ($cached_version)"
+    echo "Cache status: ${UTIX_GREEN}cached${UTIX_NC} ($cached_version)"
   else
     echo "Cache status: not cached"
   fi
@@ -285,7 +285,7 @@ cmd_cache() {
       echo "Cache size: $(cache_size_human)"
       ;;
     *)
-      echo "Usage: utilux cache <clear|list|size> [script]"
+      echo "Usage: utix cache <clear|list|size> [script]"
       echo ""
       echo "Subcommands:"
       echo "  clear [script]   Clear cache (all or specific script)"
@@ -303,12 +303,12 @@ cmd_config() {
   if [[ -z "$key" ]]; then
     echo "Current configuration:"
     echo ""
-    echo "  UTILUX_REGISTRY_URL = $UTILUX_REGISTRY_URL"
-    echo "  UTILUX_OFFLINE      = $UTILUX_OFFLINE"
-    echo "  UTILUX_AUTO_UPDATE  = $UTILUX_AUTO_UPDATE"
-    echo "  UTILUX_CACHE_DIR    = $UTILUX_CACHE_DIR"
+    echo "  UTIX_REGISTRY_URL = $UTIX_REGISTRY_URL"
+    echo "  UTIX_OFFLINE      = $UTIX_OFFLINE"
+    echo "  UTIX_AUTO_UPDATE  = $UTIX_AUTO_UPDATE"
+    echo "  UTIX_CACHE_DIR    = $UTIX_CACHE_DIR"
     echo ""
-    echo "Config file: $UTILUX_CONFIG_FILE"
+    echo "Config file: $UTIX_CONFIG_FILE"
     return
   fi
 
@@ -331,9 +331,9 @@ cmd_interactive() {
   while true; do
     local choice
     if _has_gum; then
-      choice=$(gum choose --header "Utilux - Choose an action" "${actions[@]}")
+      choice=$(gum choose --header "Utix - Choose an action" "${actions[@]}")
     else
-      choice=$(whiptail --title "Utilux - Script Aggregator" --menu "Choose an action" 18 60 8 \
+      choice=$(whiptail --title "Utix - Script Aggregator" --menu "Choose an action" 18 60 8 \
         "1" "Run a script" "2" "List scripts" "3" "Search scripts" "4" "Script info" \
         "5" "Update scripts" "6" "Cache management" "7" "Configuration" "8" "Exit" 3>&1 1>&2 2>&3)
       [[ $? -ne 0 ]] && exit 0
@@ -408,35 +408,35 @@ _interactive_config() {
   case "$choice" in
     "Show current"*) _tui_msg "Configuration" "$(cmd_config 2>&1)" ;;
     "Set registry"*)
-      local url=$(_tui_input "Enter new registry URL" "$UTILUX_REGISTRY_URL")
+      local url=$(_tui_input "Enter new registry URL" "$UTIX_REGISTRY_URL")
       if [[ -n "$url" ]]; then
-        config_set UTILUX_REGISTRY_URL "$url"
+        config_set UTIX_REGISTRY_URL "$url"
         _tui_msg "Configuration" "Registry URL updated to: $url"
       fi
       ;;
     "Toggle offline"*)
-      if [[ "$UTILUX_OFFLINE" == "1" ]]; then
-        config_set UTILUX_OFFLINE "0"
+      if [[ "$UTIX_OFFLINE" == "1" ]]; then
+        config_set UTIX_OFFLINE "0"
         _tui_msg "Configuration" "Offline mode: disabled"
       else
-        config_set UTILUX_OFFLINE "1"
+        config_set UTIX_OFFLINE "1"
         _tui_msg "Configuration" "Offline mode: enabled"
       fi
       ;;
     "Toggle auto"*)
-      if [[ "$UTILUX_AUTO_UPDATE" == "1" ]]; then
-        config_set UTILUX_AUTO_UPDATE "0"
+      if [[ "$UTIX_AUTO_UPDATE" == "1" ]]; then
+        config_set UTIX_AUTO_UPDATE "0"
         _tui_msg "Configuration" "Auto-update: disabled"
       else
-        config_set UTILUX_AUTO_UPDATE "1"
+        config_set UTIX_AUTO_UPDATE "1"
         _tui_msg "Configuration" "Auto-update: enabled"
       fi
       ;;
     "Reset to"*)
       if _tui_confirm "Reset configuration to defaults?"; then
-        UTILUX_REGISTRY_URL="https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry/manifest.json"
-        UTILUX_OFFLINE="0"
-        UTILUX_AUTO_UPDATE="1"
+        UTIX_REGISTRY_URL="https://raw.githubusercontent.com/lamngockhuong/utix/main/registry/manifest.json"
+        UTIX_OFFLINE="0"
+        UTIX_AUTO_UPDATE="1"
         config_save
         _tui_msg "Configuration" "Configuration reset to defaults"
       fi
@@ -457,14 +457,14 @@ _tui_choose() {
   else
     local opts=() i=1
     for o in "$@"; do opts+=("$i" "$o"); ((i++)); done
-    local c=$(whiptail --title "Utilux" --menu "$title" 20 60 12 "${opts[@]}" 3>&1 1>&2 2>&3)
+    local c=$(whiptail --title "Utix" --menu "$title" 20 60 12 "${opts[@]}" 3>&1 1>&2 2>&3)
     [[ $? -eq 0 && -n "$c" ]] && { shift $((c-1)); echo "$1"; }
   fi
 }
 _tui_input() {
   local msg="$1" default="${2:-}"
   if _has_gum; then gum input --placeholder "$msg" --value "$default"
-  else whiptail --title "Utilux" --inputbox "$msg" 10 60 "$default" 3>&1 1>&2 2>&3; fi
+  else whiptail --title "Utix" --inputbox "$msg" 10 60 "$default" 3>&1 1>&2 2>&3; fi
 }
 _tui_msg() {
   local title="$1" msg="$2"
@@ -477,7 +477,7 @@ _tui_msg() {
 _tui_confirm() {
   local msg="$1"
   if _has_gum; then gum confirm "$msg"
-  else whiptail --title "Utilux" --yesno "$msg" 8 40; fi
+  else whiptail --title "Utix" --yesno "$msg" 8 40; fi
 }
 
 # Main command router
@@ -514,7 +514,7 @@ main() {
       show_help
       ;;
     version|-v|--version)
-      echo "utilux v$VERSION"
+      echo "utix v$VERSION"
       ;;
     "")
       # No command - run interactive mode or show help

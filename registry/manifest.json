@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "updated": "2026-03-12T02:17:30Z",
-  "base_url": "https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry",
+  "base_url": "https://raw.githubusercontent.com/lamngockhuong/utix/main/registry",
   "scripts": [
     {
       "name": "backup-home",

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Installation, configuration, and deployment of Utilux across different environments and Linux distributions.
+Installation, configuration, and deployment of Utix across different environments and Linux distributions.
 
 ## Prerequisites
 
@@ -69,10 +69,10 @@ export HTTPS_PROXY="http://proxy.company.com:8080"
 
 ```bash
 # From latest release
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | sudo bash
 
 # From develop branch
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/develop/install.sh | sudo bash -s -- --branch develop
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/develop/install.sh | sudo bash -s -- --branch develop
 ```
 
 **What It Does**:
@@ -80,40 +80,40 @@ curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/develop/instal
 1. Downloads latest release tarball
 2. Verifies SHA256 checksum
 3. Installs to /usr/local/bin
-4. Sets up libraries in /usr/local/lib/utilux
+4. Sets up libraries in /usr/local/lib/utix
 
 ### Method 2: Manual Installation
 
 ```bash
 VERSION="1.0.0"
-wget https://github.com/lamngockhuong/utilux/releases/download/v${VERSION}/utilux-${VERSION}.tar.gz
+wget https://github.com/lamngockhuong/utix/releases/download/v${VERSION}/utix-${VERSION}.tar.gz
 
 # Verify checksum
-wget https://github.com/lamngockhuong/utilux/releases/download/v${VERSION}/checksums.txt
+wget https://github.com/lamngockhuong/utix/releases/download/v${VERSION}/checksums.txt
 sha256sum -c checksums.txt
 
 # Extract and install
-tar -xzf utilux-${VERSION}.tar.gz
-cd utilux-${VERSION}
+tar -xzf utix-${VERSION}.tar.gz
+cd utix-${VERSION}
 sudo ./install.sh
 ```
 
 **Manual Steps** (without install.sh):
 
 ```bash
-sudo mkdir -p /usr/local/bin /usr/local/lib/utilux/lib
-sudo cp utilux /usr/local/bin/
-sudo cp -r lib/* /usr/local/lib/utilux/lib/
-sudo chmod 755 /usr/local/bin/utilux
-sudo chmod 755 /usr/local/lib/utilux/lib/*.sh
-utilux version
+sudo mkdir -p /usr/local/bin /usr/local/lib/utix/lib
+sudo cp utix /usr/local/bin/
+sudo cp -r lib/* /usr/local/lib/utix/lib/
+sudo chmod 755 /usr/local/bin/utix
+sudo chmod 755 /usr/local/lib/utix/lib/*.sh
+utix version
 ```
 
 ### Method 3: Install from Source
 
 ```bash
-git clone https://github.com/lamngockhuong/utilux.git
-cd utilux
+git clone https://github.com/lamngockhuong/utix.git
+cd utix
 sudo ./install.sh --source .
 
 # Build Go CLI (optional)
@@ -133,13 +133,13 @@ case "$ARCH" in
 esac
 
 VERSION="1.0.0"
-BINARY="utilux-go-${OS}-${ARCH}"
-curl -fsSL -o utilux-go \
-  "https://github.com/lamngockhuong/utilux/releases/download/cli-v${VERSION}/${BINARY}"
+BINARY="utix-go-${OS}-${ARCH}"
+curl -fsSL -o utix-go \
+  "https://github.com/lamngockhuong/utix/releases/download/cli-v${VERSION}/${BINARY}"
 
-chmod +x utilux-go
-sudo mv utilux-go /usr/local/bin/
-utilux-go version
+chmod +x utix-go
+sudo mv utix-go /usr/local/bin/
+utix-go version
 ```
 
 **Available Platforms**: linux/amd64, linux/arm64, darwin/amd64, darwin/arm64
@@ -151,15 +151,15 @@ utilux-go version
 ```bash
 sudo apt update
 sudo apt install -y curl bash jq  # Optional: install gum for modern TUI
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | sudo bash
-utilux version
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | sudo bash
+utix version
 ```
 
 ### Alpine Linux
 
 ```bash
 apk add --no-cache bash curl jq newt
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | sudo bash
 which bash  # Verify bash is in PATH
 ```
 
@@ -167,14 +167,14 @@ which bash  # Verify bash is in PATH
 
 ```bash
 sudo dnf install -y curl bash jq newt
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | sudo bash
 ```
 
 ### Arch Linux
 
 ```bash
 sudo pacman -S curl bash jq libnewt
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | sudo bash
 ```
 
 ### macOS
@@ -183,10 +183,10 @@ curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.s
 brew install bash curl jq  # macOS uses bash 3.x by default
 
 # Or use Go CLI (recommended)
-curl -fsSL -o utilux-go \
-  https://github.com/lamngockhuong/utilux/releases/download/cli-v1.0.0/utilux-go-darwin-arm64
-chmod +x utilux-go
-sudo mv utilux-go /usr/local/bin/
+curl -fsSL -o utix-go \
+  https://github.com/lamngockhuong/utix/releases/download/cli-v1.0.0/utix-go-darwin-arm64
+chmod +x utix-go
+sudo mv utix-go /usr/local/bin/
 ```
 
 ## Configuration
@@ -195,58 +195,58 @@ sudo mv utilux-go /usr/local/bin/
 
 ```bash
 # ~/.bashrc or ~/.zshrc
-export UTILUX_LOG_LEVEL="info"              # debug, info, warn, error
-export UTILUX_CACHE_DIR="$HOME/.utilux/cache"
-export UTILUX_OFFLINE=1                      # Enable offline mode
-export UTILUX_REGISTRY_URL="https://custom-registry.com/manifest.json"
+export UTIX_LOG_LEVEL="info"              # debug, info, warn, error
+export UTIX_CACHE_DIR="$HOME/.utix/cache"
+export UTIX_OFFLINE=1                      # Enable offline mode
+export UTIX_REGISTRY_URL="https://custom-registry.com/manifest.json"
 ```
 
 ### Cache Configuration
 
-**Default Location**: `~/.utilux/cache/`
+**Default Location**: `~/.utix/cache/`
 
 ```bash
 # Custom cache location
-export UTILUX_CACHE_DIR="/mnt/data/utilux-cache"
-mkdir -p "$UTILUX_CACHE_DIR"
+export UTIX_CACHE_DIR="/mnt/data/utix-cache"
+mkdir -p "$UTIX_CACHE_DIR"
 
 # Cache management
-utilux cache list
-utilux cache size
-utilux cache clear docker-prune
-utilux cache clear  # Clear all
+utix cache list
+utix cache size
+utix cache clear docker-prune
+utix cache clear  # Clear all
 ```
 
 ### Offline Mode
 
 ```bash
-export UTILUX_OFFLINE=1
+export UTIX_OFFLINE=1
 
 # Pre-cache scripts while online
-utilux run backup-home
-utilux run system-info
+utix run backup-home
+utix run system-info
 
 # Scripts execute from cache
-utilux run backup-home  # Works
-utilux run new-script   # Error: not cached
+utix run backup-home  # Works
+utix run new-script   # Error: not cached
 ```
 
 ## Verification
 
 ```bash
 # Check installation
-which utilux
-utilux version
-ls -la /usr/local/lib/utilux/lib/
+which utix
+utix version
+ls -la /usr/local/lib/utix/lib/
 
 # Test commands
-utilux list
-utilux search git
-utilux info system-info
-utilux run system-info
+utix list
+utix search git
+utix info system-info
+utix run system-info
 
 # Test connectivity
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry/manifest.json | head
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/registry/manifest.json | head
 ```
 
 ## Upgrading
@@ -255,13 +255,13 @@ curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry/
 
 ```bash
 # Re-run installer
-curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | sudo bash
 
 # Or manual upgrade
-sudo cp /usr/local/bin/utilux /usr/local/bin/utilux.backup
+sudo cp /usr/local/bin/utix /usr/local/bin/utix.backup
 VERSION="1.1.0"
-wget https://github.com/lamngockhuong/utilux/releases/download/v${VERSION}/utilux-${VERSION}.tar.gz
-tar -xzf utilux-${VERSION}.tar.gz && cd utilux-${VERSION}
+wget https://github.com/lamngockhuong/utix/releases/download/v${VERSION}/utix-${VERSION}.tar.gz
+tar -xzf utix-${VERSION}.tar.gz && cd utix-${VERSION}
 sudo ./install.sh
 ```
 
@@ -269,33 +269,33 @@ sudo ./install.sh
 
 ```bash
 VERSION="1.1.0"
-curl -fsSL -o utilux-go \
-  "https://github.com/lamngockhuong/utilux/releases/download/cli-v${VERSION}/utilux-go-linux-amd64"
-chmod +x utilux-go
-sudo mv utilux-go /usr/local/bin/
+curl -fsSL -o utix-go \
+  "https://github.com/lamngockhuong/utix/releases/download/cli-v${VERSION}/utix-go-linux-amd64"
+chmod +x utix-go
+sudo mv utix-go /usr/local/bin/
 ```
 
 ### Update Scripts
 
 ```bash
-utilux update           # Update all
-utilux update docker-prune  # Update specific
+utix update           # Update all
+utix update docker-prune  # Update specific
 
 # Force re-download
-utilux cache clear docker-prune
-utilux run docker-prune
+utix cache clear docker-prune
+utix run docker-prune
 ```
 
 ## Uninstallation
 
 ```bash
 # Using install.sh
-sudo /usr/local/bin/utilux --uninstall
+sudo /usr/local/bin/utix --uninstall
 
 # Manual removal
-sudo rm -f /usr/local/bin/utilux /usr/local/bin/utilux-go
-sudo rm -rf /usr/local/lib/utilux
-rm -rf ~/.utilux  # Optional: remove cache
+sudo rm -f /usr/local/bin/utix /usr/local/bin/utix-go
+sudo rm -rf /usr/local/lib/utix
+rm -rf ~/.utix  # Optional: remove cache
 ```
 
 ## Related Documentation

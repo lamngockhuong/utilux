@@ -24,7 +24,7 @@ Creates compressed tar.gz backups of your home directory with smart exclusions f
 ## Usage
 
 ```bash
-utilux run backup-home [COMMAND] [OPTIONS]
+utix run backup-home [COMMAND] [OPTIONS]
 ```
 
 ### Commands
@@ -53,32 +53,32 @@ utilux run backup-home [COMMAND] [OPTIONS]
 
 ```bash
 # Create backup with defaults
-utilux run backup-home
+utix run backup-home
 
 # List existing backups
-utilux run backup-home list
+utix run backup-home list
 
 # Show backup info
-utilux run backup-home info ~/backups/home_myhost_20260310.tar.gz
+utix run backup-home info ~/backups/home_myhost_20260310.tar.gz
 ```
 
 ### Advanced Usage
 
 ```bash
 # Backup to external drive
-utilux run backup-home -d /mnt/backup
+utix run backup-home -d /mnt/backup
 
 # Keep only 3 backups
-utilux run backup-home -k 3
+utix run backup-home -k 3
 
 # Add custom exclusion
-utilux run backup-home -e "*.iso" -e "Videos"
+utix run backup-home -e "*.iso" -e "Videos"
 
 # Restore from backup
-utilux run backup-home restore ~/backups/home_myhost_20260310.tar.gz
+utix run backup-home restore ~/backups/home_myhost_20260310.tar.gz
 
 # Clean old backups (keep 5 most recent)
-utilux run backup-home clean -k 5
+utix run backup-home clean -k 5
 ```
 
 ## Environment Variables
@@ -106,7 +106,7 @@ The script automatically excludes:
 
 **Solution:** Add exclusions for large directories you don't need:
 ```bash
-utilux run backup-home -e "Videos" -e "VirtualBox VMs"
+utix run backup-home -e "Videos" -e "VirtualBox VMs"
 ```
 
 ### Permission denied errors
@@ -115,7 +115,7 @@ utilux run backup-home -e "Videos" -e "VirtualBox VMs"
 
 **Solution:** Run with sudo or exclude system directories:
 ```bash
-sudo utilux run backup-home
+sudo utix run backup-home
 ```
 
 ### No space on device
@@ -124,8 +124,8 @@ sudo utilux run backup-home
 
 **Solution:** Clean old backups or use external storage:
 ```bash
-utilux run backup-home clean -k 2
-utilux run backup-home -d /mnt/external
+utix run backup-home clean -k 2
+utix run backup-home -d /mnt/external
 ```
 
 ## Related Scripts

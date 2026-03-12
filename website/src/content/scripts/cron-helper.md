@@ -20,7 +20,7 @@ No external dependencies. Uses built-in `crontab` command.
 ## Usage
 
 ```bash
-utilux run cron-helper [COMMAND] [OPTIONS]
+utix run cron-helper [COMMAND] [OPTIONS]
 ```
 
 ### Commands
@@ -43,48 +43,48 @@ utilux run cron-helper [COMMAND] [OPTIONS]
 
 ```bash
 # List current cron jobs
-utilux run cron-helper list
+utix run cron-helper list
 
 # Interactive menu
-utilux run cron-helper menu
+utix run cron-helper menu
 
 # Show schedule syntax examples
-utilux run cron-helper examples
+utix run cron-helper examples
 ```
 
 ### Adding Jobs
 
 ```bash
 # Run daily at midnight
-utilux run cron-helper add "@daily" "/path/to/backup.sh"
+utix run cron-helper add "@daily" "/path/to/backup.sh"
 
 # Run every hour
-utilux run cron-helper add "0 * * * *" "/path/to/script.sh"
+utix run cron-helper add "0 * * * *" "/path/to/script.sh"
 
 # Run every 5 minutes
-utilux run cron-helper add "*/5 * * * *" "ping -c 1 google.com"
+utix run cron-helper add "*/5 * * * *" "ping -c 1 google.com"
 
 # Run at startup
-utilux run cron-helper add "@reboot" "/path/to/startup.sh"
+utix run cron-helper add "@reboot" "/path/to/startup.sh"
 
 # Run weekdays at 9 AM
-utilux run cron-helper add "0 9 * * 1-5" "/path/to/workday.sh"
+utix run cron-helper add "0 9 * * 1-5" "/path/to/workday.sh"
 ```
 
 ### Managing Jobs
 
 ```bash
 # Remove job #2
-utilux run cron-helper remove 2
+utix run cron-helper remove 2
 
 # Export crontab to file
-utilux run cron-helper export backup.txt
+utix run cron-helper export backup.txt
 
 # Import from file (replaces all jobs)
-utilux run cron-helper import backup.txt
+utix run cron-helper import backup.txt
 
 # Edit crontab directly
-utilux run cron-helper edit
+utix run cron-helper edit
 ```
 
 ## Cron Schedule Reference

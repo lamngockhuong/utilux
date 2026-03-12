@@ -81,7 +81,7 @@ func (r *Registry) GetScript(name string) {}
 **Constants**: PascalCase or SCREAMING_SNAKE_CASE
 
 ```go
-const DefaultCacheDir = "~/.utilux/cache"
+const DefaultCacheDir = "~/.utix/cache"
 const MAX_RETRIES = 3
 ```
 
@@ -255,7 +255,7 @@ Detailed explanation of what the script does and use cases.
 ## Usage
 
 \`\`\`bash
-utilux run script-name [COMMAND] [OPTIONS]
+utix run script-name [COMMAND] [OPTIONS]
 \`\`\`
 
 ### Commands (if applicable)
@@ -276,14 +276,14 @@ utilux run script-name [COMMAND] [OPTIONS]
 
 \`\`\`bash
 # Example with explanation
-utilux run script-name
+utix run script-name
 \`\`\`
 
 ### Advanced Usage
 
 \`\`\`bash
 # More complex examples
-utilux run script-name --advanced
+utix run script-name --advanced
 \`\`\`
 
 ## Environment Variables

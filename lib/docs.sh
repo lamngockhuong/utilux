@@ -4,27 +4,27 @@
 # @version: v1.0.0
 
 # Prevent double sourcing
-[[ -n "${_UTILUX_DOCS_LOADED:-}" ]] && return 0
-_UTILUX_DOCS_LOADED=1
+[[ -n "${_UTIX_DOCS_LOADED:-}" ]] && return 0
+_UTIX_DOCS_LOADED=1
 
 # Docs cache directory
-UTILUX_DOCS_CACHE_DIR="${UTILUX_CACHE_DIR}/docs"
+UTIX_DOCS_CACHE_DIR="${UTIX_CACHE_DIR}/docs"
 
 # Initialize docs cache directory
 docs_init() {
-  mkdir -p "$UTILUX_DOCS_CACHE_DIR"
+  mkdir -p "$UTIX_DOCS_CACHE_DIR"
 }
 
 # Get docs cache path for a script
 docs_cache_path() {
   local name="$1"
-  echo "$UTILUX_DOCS_CACHE_DIR/${name}.md"
+  echo "$UTIX_DOCS_CACHE_DIR/${name}.md"
 }
 
 # Get docs version file path
 docs_version_path() {
   local name="$1"
-  echo "$UTILUX_DOCS_CACHE_DIR/${name}.version"
+  echo "$UTIX_DOCS_CACHE_DIR/${name}.version"
 }
 
 # Check if docs are cached
@@ -73,7 +73,7 @@ docs_cache_get() {
 docs_download() {
   local name="$1"
   local url="$2"
-  local dest="$UTILUX_DOCS_CACHE_DIR/${name}.md.tmp"
+  local dest="$UTIX_DOCS_CACHE_DIR/${name}.md.tmp"
 
   docs_init
 
@@ -129,7 +129,7 @@ docs_load() {
   fi
 
   # Need to fetch from remote
-  if [[ "$UTILUX_OFFLINE" == "1" ]]; then
+  if [[ "$UTIX_OFFLINE" == "1" ]]; then
     log_warn "Offline mode: docs not available for $name"
     return 1
   fi
@@ -242,7 +242,7 @@ docs_show() {
     echo "No documentation available for '$name'"
     echo ""
     echo "Documentation may not exist yet or failed to download."
-    echo "Try running 'utilux info $name' for basic script information."
+    echo "Try running 'utix info $name' for basic script information."
     return 1
   fi
 
@@ -257,7 +257,7 @@ docs_cache_clear() {
     rm -f "$(docs_cache_path "$name")" "$(docs_version_path "$name")"
     log_info "Cleared docs cache for: $name"
   else
-    rm -rf "$UTILUX_DOCS_CACHE_DIR"/*
+    rm -rf "$UTIX_DOCS_CACHE_DIR"/*
     log_info "Cleared all docs cache"
   fi
 }
@@ -268,7 +268,7 @@ docs_cache_list() {
   local f
 
   shopt -s nullglob
-  for f in "$UTILUX_DOCS_CACHE_DIR"/*.md; do
+  for f in "$UTIX_DOCS_CACHE_DIR"/*.md; do
     [[ -f "$f" ]] || continue
     local name
     name=$(basename "$f" .md)

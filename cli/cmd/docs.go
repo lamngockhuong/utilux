@@ -13,9 +13,9 @@ var docsCmd = &cobra.Command{
 
 Documentation includes detailed usage instructions, options,
 examples, and troubleshooting tips.`,
-	Example: `  utilux docs backup-home
-  utilux docs docker-prune
-  utilux docs git-clean`,
+	Example: `  utix docs backup-home
+  utix docs docker-prune
+  utix docs git-clean`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		name := args[0]
@@ -33,7 +33,7 @@ examples, and troubleshooting tips.`,
 		// Show documentation
 		if err := getDocs().Show(name); err != nil {
 			fmt.Printf("\nNo documentation available for '%s'\n", name)
-			fmt.Printf("Try running 'utilux info %s' for basic script information.\n", name)
+			fmt.Printf("Try running 'utix info %s' for basic script information.\n", name)
 			return nil
 		}
 

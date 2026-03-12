@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CopyButton from '../components/CopyButton.astro';
 import Icon from '../components/Icon.astro';
 
-const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utilux/main/install.sh | bash';
+const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | bash';
 
 const features = [
   { icon: 'zap' as const, title: 'Lazy Loading', description: 'Scripts downloaded on-demand. Minimal footprint.' },
@@ -48,15 +48,15 @@ const features = [
       <div class="max-w-2xl mx-auto space-y-4">
         <div class="bg-surface rounded-xl p-4 border border-border">
           <p class="text-muted text-sm mb-2 font-mono"># Launch interactive TUI menu</p>
-          <code class="text-accent font-mono">utilux</code>
+          <code class="text-accent font-mono">utix</code>
         </div>
         <div class="bg-surface rounded-xl p-4 border border-border">
           <p class="text-muted text-sm mb-2 font-mono"># List available scripts</p>
-          <code class="text-accent font-mono">utilux list</code>
+          <code class="text-accent font-mono">utix list</code>
         </div>
         <div class="bg-surface rounded-xl p-4 border border-border">
           <p class="text-muted text-sm mb-2 font-mono"># Run a script</p>
-          <code class="text-accent font-mono">utilux run git-clean</code>
+          <code class="text-accent font-mono">utix run git-clean</code>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@ const features = [
 
   <section class="py-16">
     <div class="container">
-      <h2 class="text-2xl font-bold text-center mb-10">Why Utilux?</h2>
+      <h2 class="text-2xl font-bold text-center mb-10">Why Utix?</h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map(f => (
           <div class="p-6 bg-surface/50 rounded-xl border border-border hover:border-primary/50 transition-colors duration-200 cursor-pointer group">

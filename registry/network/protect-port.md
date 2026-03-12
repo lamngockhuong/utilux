@@ -16,7 +16,7 @@ Creates nginx reverse proxy with HTTP Basic Authentication for protecting intern
 ## Usage
 
 ```bash
-utilux run protect-port <ACTION> [OPTIONS]
+utix run protect-port <ACTION> [OPTIONS]
 ```
 
 ### Actions
@@ -34,32 +34,32 @@ utilux run protect-port <ACTION> [OPTIONS]
 
 ```bash
 # Interactive (prompts for credentials)
-utilux run protect-port protect 5541 5540
+utix run protect-port protect 5541 5540
 
 # With credentials
-utilux run protect-port protect 8080 3000 admin secretpass
+utix run protect-port protect 8080 3000 admin secretpass
 ```
 
 ### Update Credentials
 
 ```bash
 # Interactive
-utilux run protect-port update 5541
+utix run protect-port update 5541
 
 # With new credentials
-utilux run protect-port update 5541 admin newpass
+utix run protect-port update 5541 admin newpass
 ```
 
 ### Remove Protection
 
 ```bash
-utilux run protect-port remove 5541
+utix run protect-port remove 5541
 ```
 
 ### List Protected Ports
 
 ```bash
-utilux run protect-port list
+utix run protect-port list
 ```
 
 ## Scenario: Protect Docker Service
@@ -93,7 +93,7 @@ docker compose up -d redisinsight
 **Step 3:** Create nginx proxy with basic auth
 
 ```bash
-utilux run protect-port protect 5541 5540
+utix run protect-port protect 5541 5540
 # Enter username and password when prompted
 ```
 
@@ -145,7 +145,7 @@ server {
 **Solution:** Run with sudo:
 
 ```bash
-sudo utilux run protect-port protect 5541 5540
+sudo utix run protect-port protect 5541 5540
 ```
 
 ### Port already in use
@@ -155,7 +155,7 @@ sudo utilux run protect-port protect 5541 5540
 **Solution:** Check what's using the port:
 
 ```bash
-utilux run port-scan -p 5541 localhost
+utix run port-scan -p 5541 localhost
 # or
 ss -tlnp | grep 5541
 ```

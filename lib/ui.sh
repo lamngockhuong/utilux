@@ -4,8 +4,8 @@
 # @version: v1.0.0
 
 # Prevent double sourcing
-[[ -n "${_UTILUX_UI_LOADED:-}" ]] && return 0
-_UTILUX_UI_LOADED=1
+[[ -n "${_UTIX_UI_LOADED:-}" ]] && return 0
+_UTIX_UI_LOADED=1
 
 # Check if gum is available (modern TUI)
 _has_gum() {
@@ -25,7 +25,7 @@ ui_spinner() {
   local i=0
 
   while kill -0 "$pid" 2>/dev/null; do
-    printf "\r${UTILUX_CYAN}%s${UTILUX_NC} %s" "${spin:i++%${#spin}:1}" "$msg"
+    printf "\r${UTIX_CYAN}%s${UTIX_NC} %s" "${spin:i++%${#spin}:1}" "$msg"
     sleep 0.1
   done
 
@@ -102,7 +102,7 @@ ui_select() {
     done
 
     local choice
-    choice=$(whiptail --title "Utilux" --menu "$title" 20 60 10 "${menu_options[@]}" 3>&1 1>&2 2>&3)
+    choice=$(whiptail --title "Utix" --menu "$title" 20 60 10 "${menu_options[@]}" 3>&1 1>&2 2>&3)
 
     if [[ $? -eq 0 && -n "$choice" ]]; then
       echo "${options[$((choice-1))]}"
@@ -122,7 +122,7 @@ ui_input() {
   if _has_gum && [[ -t 0 ]]; then
     gum input --placeholder "$msg" --value "$default"
   elif _has_whiptail && [[ -t 0 ]]; then
-    whiptail --title "Utilux" --inputbox "$msg" 10 60 "$default" 3>&1 1>&2 2>&3
+    whiptail --title "Utix" --inputbox "$msg" 10 60 "$default" 3>&1 1>&2 2>&3
   else
     local input
     if [[ -n "$default" ]]; then

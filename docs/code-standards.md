@@ -101,7 +101,7 @@ set -euo pipefail
 **Constants** (uppercase):
 
 ```bash
-CACHE_DIR="$HOME/.utilux/cache"
+CACHE_DIR="$HOME/.utix/cache"
 DEFAULT_REGISTRY_URL="https://..."
 ```
 
@@ -140,7 +140,7 @@ function fetch_manifest() {
 ### Logging Standards
 
 ```bash
-log_debug "Variable value: $var"     # UTILUX_LOG_LEVEL=debug
+log_debug "Variable value: $var"     # UTIX_LOG_LEVEL=debug
 log_info "Processing script: $name"  # Normal operations
 log_warn "Cache outdated"            # Warnings
 log_error "SHA256 mismatch"          # Errors
@@ -186,7 +186,7 @@ extension="${filename##*.}"   # Extension
 name="${filename%.*}"         # Without extension
 
 # Default values
-cache_dir="${CACHE_DIR:-$HOME/.utilux/cache}"
+cache_dir="${CACHE_DIR:-$HOME/.utix/cache}"
 ```
 
 ### Conditional Expressions

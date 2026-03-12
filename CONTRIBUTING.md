@@ -1,6 +1,6 @@
-# Contributing to Utilux
+# Contributing to Utix
 
-Thank you for your interest in contributing to Utilux! This guide will help you get started.
+Thank you for your interest in contributing to Utix! This guide will help you get started.
 
 ## Code of Conduct
 
@@ -53,8 +53,8 @@ Open an issue with:
 
 ```bash
 # Clone the repository
-git clone https://github.com/lamngockhuong/utilux.git
-cd utilux
+git clone https://github.com/lamngockhuong/utix.git
+cd utix
 
 # Launch dev container
 # Uses docker or podman (auto-detected)
@@ -76,15 +76,15 @@ echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *
 apt update && apt install -y gum
 
 # Run the tool
-chmod +x utilux && ./utilux
+chmod +x utix && ./utix
 ```
 
 ### Building Go CLI
 
 ```bash
 cd cli
-go build -o utilux-go .
-./utilux-go --help
+go build -o utix-go .
+./utix-go --help
 ```
 
 ## Script Requirements
@@ -141,12 +141,12 @@ Generate SHA256: `sha256sum registry/dev/script-name.sh`
 ./registry/dev/script-name.sh [args]
 
 # Test via CLI
-./utilux run script-name
+./utix run script-name
 
 # Test on multiple distros
-make dev DISTRO=ubuntu && ./utilux run script-name
-make dev DISTRO=alpine && ./utilux run script-name
-make dev DISTRO=fedora && ./utilux run script-name
+make dev DISTRO=ubuntu && ./utix run script-name
+make dev DISTRO=alpine && ./utix run script-name
+make dev DISTRO=fedora && ./utix run script-name
 ```
 
 ### Go CLI Tests
@@ -188,8 +188,8 @@ go test ./...
 ## Project Structure
 
 ```
-utilux/
-├── utilux               # Main Bash CLI entry point
+utix/
+├── utix               # Main Bash CLI entry point
 ├── install.sh           # Installation script
 ├── lib/                 # Bash library modules
 ├── cli/                 # Go CLI (optional)
@@ -202,9 +202,9 @@ utilux/
 
 ## Getting Help
 
-- [Documentation](https://utilux.khuong.dev)
-- [Issues](https://github.com/lamngockhuong/utilux/issues)
-- [Discussions](https://github.com/lamngockhuong/utilux/discussions)
+- [Documentation](https://utix.khuong.dev)
+- [Issues](https://github.com/lamngockhuong/utix/issues)
+- [Discussions](https://github.com/lamngockhuong/utix/discussions)
 
 ## License
 

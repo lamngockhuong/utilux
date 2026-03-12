@@ -2,9 +2,9 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
-// Local dev: http://localhost:4321, Production: https://utilux.khuong.dev
+// Local dev: http://localhost:4321, Production: https://utix.khuong.dev
 const isProd = process.env.NODE_ENV === 'production';
-const siteUrl = isProd ? 'https://utilux.khuong.dev' : 'http://localhost:4321';
+const siteUrl = isProd ? 'https://utix.khuong.dev' : 'http://localhost:4321';
 
 // https://astro.build/config
 export default defineConfig({

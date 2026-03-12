@@ -10,7 +10,7 @@
 ## Directory Structure
 
 ```
-utilux/
+utix/
 ├── cli/                      # Go CLI implementation
 │   ├── cmd/                  # Cobra command definitions
 │   ├── internal/             # Internal Go packages
@@ -68,7 +68,7 @@ utilux/
 │       ├── deploy-website.yml    # Website deployment
 │       └── go-cli-release.yml    # Go CLI releases
 │
-├── utilux                    # Main Bash CLI executable
+├── utix                    # Main Bash CLI executable
 ├── install.sh                # Installation script (4,504 tokens)
 ├── package.sh                # Release packager
 ├── Makefile                  # Dev container commands
@@ -78,9 +78,9 @@ utilux/
 
 ## Key Components
 
-### 1. Bash CLI (`utilux`)
+### 1. Bash CLI (`utix`)
 
-**Location**: `/utilux`
+**Location**: `/utix`
 **Size**: 3,288 tokens, 11,287 chars
 **Purpose**: Main Bash CLI entry point with modular architecture
 
@@ -221,7 +221,7 @@ cli/
 
 **lib/cache.sh** - Cache management
 
-- Cache directory structure: ~/.utilux/cache/{script-name}/
+- Cache directory structure: ~/.utix/cache/{script-name}/
 - Version tracking
 - Size calculation
 - Cleanup operations
@@ -261,8 +261,8 @@ cli/
 
 **Installation Paths**:
 
-- Binary: `/usr/local/bin/utilux`
-- Libraries: `/usr/local/lib/utilux/lib/`
+- Binary: `/usr/local/bin/utix`
+- Libraries: `/usr/local/lib/utix/lib/`
 - Registry: Not installed (fetched on-demand)
 
 **Features**:
@@ -298,11 +298,11 @@ cli/
 ### Script Execution Flow
 
 ```
-User: utilux run docker-prune
+User: utix run docker-prune
   ↓
 1. Parse command (cmd/run or cmd_run)
   ↓
-2. Check cache (~/.utilux/cache/docker-prune/)
+2. Check cache (~/.utix/cache/docker-prune/)
   ↓
 3. If cached → Verify version → Execute
   ↓
@@ -320,7 +320,7 @@ User: utilux run docker-prune
 ### Cache Structure
 
 ```
-~/.utilux/
+~/.utix/
 ├── cache/
 │   ├── docker-prune/
 │   │   ├── docker-prune.sh
@@ -441,7 +441,7 @@ detect_distro() {
 **Top 5 Files by Token Count**:
 
 1. install.sh - 4,504 tokens (17,094 chars) - 7.1%
-2. utilux - 3,288 tokens (11,287 chars) - 5.2%
+2. utix - 3,288 tokens (11,287 chars) - 5.2%
 3. registry/dev/env-setup.sh - 2,944 tokens (9,884 chars) - 4.6%
 4. registry/network/ssl-check.sh - 2,729 tokens (8,750 chars) - 4.3%
 5. registry/automation/cron-helper.sh - 2,504 tokens (7,814 chars) - 3.9%
@@ -487,7 +487,7 @@ detect_distro() {
 
 **Modern Architecture**:
 
-- `utilux` - Main Bash CLI with modular lib/ approach
+- `utix` - Main Bash CLI with modular lib/ approach
 - Separate module files for better maintainability
 - Environment variable driven configuration
 

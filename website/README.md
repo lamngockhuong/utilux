@@ -1,6 +1,6 @@
-# Utilux Website
+# Utix Website
 
-Documentation website for Utilux built with Astro + Tailwind CSS v4.
+Documentation website for Utix built with Astro + Tailwind CSS v4.
 
 ## Tech Stack
 

@@ -20,12 +20,12 @@ type Config struct {
 }
 
 // DefaultRegistryURL is the default manifest location
-const DefaultRegistryURL = "https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry/manifest.json"
+const DefaultRegistryURL = "https://raw.githubusercontent.com/lamngockhuong/utix/main/registry/manifest.json"
 
 // New creates a new Config with defaults
 func New() *Config {
 	home, _ := os.UserHomeDir()
-	homeDir := filepath.Join(home, ".utilux")
+	homeDir := filepath.Join(home, ".utix")
 
 	return &Config{
 		HomeDir:     homeDir,
@@ -64,13 +64,13 @@ func (c *Config) Load() error {
 		value := strings.TrimSpace(parts[1])
 
 		switch key {
-		case "UTILUX_REGISTRY_URL":
+		case "UTIX_REGISTRY_URL":
 			c.RegistryURL = value
-		case "UTILUX_OFFLINE":
+		case "UTIX_OFFLINE":
 			c.Offline = value == "1" || value == "true"
-		case "UTILUX_AUTO_UPDATE":
+		case "UTIX_AUTO_UPDATE":
 			c.AutoUpdate = value == "1" || value == "true"
-		case "UTILUX_CACHE_DIR":
+		case "UTIX_CACHE_DIR":
 			c.CacheDir = value
 		}
 	}
@@ -84,20 +84,20 @@ func (c *Config) Save() error {
 		return err
 	}
 
-	content := fmt.Sprintf(`# Utilux Configuration
+	content := fmt.Sprintf(`# Utix Configuration
 # Generated on %s
 
 # Registry URL for manifest.json
-UTILUX_REGISTRY_URL=%s
+UTIX_REGISTRY_URL=%s
 
 # Enable offline mode (0=disabled, 1=enabled)
-UTILUX_OFFLINE=%s
+UTIX_OFFLINE=%s
 
 # Auto-update scripts (0=disabled, 1=enabled)
-UTILUX_AUTO_UPDATE=%s
+UTIX_AUTO_UPDATE=%s
 
 # Cache directory
-UTILUX_CACHE_DIR=%s
+UTIX_CACHE_DIR=%s
 `, time.Now().Format(time.RFC3339), c.RegistryURL, boolToStr(c.Offline), boolToStr(c.AutoUpdate), c.CacheDir)
 
 	return os.WriteFile(c.ConfigFile, []byte(content), 0644)
@@ -106,13 +106,13 @@ UTILUX_CACHE_DIR=%s
 // Get returns a config value by key
 func (c *Config) Get(key string) string {
 	switch key {
-	case "UTILUX_REGISTRY_URL":
+	case "UTIX_REGISTRY_URL":
 		return c.RegistryURL
-	case "UTILUX_OFFLINE":
+	case "UTIX_OFFLINE":
 		return boolToStr(c.Offline)
-	case "UTILUX_AUTO_UPDATE":
+	case "UTIX_AUTO_UPDATE":
 		return boolToStr(c.AutoUpdate)
-	case "UTILUX_CACHE_DIR":
+	case "UTIX_CACHE_DIR":
 		return c.CacheDir
 	default:
 		return ""
@@ -122,13 +122,13 @@ func (c *Config) Get(key string) string {
 // Set updates a config value by key
 func (c *Config) Set(key, value string) error {
 	switch key {
-	case "UTILUX_REGISTRY_URL":
+	case "UTIX_REGISTRY_URL":
 		c.RegistryURL = value
-	case "UTILUX_OFFLINE":
+	case "UTIX_OFFLINE":
 		c.Offline = value == "1" || value == "true"
-	case "UTILUX_AUTO_UPDATE":
+	case "UTIX_AUTO_UPDATE":
 		c.AutoUpdate = value == "1" || value == "true"
-	case "UTILUX_CACHE_DIR":
+	case "UTIX_CACHE_DIR":
 		c.CacheDir = value
 	default:
 		return fmt.Errorf("unknown config key: %s", key)
@@ -148,10 +148,10 @@ func (c *Config) Reset() error {
 func (c *Config) Print() {
 	fmt.Println("\nCurrent configuration:")
 	fmt.Println()
-	fmt.Printf("  UTILUX_REGISTRY_URL = %s\n", c.RegistryURL)
-	fmt.Printf("  UTILUX_OFFLINE      = %s\n", boolToStr(c.Offline))
-	fmt.Printf("  UTILUX_AUTO_UPDATE  = %s\n", boolToStr(c.AutoUpdate))
-	fmt.Printf("  UTILUX_CACHE_DIR    = %s\n", c.CacheDir)
+	fmt.Printf("  UTIX_REGISTRY_URL = %s\n", c.RegistryURL)
+	fmt.Printf("  UTIX_OFFLINE      = %s\n", boolToStr(c.Offline))
+	fmt.Printf("  UTIX_AUTO_UPDATE  = %s\n", boolToStr(c.AutoUpdate))
+	fmt.Printf("  UTIX_CACHE_DIR    = %s\n", c.CacheDir)
 	fmt.Println()
 }
 

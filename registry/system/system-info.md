@@ -13,7 +13,7 @@ No strict dependencies. Uses standard Linux utilities.
 ## Usage
 
 ```bash
-utilux run system-info [SECTION]
+utix run system-info [SECTION]
 ```
 
 ### Sections
@@ -36,28 +36,28 @@ utilux run system-info [SECTION]
 
 ```bash
 # Show all system information
-utilux run system-info
+utix run system-info
 
 # Show specific section
-utilux run system-info cpu
-utilux run system-info memory
-utilux run system-info disk
+utix run system-info cpu
+utix run system-info memory
+utix run system-info disk
 ```
 
 ### Common Use Cases
 
 ```bash
 # Quick system overview
-utilux run system-info os
+utix run system-info os
 
 # Check memory usage
-utilux run system-info memory
+utix run system-info memory
 
 # Check disk space
-utilux run system-info disk
+utix run system-info disk
 
 # Network troubleshooting
-utilux run system-info network
+utix run system-info network
 ```
 
 ## Output Sections
@@ -180,7 +180,7 @@ systemctl --version
 
 **Solution:** Run with sudo for complete info:
 ```bash
-sudo utilux run system-info
+sudo utix run system-info
 ```
 
 ### Slow network section
@@ -189,17 +189,17 @@ sudo utilux run system-info
 
 **Solution:** Public IP lookup has 2-second timeout. Skip with:
 ```bash
-utilux run system-info os cpu memory disk
+utix run system-info os cpu memory disk
 ```
 
 ## Output to File
 
 ```bash
 # Save report to file
-utilux run system-info > system-report.txt
+utix run system-info > system-report.txt
 
 # Save with timestamp
-utilux run system-info > "system-$(date +%Y%m%d).txt"
+utix run system-info > "system-$(date +%Y%m%d).txt"
 ```
 
 ## Related Scripts

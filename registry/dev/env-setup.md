@@ -16,7 +16,7 @@ Automates installation of development tools across different Linux distributions
 ## Usage
 
 ```bash
-utilux run env-setup [OPTIONS]
+utix run env-setup [OPTIONS]
 ```
 
 ### Options
@@ -40,36 +40,36 @@ utilux run env-setup [OPTIONS]
 
 ```bash
 # Show usage
-utilux run env-setup
+utix run env-setup
 
 # Install basic tools
-utilux run env-setup -b
+utix run env-setup -b
 
 # Install everything
-utilux run env-setup -a
+utix run env-setup -a
 ```
 
 ### Selective Installation
 
 ```bash
 # Node.js only
-utilux run env-setup -n
+utix run env-setup -n
 
 # Node.js and Docker
-utilux run env-setup -n -d
+utix run env-setup -n -d
 
 # Python and Go
-utilux run env-setup -p -g
+utix run env-setup -p -g
 
 # Build tools for compiling
-utilux run env-setup -B
+utix run env-setup -B
 ```
 
 ### Git Configuration
 
 ```bash
 # Configure Git (name, email, defaults)
-utilux run env-setup -G
+utix run env-setup -G
 ```
 
 ## What Gets Installed

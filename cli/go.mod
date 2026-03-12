@@ -1,4 +1,4 @@
-module github.com/lamngockhuong/utilux/cli
+module github.com/lamngockhuong/utix/cli
 
 go 1.26.1
 

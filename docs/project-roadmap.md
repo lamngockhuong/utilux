@@ -18,7 +18,7 @@
 - [x] Go CLI with Cobra + Bubbletea
 - [x] Registry system with manifest.json
 - [x] SHA256 integrity verification
-- [x] Local caching mechanism (~/.utilux)
+- [x] Local caching mechanism (~/.utix)
 - [x] Multi-distro support (Ubuntu/Debian, Alpine, Fedora)
 - [x] 10 production-ready scripts across 4 categories
 - [x] Interactive gum TUI (Bash CLI)
@@ -67,12 +67,12 @@
 
 **Feature Improvements**:
 
-- [ ] Configuration file support (~/.utilux/config.yaml)
+- [ ] Configuration file support (~/.utix/config.yaml)
 - [ ] Script update notifications
 - [ ] Cache size management with auto-cleanup
 - [ ] Enhanced search with fuzzy matching
 - [ ] Script execution history
-- [ ] Command aliases (e.g., `utilux d` → `utilux run docker-prune`)
+- [ ] Command aliases (e.g., `utix d` → `utix run docker-prune`)
 
 **Quality Improvements**:
 
@@ -97,7 +97,7 @@
 
 **Custom Registry Support**:
 
-- [ ] Environment variable: UTILUX_REGISTRY_URL
+- [ ] Environment variable: UTIX_REGISTRY_URL
 - [ ] Multiple registry support (primary + fallback)
 - [ ] Private registry authentication
 - [ ] Registry mirror configuration

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/lamngockhuong/utilux/cli/cmd"
+import "github.com/lamngockhuong/utix/cli/cmd"
 
 func main() {
 	cmd.Execute()

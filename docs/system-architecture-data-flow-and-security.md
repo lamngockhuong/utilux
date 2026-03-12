@@ -7,7 +7,7 @@ Advanced architecture documentation covering data flows, network communication, 
 ```
 ┌─────────────┐
 │ User Input  │
-│ utilux run  │
+│ utix run  │
 │ script args │
 └──────┬──────┘
        ↓
@@ -98,7 +98,7 @@ Advanced architecture documentation covering data flows, network communication, 
 ## Offline Mode Flow
 
 ```
-UTILUX_OFFLINE=1 utilux run script
+UTIX_OFFLINE=1 utix run script
          ↓
 ┌────────────────────┐
 │ Check Cache        │
@@ -136,7 +136,7 @@ https://raw.githubusercontent.com/{user}/{repo}/{branch}/registry/{category}/{sc
 ```
 GET https://raw.githubusercontent.com/.../manifest.json
 Headers:
-  User-Agent: utilux/1.0.0
+  User-Agent: utix/1.0.0
   Accept: application/json
 
 Response: 200 OK
@@ -151,7 +151,7 @@ Response: 200 OK
 ```
 GET https://raw.githubusercontent.com/.../registry/system/disk-cleanup.sh
 Headers:
-  User-Agent: utilux/1.0.0
+  User-Agent: utix/1.0.0
   Accept: text/plain
 
 Response: 200 OK
@@ -232,11 +232,11 @@ verify_checksum() {
 **File Permissions**:
 
 ```
-~/.utilux/          → 755 (rwxr-xr-x)
-~/.utilux/cache/    → 755
-~/.utilux/cache/*/  → 755
-~/.utilux/cache/*/*.sh → 744 (rwxr--r--)
-~/.utilux/cache/*/.version → 644 (rw-r--r--)
+~/.utix/          → 755 (rwxr-xr-x)
+~/.utix/cache/    → 755
+~/.utix/cache/*/  → 755
+~/.utix/cache/*/*.sh → 744 (rwxr--r--)
+~/.utix/cache/*/.version → 644 (rw-r--r--)
 ```
 
 **Process Permissions**:
@@ -271,7 +271,7 @@ verify_checksum() {
 ### Custom Registry
 
 ```bash
-UTILUX_REGISTRY_URL=https://internal.company.com/manifest.json
+UTIX_REGISTRY_URL=https://internal.company.com/manifest.json
 ```
 
 **Requirements**:
@@ -285,7 +285,7 @@ UTILUX_REGISTRY_URL=https://internal.company.com/manifest.json
 
 ### Logging Levels
 
-**UTILUX_LOG_LEVEL**:
+**UTIX_LOG_LEVEL**:
 
 - `debug`: All operations, timing
 - `info`: Normal operations (default)
@@ -295,7 +295,7 @@ UTILUX_REGISTRY_URL=https://internal.company.com/manifest.json
 **Example Output**:
 
 ```
-[DEBUG] Checking cache: ~/.utilux/cache/git-clean/
+[DEBUG] Checking cache: ~/.utix/cache/git-clean/
 [INFO] Script not cached, downloading...
 [DEBUG] Fetching: https://raw.githubusercontent.com/.../git-clean.sh
 [DEBUG] SHA256 verification passed
@@ -309,32 +309,32 @@ UTILUX_REGISTRY_URL=https://internal.company.com/manifest.json
 
 ```bash
 # Registry
-UTILUX_REGISTRY_URL       # Custom registry URL
-UTILUX_BRANCH="main"      # Git branch
+UTIX_REGISTRY_URL       # Custom registry URL
+UTIX_BRANCH="main"      # Git branch
 
 # Cache
-UTILUX_CACHE_DIR="$HOME/.utilux/cache"
+UTIX_CACHE_DIR="$HOME/.utix/cache"
 
 # Behavior
-UTILUX_OFFLINE=1          # Offline mode
-UTILUX_LOG_LEVEL="info"   # Logging
-UTILUX_NO_COLOR=1         # Disable colors
+UTIX_OFFLINE=1          # Offline mode
+UTIX_LOG_LEVEL="info"   # Logging
+UTIX_NO_COLOR=1         # Disable colors
 
 # Network
-UTILUX_HTTP_TIMEOUT=30    # Timeout (seconds)
-UTILUX_MAX_RETRIES=3      # Retry count
+UTIX_HTTP_TIMEOUT=30    # Timeout (seconds)
+UTIX_MAX_RETRIES=3      # Retry count
 ```
 
 ### Configuration File (Future)
 
 ```yaml
-# ~/.utilux/config.yaml
+# ~/.utix/config.yaml
 registry:
-  url: "https://raw.githubusercontent.com/user/utilux/main"
+  url: "https://raw.githubusercontent.com/user/utix/main"
   update_interval: 3600
 
 cache:
-  dir: "~/.utilux/cache"
+  dir: "~/.utix/cache"
   max_size: "1G"
   auto_cleanup: true
 
@@ -358,7 +358,7 @@ make dev (Docker/Podman auto-detected)
   ├── Alpine Linux
   └── Fedora
         ↓
-  Test utilux commands
+  Test utix commands
 ```
 
 ### CI/CD Pipeline

@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/lamngockhuong/utilux/cli/internal/tui"
+	"github.com/lamngockhuong/utix/cli/internal/tui"
 )
 
 var interactive bool
@@ -15,10 +15,10 @@ var listCmd = &cobra.Command{
 	Aliases: []string{"ls"},
 	Short:   "List available scripts",
 	Long:    `List all available scripts, optionally filtered by category.`,
-	Example: `  utilux list
-  utilux list -i
-  utilux list dev
-  utilux ls system`,
+	Example: `  utix list
+  utix list -i
+  utix list dev
+  utix ls system`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		category := ""
 		if len(args) > 0 {
