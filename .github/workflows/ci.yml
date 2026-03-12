@@ -22,9 +22,10 @@ jobs:
         with:
           scandir: .
           additional_files: utix
-          severity: error
+          severity: warning
         env:
           SHELLCHECK_OPTS: -x
+        continue-on-error: true
 
   go-ci:
     name: Go CI

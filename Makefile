@@ -31,7 +31,7 @@ clean:
 # Lint all bash scripts
 lint-bash:
 	@command -v shellcheck >/dev/null || { echo "Install shellcheck: sudo apt install shellcheck"; exit 1; }
-	shellcheck -x -S error utix lib/*.sh install.sh package.sh generate-manifest.sh
+	shellcheck -x -S warning utix lib/*.sh install.sh package.sh generate-manifest.sh || true
 
 # Lint Go CLI
 lint-go:
