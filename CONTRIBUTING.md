@@ -118,14 +118,10 @@ set -euo pipefail
 ### Formatting
 
 ```bash
-# Install dependencies
-npm install                 # dprint for markdown
-cd website && pnpm install  # biome for JS/TS
-
-# Format code
-npm run format              # Markdown files
-npm run format:sh           # Shell scripts (requires shfmt)
-cd website && pnpm run check:fix  # Website JS/TS
+# Lint & Format
+make lint                   # Lint bash (shellcheck) + Go (golangci-lint)
+make fmt                    # Format bash (shfmt) + Go (gofmt)
+cd website && pnpm check    # Lint website (Biome)
 ```
 
 ### Manifest Entry

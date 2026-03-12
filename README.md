@@ -106,12 +106,12 @@ make dev DISTRO=alpine      # Alpine Linux
 make dev DISTRO=fedora      # Fedora
 
 # Build Go CLI
-cd cli && go build -o utix-go .
+cd cli && make build
 
-# Format code
-npm install && npm run format      # Markdown (dprint)
-npm run format:sh                  # Shell (shfmt)
-cd website && pnpm install && pnpm run check:fix  # JS/TS (Biome)
+# Lint & Format
+make lint                   # Lint bash + Go
+make fmt                    # Format bash + Go
+cd website && pnpm check    # Lint website (Biome)
 
 # Create release package
 ./package.sh <version>
