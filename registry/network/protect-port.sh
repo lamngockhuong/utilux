@@ -92,7 +92,7 @@ do_protect() {
   htpasswd -cb "$htpasswd_file" "$username" "$password"
 
   log_info "Creating nginx config..."
-  cat > "$nginx_conf" <<EOF
+  cat >"$nginx_conf" <<EOF
 server {
     listen $port;
 
@@ -228,7 +228,7 @@ do_list() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Port Protection with Basic Auth
 
 Usage: $(basename "$0") <ACTION> [OPTIONS]
@@ -309,7 +309,7 @@ main() {
     list)
       do_list
       ;;
-    -h|--help|help)
+    -h | --help | help)
       show_usage
       ;;
     *)

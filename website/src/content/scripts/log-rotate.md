@@ -8,16 +8,17 @@ requires: ["gzip"]
 author: "lamngockhuong"
 ---
 
-
 ## Overview
 
-Rotates log files that exceed a size threshold, compresses old logs, and removes logs older than a retention period. Useful for managing application logs outside of system logrotate.
+Rotates log files that exceed a size threshold, compresses old logs, and removes
+logs older than a retention period. Useful for managing application logs outside
+of system logrotate.
 
 ## Requirements
 
-| Dependency | Description |
-|------------|-------------|
-| `gzip` | For compressing rotated logs |
+| Dependency | Description                  |
+| ---------- | ---------------------------- |
+| `gzip`     | For compressing rotated logs |
 
 ## Usage
 
@@ -27,21 +28,21 @@ utix run log-rotate [OPTIONS] [DIRECTORY]
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--size SIZE` | `-s` | Max file size before rotation (default: 10M) |
-| `--keep DAYS` | `-k` | Keep logs for N days (default: 30) |
-| `--no-compress` | `-n` | Don't compress rotated logs |
-| `--dry-run` | `-d` | Show what would be done |
-| `--help` | `-h` | Show help |
+| Option          | Short | Description                                  |
+| --------------- | ----- | -------------------------------------------- |
+| `--size SIZE`   | `-s`  | Max file size before rotation (default: 10M) |
+| `--keep DAYS`   | `-k`  | Keep logs for N days (default: 30)           |
+| `--no-compress` | `-n`  | Don't compress rotated logs                  |
+| `--dry-run`     | `-d`  | Show what would be done                      |
+| `--help`        | `-h`  | Show help                                    |
 
 ### Size Units
 
-| Unit | Example |
-|------|---------|
-| K | 100K = 100 KB |
-| M | 10M = 10 MB |
-| G | 1G = 1 GB |
+| Unit | Example       |
+| ---- | ------------- |
+| K    | 100K = 100 KB |
+| M    | 10M = 10 MB   |
+| G    | 1G = 1 GB     |
 
 ## Examples
 
@@ -129,6 +130,7 @@ app.log.10.gz   # Oldest rotation
 **Problem:** Cannot rotate system logs
 
 **Solution:** Run with sudo:
+
 ```bash
 sudo utix run log-rotate /var/log
 ```
@@ -138,6 +140,7 @@ sudo utix run log-rotate /var/log
 **Problem:** Cannot rotate, no space
 
 **Solution:**
+
 1. Reduce retention: `-k 7`
 2. Run cleanup first: `utix run disk-cleanup`
 3. Remove old rotations manually
@@ -146,13 +149,15 @@ sudo utix run log-rotate /var/log
 
 **Problem:** Process writing to log
 
-**Solution:** The script uses truncate, which keeps the file descriptor open. The writing process continues normally.
+**Solution:** The script uses truncate, which keeps the file descriptor open.
+The writing process continues normally.
 
 ### Compression failed
 
 **Problem:** gzip not available
 
 **Solution:**
+
 1. Install gzip: `apt install gzip`
 2. Or disable compression: `-n`
 
@@ -161,6 +166,7 @@ sudo utix run log-rotate /var/log
 **Problem:** Old files not removed
 
 **Solution:** Check file modification time:
+
 ```bash
 ls -la /path/to/logs/*.gz
 # Files are cleaned based on mtime, not filename
@@ -168,13 +174,13 @@ ls -la /path/to/logs/*.gz
 
 ## Comparison with System logrotate
 
-| Feature | log-rotate | System logrotate |
-|---------|------------|------------------|
-| Config | CLI flags | Config files |
-| Scheduling | Manual/cron | Cron daily |
-| Scope | Single directory | System-wide |
-| Flexibility | Simple | Very configurable |
-| Use case | App logs | System logs |
+| Feature     | log-rotate       | System logrotate  |
+| ----------- | ---------------- | ----------------- |
+| Config      | CLI flags        | Config files      |
+| Scheduling  | Manual/cron      | Cron daily        |
+| Scope       | Single directory | System-wide       |
+| Flexibility | Simple           | Very configurable |
+| Use case    | App logs         | System logs       |
 
 ## Related Scripts
 

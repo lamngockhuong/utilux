@@ -52,8 +52,8 @@ docs_cache_set() {
 
   docs_init
 
-  echo "$content" > "$(docs_cache_path "$name")"
-  echo "$version" > "$(docs_version_path "$name")"
+  echo "$content" >"$(docs_cache_path "$name")"
+  echo "$version" >"$(docs_version_path "$name")"
 
   log_debug "Cached docs for: $name"
 }
@@ -181,7 +181,7 @@ docs_load() {
   local cached_path
   cached_path=$(docs_cache_path "$name")
   mv "$tmp_file" "$cached_path"
-  echo "$version" > "$(docs_version_path "$name")"
+  echo "$version" >"$(docs_version_path "$name")"
 
   log_debug "Loaded docs for $name"
 

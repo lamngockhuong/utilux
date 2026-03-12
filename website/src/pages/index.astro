@@ -1,18 +1,43 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import CopyButton from '../components/CopyButton.astro';
-import Icon from '../components/Icon.astro';
+import CopyButton from '../components/CopyButton.astro'
+import Icon from '../components/Icon.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
 
-const installCommand = 'curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | bash';
+const installCommand =
+  'curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh | bash'
 
 const features = [
-  { icon: 'zap' as const, title: 'Lazy Loading', description: 'Scripts downloaded on-demand. Minimal footprint.' },
-  { icon: 'package' as const, title: '10 Scripts', description: 'System cleanup, Docker, Git, SSL checks, and more.' },
-  { icon: 'shield-check' as const, title: 'Verified', description: 'SHA256 checksums for all scripts.' },
-  { icon: 'terminal' as const, title: 'Cross-Distro', description: 'Ubuntu, Debian, Fedora, Alpine supported.' },
-  { icon: 'layout-grid' as const, title: 'Interactive TUI', description: 'Modern gum-powered menu interface.' },
-  { icon: 'rocket' as const, title: 'Dual CLI', description: 'Bash CLI + optional Go binary for performance.' }
-];
+  {
+    icon: 'zap' as const,
+    title: 'Lazy Loading',
+    description: 'Scripts downloaded on-demand. Minimal footprint.',
+  },
+  {
+    icon: 'package' as const,
+    title: '10 Scripts',
+    description: 'System cleanup, Docker, Git, SSL checks, and more.',
+  },
+  {
+    icon: 'shield-check' as const,
+    title: 'Verified',
+    description: 'SHA256 checksums for all scripts.',
+  },
+  {
+    icon: 'terminal' as const,
+    title: 'Cross-Distro',
+    description: 'Ubuntu, Debian, Fedora, Alpine supported.',
+  },
+  {
+    icon: 'layout-grid' as const,
+    title: 'Interactive TUI',
+    description: 'Modern gum-powered menu interface.',
+  },
+  {
+    icon: 'rocket' as const,
+    title: 'Dual CLI',
+    description: 'Bash CLI + optional Go binary for performance.',
+  },
+]
 ---
 
 <BaseLayout title="Home">

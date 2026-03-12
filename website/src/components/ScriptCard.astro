@@ -1,19 +1,19 @@
 ---
 interface Props {
-  name: string;
-  description: string;
-  category: string;
-  tags?: string[];
+  name: string
+  description: string
+  category: string
+  tags?: string[]
 }
 
-const { name, description, category, tags = [] } = Astro.props;
+const { name, description, category, tags = [] } = Astro.props
 
 const categoryColors: Record<string, string> = {
   system: 'bg-primary/20 text-primary',
   dev: 'bg-accent/20 text-accent',
   automation: 'bg-purple-500/20 text-purple-400',
   network: 'bg-orange-500/20 text-orange-400',
-};
+}
 ---
 
 <a

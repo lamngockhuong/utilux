@@ -45,7 +45,7 @@ list_cron() {
       printf "  %2d. %s\n" "$i" "$line"
       ((i++))
     fi
-  done <<< "$crontab"
+  done <<<"$crontab"
 }
 
 # Add a new cron job
@@ -90,7 +90,10 @@ add_cron() {
   log_info "Adding cron job: $entry"
 
   # Add to crontab
-  (crontab -l 2>/dev/null; echo "$entry") | crontab -
+  (
+    crontab -l 2>/dev/null
+    echo "$entry"
+  ) | crontab -
 
   log_success "Cron job added"
 }
@@ -184,7 +187,7 @@ clear_cron() {
 export_cron() {
   local output="${1:-crontab_backup_$(date +%Y%m%d).txt}"
 
-  crontab -l > "$output" 2>/dev/null
+  crontab -l >"$output" 2>/dev/null
 
   log_success "Cron jobs exported to: $output"
 }
@@ -216,7 +219,7 @@ import_cron() {
 
 # Show cron examples
 show_examples() {
-  cat << 'EOF'
+  cat <<'EOF'
 Cron Schedule Examples:
 
 Format: MIN HOUR DOM MON DOW command
@@ -291,7 +294,7 @@ interactive_menu() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Cron Helper - Manage cron jobs interactively
 
 Usage: $(basename "$0") [COMMAND] [OPTIONS]
@@ -323,16 +326,16 @@ main() {
   shift || true
 
   case "$command" in
-    list)      list_cron ;;
-    add)       add_cron "$@" ;;
-    remove)    remove_cron "$@" ;;
-    edit)      edit_cron ;;
-    export)    export_cron "$@" ;;
-    import)    import_cron "$@" ;;
-    clear)     clear_cron ;;
-    examples)  show_examples ;;
-    menu)      interactive_menu ;;
-    -h|--help) show_usage ;;
+    list) list_cron ;;
+    add) add_cron "$@" ;;
+    remove) remove_cron "$@" ;;
+    edit) edit_cron ;;
+    export) export_cron "$@" ;;
+    import) import_cron "$@" ;;
+    clear) clear_cron ;;
+    examples) show_examples ;;
+    menu) interactive_menu ;;
+    -h | --help) show_usage ;;
     *)
       log_error "Unknown command: $command"
       show_usage

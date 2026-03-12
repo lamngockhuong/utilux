@@ -30,7 +30,7 @@ cache_set() {
   local content="$2"
   local cached_path="$UTIX_CACHE_DIR/${name}.sh"
 
-  echo "$content" > "$cached_path"
+  echo "$content" >"$cached_path"
   chmod +x "$cached_path"
 
   log_debug "Cached script: $name"
@@ -65,7 +65,7 @@ cache_set_version() {
   local sha256="${3:-}"
   local meta_file="$UTIX_CACHE_DIR/${name}.meta"
 
-  cat > "$meta_file" << EOF
+  cat >"$meta_file" <<EOF
 version=$version
 sha256=$sha256
 cached=$(date -Iseconds)

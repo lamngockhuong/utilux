@@ -8,16 +8,17 @@ requires: ["git"]
 author: "lamngockhuong"
 ---
 
-
 ## Overview
 
-Removes merged local branches, prunes stale remote-tracking references, optionally deletes merged remote branches, and runs garbage collection to reduce repository size.
+Removes merged local branches, prunes stale remote-tracking references,
+optionally deletes merged remote branches, and runs garbage collection to reduce
+repository size.
 
 ## Requirements
 
-| Dependency | Description |
-|------------|-------------|
-| `git` | Git version control system |
+| Dependency | Description                |
+| ---------- | -------------------------- |
+| `git`      | Git version control system |
 
 ## Usage
 
@@ -27,16 +28,16 @@ utix run git-clean [OPTIONS]
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--all` | `-a` | Run all cleanup tasks |
-| `--merged` | `-m` | Delete merged local branches |
-| `--remote` | `-r` | Delete merged remote branches |
-| `--prune` | `-p` | Prune remote tracking branches |
-| `--gc` | `-g` | Run garbage collection |
-| `--dry-run` | `-n` | Show what would be done |
-| `--branch NAME` | `-b` | Use NAME as default branch |
-| `--help` | `-h` | Show help |
+| Option          | Short | Description                    |
+| --------------- | ----- | ------------------------------ |
+| `--all`         | `-a`  | Run all cleanup tasks          |
+| `--merged`      | `-m`  | Delete merged local branches   |
+| `--remote`      | `-r`  | Delete merged remote branches  |
+| `--prune`       | `-p`  | Prune remote tracking branches |
+| `--gc`          | `-g`  | Run garbage collection         |
+| `--dry-run`     | `-n`  | Show what would be done        |
+| `--branch NAME` | `-b`  | Use NAME as default branch     |
+| `--help`        | `-h`  | Show help                      |
 
 ## Examples
 
@@ -89,21 +90,25 @@ utix run git-clean -r
 ## What Gets Cleaned
 
 ### Local Merged Branches (`-m`)
+
 - Branches merged into default branch (main/master)
 - Excludes: main, master, develop, dev
 - Uses `git branch -d` (safe delete)
 
 ### Remote Tracking (`-p`)
+
 - Stale remote-tracking references
 - Branches deleted on remote but still tracked locally
 - Uses `git remote prune origin`
 
 ### Remote Branches (`-r`)
+
 - Merged branches on remote (origin)
 - Requires confirmation before deletion
 - Uses `git push origin --delete`
 
 ### Garbage Collection (`-g`)
+
 - Compresses loose objects
 - Removes unreachable objects
 - Reduces `.git` directory size
@@ -111,6 +116,7 @@ utix run git-clean -r
 ## Protected Branches
 
 These branches are never deleted:
+
 - `main`
 - `master`
 - `develop`
@@ -123,6 +129,7 @@ These branches are never deleted:
 **Problem:** Cannot delete branch, not fully merged
 
 **Solution:** Branch has unmerged changes. Either merge or force delete:
+
 ```bash
 git branch -D branch-name  # Force delete (use with caution)
 ```
@@ -132,6 +139,7 @@ git branch -D branch-name  # Force delete (use with caution)
 **Problem:** Error running in non-git directory
 
 **Solution:** Navigate to repository root:
+
 ```bash
 cd /path/to/repo
 utix run git-clean
@@ -142,6 +150,7 @@ utix run git-clean
 **Problem:** Cannot delete remote branches
 
 **Solution:** Ensure you have push access:
+
 ```bash
 git remote -v  # Check remote URL
 # May need to re-authenticate
@@ -152,6 +161,7 @@ git remote -v  # Check remote URL
 **Problem:** Cannot determine default branch
 
 **Solution:** Specify explicitly:
+
 ```bash
 utix run git-clean -b main
 ```

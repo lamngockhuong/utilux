@@ -60,7 +60,7 @@ days_until_expiry() {
 
   expiry_epoch=$(date -d "$expiry_date" +%s 2>/dev/null || date -j -f "%b %d %T %Y %Z" "$expiry_date" +%s 2>/dev/null)
   now_epoch=$(date +%s)
-  days=$(( (expiry_epoch - now_epoch) / 86400 ))
+  days=$(((expiry_epoch - now_epoch) / 86400))
 
   echo "$days"
 }
@@ -144,11 +144,11 @@ check_host() {
 
   # Return status
   if [[ $days -lt 0 ]]; then
-    return 2  # Expired
+    return 2 # Expired
   elif [[ $days -lt $warn_days ]]; then
-    return 1  # Expiring soon
+    return 1 # Expiring soon
   else
-    return 0  # OK
+    return 0 # OK
   fi
 }
 
@@ -222,7 +222,7 @@ check_hosts_file() {
 
     printf "  %-30s %-10s ${status_color}%-15s${NC}\n" "$host" "$port" "$days days"
 
-  done < "$file"
+  done <"$file"
 
   echo ""
   echo "Summary:"
@@ -244,9 +244,9 @@ show_chain() {
   log_info "Certificate chain for $host:$port"
   echo ""
 
-  echo | openssl s_client -servername "$host" -connect "$host:$port" -showcerts 2>/dev/null | \
-    awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ { print }' | \
-    while IFS= read -r line; do
+  echo | openssl s_client -servername "$host" -connect "$host:$port" -showcerts 2>/dev/null \
+    | awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ { print }' \
+    | while IFS= read -r line; do
       if [[ "$line" == "-----BEGIN CERTIFICATE-----" ]]; then
         echo "---"
         cert=""
@@ -261,7 +261,7 @@ show_chain() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 SSL Certificate Checker
 
 Usage: $(basename "$0") [OPTIONS] HOST[:PORT]
@@ -299,24 +299,24 @@ main() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -p|--port)
+      -p | --port)
         port="$2"
         shift 2
         ;;
-      -w|--warn)
+      -w | --warn)
         warn_days="$2"
         shift 2
         ;;
-      -f|--file)
+      -f | --file)
         mode="file"
         file="$2"
         shift 2
         ;;
-      -c|--chain)
+      -c | --chain)
         mode="chain"
         shift
         ;;
-      -h|--help)
+      -h | --help)
         show_usage
         exit 0
         ;;

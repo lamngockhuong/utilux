@@ -29,7 +29,7 @@ ui_spinner() {
     sleep 0.1
   done
 
-  printf "\r\033[K"  # Clear line
+  printf "\r\033[K" # Clear line
 }
 
 # Confirm prompt (gum > simple)
@@ -77,7 +77,7 @@ _ui_select_simple() {
   read -r -p "Select (1-${#options[@]}): " choice
 
   if [[ "$choice" =~ ^[0-9]+$ ]] && [[ $choice -ge 1 ]] && [[ $choice -le ${#options[@]} ]]; then
-    echo "${options[$((choice-1))]}"
+    echo "${options[$((choice - 1))]}"
     return 0
   fi
 
@@ -105,7 +105,7 @@ ui_select() {
     choice=$(whiptail --title "Utix" --menu "$title" 20 60 10 "${menu_options[@]}" 3>&1 1>&2 2>&3)
 
     if [[ $? -eq 0 && -n "$choice" ]]; then
-      echo "${options[$((choice-1))]}"
+      echo "${options[$((choice - 1))]}"
       return 0
     fi
     return 1
@@ -183,7 +183,7 @@ ui_table() {
   done
 
   for row in "${rows_ref[@]}"; do
-    IFS='|' read -ra cols <<< "$row"
+    IFS='|' read -ra cols <<<"$row"
     for i in "${!cols[@]}"; do
       local len=${#cols[$i]}
       [[ $len -gt ${widths[$i]:-0} ]] && widths[$i]=$len
@@ -193,7 +193,7 @@ ui_table() {
   # Print header
   local format=""
   for w in "${widths[@]}"; do
-    format+="%-$((w+2))s "
+    format+="%-$((w + 2))s "
   done
 
   printf "$format\n" "${headers_ref[@]}"
@@ -201,14 +201,14 @@ ui_table() {
   # Print separator
   local sep=""
   for w in "${widths[@]}"; do
-    sep+=$(printf '%*s' "$((w+2))" '' | tr ' ' '-')
+    sep+=$(printf '%*s' "$((w + 2))" '' | tr ' ' '-')
     sep+=" "
   done
   echo "$sep"
 
   # Print rows
   for row in "${rows_ref[@]}"; do
-    IFS='|' read -ra cols <<< "$row"
+    IFS='|' read -ra cols <<<"$row"
     printf "$format\n" "${cols[@]}"
   done
 }

@@ -4,16 +4,18 @@ Scan open ports on a host using pure bash or netcat.
 
 ## Overview
 
-A lightweight TCP connect scanner for checking open ports. Scans common ports by default or custom ranges. Works without external tools using bash `/dev/tcp` with netcat as preferred method when available.
+A lightweight TCP connect scanner for checking open ports. Scans common ports by
+default or custom ranges. Works without external tools using bash `/dev/tcp`
+with netcat as preferred method when available.
 
 ## Requirements
 
 No strict dependencies. Optional:
 
-| Dependency | Description |
-|------------|-------------|
-| `nc` (netcat) | Faster scanning (auto-detected) |
-| `ss` or `netstat` | For listing local ports |
+| Dependency        | Description                     |
+| ----------------- | ------------------------------- |
+| `nc` (netcat)     | Faster scanning (auto-detected) |
+| `ss` or `netstat` | For listing local ports         |
 
 ## Usage
 
@@ -23,14 +25,14 @@ utix run port-scan [OPTIONS] HOST [PORTS]
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--range START END` | `-r` | Scan port range |
-| `--common` | `-c` | Scan common ports only (default) |
-| `--ports PORTS` | `-p` | Scan specific ports (comma-separated) |
-| `--listen` | `-l` | Show listening ports on this machine |
-| `--timeout SEC` | `-t` | Connection timeout (default: 1) |
-| `--help` | `-h` | Show help |
+| Option              | Short | Description                           |
+| ------------------- | ----- | ------------------------------------- |
+| `--range START END` | `-r`  | Scan port range                       |
+| `--common`          | `-c`  | Scan common ports only (default)      |
+| `--ports PORTS`     | `-p`  | Scan specific ports (comma-separated) |
+| `--listen`          | `-l`  | Show listening ports on this machine  |
+| `--timeout SEC`     | `-t`  | Connection timeout (default: 1)       |
+| `--help`            | `-h`  | Show help                             |
 
 ## Examples
 
@@ -85,22 +87,22 @@ utix run port-scan -t 3 remote-server.com
 
 ## Common Ports Reference
 
-| Port | Service |
-|------|---------|
-| 21 | FTP |
-| 22 | SSH |
-| 23 | Telnet |
-| 25 | SMTP |
-| 53 | DNS |
-| 80 | HTTP |
-| 110 | POP3 |
-| 143 | IMAP |
-| 443 | HTTPS |
-| 3306 | MySQL |
-| 5432 | PostgreSQL |
-| 6379 | Redis |
-| 8080 | HTTP-Alt |
-| 27017 | MongoDB |
+| Port  | Service    |
+| ----- | ---------- |
+| 21    | FTP        |
+| 22    | SSH        |
+| 23    | Telnet     |
+| 25    | SMTP       |
+| 53    | DNS        |
+| 80    | HTTP       |
+| 110   | POP3       |
+| 143   | IMAP       |
+| 443   | HTTPS      |
+| 3306  | MySQL      |
+| 5432  | PostgreSQL |
+| 6379  | Redis      |
+| 8080  | HTTP-Alt   |
+| 27017 | MongoDB    |
 
 ## Output Format
 
@@ -123,6 +125,7 @@ Found 3 open ports
 **Problem:** Scanning large ranges takes too long
 
 **Solution:**
+
 1. Reduce timeout: `-t 0.5`
 2. Use netcat if not installed: `apt install netcat`
 3. Scan only needed ports: `-p 22,80,443`
@@ -132,6 +135,7 @@ Found 3 open ports
 **Problem:** Cannot scan certain ports
 
 **Solution:** Some ports require root:
+
 ```bash
 sudo utix run port-scan -r 1 1024 localhost
 ```
@@ -141,6 +145,7 @@ sudo utix run port-scan -r 1 1024 localhost
 **Problem:** Cannot connect to host
 
 **Solution:** Check network connectivity:
+
 ```bash
 ping hostname
 ```
@@ -150,6 +155,7 @@ ping hostname
 **Problem:** Port is open but not detected
 
 **Solution:** Increase timeout:
+
 ```bash
 utix run port-scan -t 5 slow-server.com
 ```

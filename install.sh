@@ -16,21 +16,30 @@ _has_gum() { command -v gum &>/dev/null; }
 _has_whiptail() { command -v whiptail &>/dev/null; }
 
 ui_menu() {
-  local title="$1"; shift
+  local title="$1"
+  shift
   local options=("$@")
   if _has_gum && [[ -t 0 ]]; then
     echo "$title" >&2
     gum choose "${options[@]}"
   elif _has_whiptail && [[ -t 0 ]]; then
-    local menu_opts=(); local i=1
-    for opt in "${options[@]}"; do menu_opts+=("$i" "$opt"); ((i++)); done
+    local menu_opts=()
+    local i=1
+    for opt in "${options[@]}"; do
+      menu_opts+=("$i" "$opt")
+      ((i++))
+    done
     local choice=$(whiptail --title "Utix" --menu "$title" 15 60 5 "${menu_opts[@]}" 3>&1 1>&2 2>&3)
-    [[ $? -eq 0 && -n "$choice" ]] && echo "${options[$((choice-1))]}"
+    [[ $? -eq 0 && -n "$choice" ]] && echo "${options[$((choice - 1))]}"
   else
-    echo "$title" >&2; local i=1
-    for opt in "${options[@]}"; do echo "  $i) $opt" >&2; ((i++)); done
+    echo "$title" >&2
+    local i=1
+    for opt in "${options[@]}"; do
+      echo "  $i) $opt" >&2
+      ((i++))
+    done
     read -rp "Select: " choice
-    [[ "$choice" =~ ^[0-9]+$ ]] && echo "${options[$((choice-1))]}"
+    [[ "$choice" =~ ^[0-9]+$ ]] && echo "${options[$((choice - 1))]}"
   fi
 }
 
@@ -41,7 +50,8 @@ ui_input() {
   elif _has_whiptail && [[ -t 0 ]]; then
     whiptail --title "Utix" --inputbox "$msg" 10 60 "$default" 3>&1 1>&2 2>&3
   else
-    read -rp "$msg [$default]: " input; echo "${input:-$default}"
+    read -rp "$msg [$default]: " input
+    echo "${input:-$default}"
   fi
 }
 
@@ -52,8 +62,11 @@ ui_confirm() {
   elif _has_whiptail && [[ -t 0 ]]; then
     whiptail --title "Utix" --yesno "$msg" 10 60
   else
-    local prompt="[y/N]"; [[ "$default" == "y" ]] && prompt="[Y/n]"
-    read -rp "$msg $prompt " resp; resp="${resp:-$default}"; [[ "$resp" =~ ^[Yy] ]]
+    local prompt="[y/N]"
+    [[ "$default" == "y" ]] && prompt="[Y/n]"
+    read -rp "$msg $prompt " resp
+    resp="${resp:-$default}"
+    [[ "$resp" =~ ^[Yy] ]]
   fi
 }
 
@@ -145,18 +158,18 @@ ensure_required_packages() {
   local packages=("curl" "tar" "gzip" "git")
   # Try to install gum first, fallback to whiptail
   if ! command -v gum &>/dev/null && ! command -v whiptail &>/dev/null; then
-    packages+=("whiptail")  # gum needs manual install, fallback to whiptail
+    packages+=("whiptail") # gum needs manual install, fallback to whiptail
   fi
   for package in "${packages[@]}"; do
-    if ! command -v "$package" &> /dev/null; then
+    if ! command -v "$package" &>/dev/null; then
       log_info "Installing $package..."
-      if command -v apt-get &> /dev/null; then
+      if command -v apt-get &>/dev/null; then
         apt-get update && apt-get install -y "$package"
-      elif command -v yum &> /dev/null; then
+      elif command -v yum &>/dev/null; then
         yum install -y "$package"
-      elif command -v dnf &> /dev/null; then
+      elif command -v dnf &>/dev/null; then
         dnf install -y "$package"
-      elif command -v apk &> /dev/null; then
+      elif command -v apk &>/dev/null; then
         apk add --no-cache "$package"
       else
         log_error "Could not install $package. Please install it manually."
@@ -182,9 +195,9 @@ install_new_structure() {
 
   # Install lib modules (batch copy + chmod)
   log_info "Installing library modules..."
-  cp "$source_dir/lib/"*.sh "$lib_dir/lib/" 2>/dev/null && \
-    chmod +x "$lib_dir/lib/"*.sh && \
-    log_info "Copied $(ls -1 "$source_dir/lib/"*.sh 2>/dev/null | wc -l) library modules"
+  cp "$source_dir/lib/"*.sh "$lib_dir/lib/" 2>/dev/null \
+    && chmod +x "$lib_dir/lib/"*.sh \
+    && log_info "Copied $(ls -1 "$source_dir/lib/"*.sh 2>/dev/null | wc -l) library modules"
 
   # Update the main script to use installed lib path
   sed -i "s|UTIX_SCRIPT_DIR=.*|UTIX_SCRIPT_DIR=\"$lib_dir\"|" "$INSTALL_BIN_DIR/$app_name"
@@ -354,7 +367,7 @@ install_from_local() {
 check_existing_installation() {
   local app_name="$DEFAULT_APP_NAME"
 
-  if command -v "$app_name" &> /dev/null; then
+  if command -v "$app_name" &>/dev/null; then
     log_warn "An application named '$app_name' already exists in your system."
 
     # Ask user what to do
@@ -378,7 +391,7 @@ check_existing_installation() {
           exit 0
         fi
         # Check if the new name also exists
-        if command -v "$app_name" &> /dev/null; then
+        if command -v "$app_name" &>/dev/null; then
           log_error "An application named '$app_name' also exists. Please choose a different name."
           exit 1
         fi
@@ -424,7 +437,7 @@ main() {
     local app_name="${2:-$DEFAULT_APP_NAME}"
 
     # Check if the application exists
-    if ! command -v "$app_name" &> /dev/null; then
+    if ! command -v "$app_name" &>/dev/null; then
       log_error "Application '$app_name' is not installed."
       exit 1
     fi

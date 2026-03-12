@@ -266,6 +266,48 @@ Uses registry manifest for offline searching.
 Closes #42
 ```
 
+## Linting & Formatting
+
+### Tools Overview
+
+| Tool   | Target          | Config File          |
+| ------ | --------------- | -------------------- |
+| dprint | Markdown        | `dprint.json`        |
+| shfmt  | Shell scripts   | CLI flags            |
+| Biome  | JS/TS (website) | `website/biome.json` |
+
+### Markdown (dprint)
+
+```bash
+npm install        # Install dprint
+npm run format     # Format all .md files
+npm run format:check  # Check formatting
+```
+
+### Shell Scripts (shfmt)
+
+```bash
+# Install
+sudo apt install shfmt  # Debian/Ubuntu
+brew install shfmt      # macOS
+
+# Format
+npm run format:sh       # Format all .sh
+npm run format:sh:check # Check formatting
+```
+
+**shfmt flags**: `-i 2` (2-space indent), `-ci` (case indent), `-bn` (binary
+newline)
+
+### Website JS/TS (Biome)
+
+```bash
+cd website
+pnpm install
+pnpm run check       # Lint + format check
+pnpm run check:fix   # Auto-fix all issues
+```
+
 ## Code Review Checklist
 
 **Before submitting**:

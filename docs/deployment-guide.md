@@ -2,7 +2,8 @@
 
 ## Overview
 
-Installation, configuration, and deployment of Utix across different environments and Linux distributions.
+Installation, configuration, and deployment of Utix across different
+environments and Linux distributions.
 
 ## Prerequisites
 

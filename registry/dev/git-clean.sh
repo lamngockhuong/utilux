@@ -52,9 +52,9 @@ list_merged_branches() {
   local default_branch="$1"
   local branches
 
-  branches=$(git branch --merged "$default_branch" 2>/dev/null | \
-    grep -vE "^\*|^\s*(main|master|develop|dev)$" | \
-    sed 's/^[ *]*//')
+  branches=$(git branch --merged "$default_branch" 2>/dev/null \
+    | grep -vE "^\*|^\s*(main|master|develop|dev)$" \
+    | sed 's/^[ *]*//')
 
   echo "$branches"
 }
@@ -95,7 +95,7 @@ delete_merged_branches() {
     else
       log_warn "Could not delete: $branch"
     fi
-  done <<< "$branches"
+  done <<<"$branches"
 
   log_success "Deleted $count merged branches"
 }
@@ -123,10 +123,10 @@ delete_remote_merged() {
   log_info "Finding remote branches merged into origin/$default_branch..."
 
   local branches
-  branches=$(git branch -r --merged "origin/$default_branch" 2>/dev/null | \
-    grep "origin/" | \
-    grep -vE "origin/(main|master|develop|dev|HEAD)" | \
-    sed 's/origin\///')
+  branches=$(git branch -r --merged "origin/$default_branch" 2>/dev/null \
+    | grep "origin/" \
+    | grep -vE "origin/(main|master|develop|dev|HEAD)" \
+    | sed 's/origin\///')
 
   if [[ -z "$branches" ]]; then
     log_success "No remote merged branches to delete"
@@ -160,7 +160,7 @@ delete_remote_merged() {
     else
       log_warn "Could not delete remote: $branch"
     fi
-  done <<< "$branches"
+  done <<<"$branches"
 
   log_success "Deleted $count remote branches"
 }
@@ -194,7 +194,7 @@ show_stats() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Git Clean Utility
 
 Usage: $(basename "$0") [OPTIONS]
@@ -234,38 +234,38 @@ main() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -a|--all)
+      -a | --all)
         do_merged=1
         do_remote=1
         do_prune=1
         do_gc=1
         shift
         ;;
-      -m|--merged)
+      -m | --merged)
         do_merged=1
         shift
         ;;
-      -r|--remote)
+      -r | --remote)
         do_remote=1
         shift
         ;;
-      -p|--prune)
+      -p | --prune)
         do_prune=1
         shift
         ;;
-      -g|--gc)
+      -g | --gc)
         do_gc=1
         shift
         ;;
-      -n|--dry-run)
+      -n | --dry-run)
         dry_run=1
         shift
         ;;
-      -b|--branch)
+      -b | --branch)
         default_branch="$2"
         shift 2
         ;;
-      -h|--help)
+      -h | --help)
         show_usage
         exit 0
         ;;

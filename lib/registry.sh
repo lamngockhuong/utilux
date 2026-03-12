@@ -36,7 +36,7 @@ registry_fetch() {
   # Check if manifest exists and is fresh (< 1 hour old)
   if [[ "$force" != "1" && -f "$UTIX_MANIFEST_FILE" ]]; then
     local age
-    age=$(( $(date +%s) - $(stat -c %Y "$UTIX_MANIFEST_FILE" 2>/dev/null || echo 0) ))
+    age=$(($(date +%s) - $(stat -c %Y "$UTIX_MANIFEST_FILE" 2>/dev/null || echo 0)))
     if [[ $age -lt 3600 ]]; then
       log_debug "Using cached manifest (age: ${age}s)"
       return 0
@@ -136,7 +136,7 @@ _registry_get_script_grep() {
       brace_count=1
       script_block="$line"
     fi
-  done <<< "$manifest"
+  done <<<"$manifest"
 
   return 1
 }

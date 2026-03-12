@@ -120,13 +120,19 @@ generate_manifest() {
       updated: $updated,
       base_url: $base_url,
       scripts: $scripts
-    }' > "$MANIFEST_FILE"
+    }' >"$MANIFEST_FILE"
 
   log_success "Generated $MANIFEST_FILE with ${#scripts[@]} scripts"
 }
 
 # Check dependencies
-command -v jq &>/dev/null || { echo "Error: jq required"; exit 1; }
-command -v sha256sum &>/dev/null || { echo "Error: sha256sum required"; exit 1; }
+command -v jq &>/dev/null || {
+  echo "Error: jq required"
+  exit 1
+}
+command -v sha256sum &>/dev/null || {
+  echo "Error: sha256sum required"
+  exit 1
+}
 
 generate_manifest

@@ -80,9 +80,8 @@ utix/
 
 ### 1. Bash CLI (`utix`)
 
-**Location**: `/utix`
-**Size**: 3,288 tokens, 11,287 chars
-**Purpose**: Main Bash CLI entry point with modular architecture
+**Location**: `/utix` **Size**: 3,288 tokens, 11,287 chars **Purpose**: Main
+Bash CLI entry point with modular architecture
 
 **Dependencies**:
 
@@ -104,9 +103,8 @@ utix/
 
 ### 2. Go CLI (`cli/`)
 
-**Location**: `/cli/`
-**Language**: Go 1.22+
-**Purpose**: High-performance compiled CLI alternative
+**Location**: `/cli/` **Language**: Go 1.22+ **Purpose**: High-performance
+compiled CLI alternative
 
 **Architecture**:
 
@@ -140,8 +138,8 @@ cli/
 
 ### 3. Registry System (`registry/`)
 
-**Location**: `/registry/`
-**Purpose**: Centralized script storage with integrity verification
+**Location**: `/registry/` **Purpose**: Centralized script storage with
+integrity verification
 
 **manifest.json Structure**:
 
@@ -249,9 +247,8 @@ cli/
 
 ### 5. Installation System (`install.sh`)
 
-**Location**: `/install.sh`
-**Size**: 4,504 tokens (largest file)
-**Purpose**: Multi-mode installation script
+**Location**: `/install.sh` **Size**: 4,504 tokens (largest file) **Purpose**:
+Multi-mode installation script
 
 **Installation Modes**:
 
@@ -275,8 +272,7 @@ cli/
 
 ### 6. Website (`website/`)
 
-**Framework**: Astro 5.x (pnpm)
-**Purpose**: Documentation and script catalog
+**Framework**: Astro 5.x (pnpm) **Purpose**: Documentation and script catalog
 
 **Pages**:
 
@@ -450,7 +446,8 @@ detect_distro() {
 
 1. **SHA256 Verification**: All scripts verified before execution
 2. **HTTPS-Only**: Registry and script downloads over HTTPS
-3. **No Code Injection**: Scripts executed as-is, no eval/source of untrusted input
+3. **No Code Injection**: Scripts executed as-is, no eval/source of untrusted
+   input
 4. **Minimal Privileges**: Most scripts run as regular user
 5. **Transparent Source**: All code visible in registry/ directory
 

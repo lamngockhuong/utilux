@@ -3,23 +3,24 @@ title: "backup-home"
 description: "Backup home directory to compressed archive"
 category: "automation"
 version: "v1.0.0"
-tags: ["backup","archive","home"]
+tags: ["backup", "archive", "home"]
 requires: ["tar"]
 author: "lamngockhuong"
 ---
 
-
 ## Overview
 
-Creates compressed tar.gz backups of your home directory with smart exclusions for cache, temporary files, and large directories. Supports automatic cleanup of old backups and restore functionality.
+Creates compressed tar.gz backups of your home directory with smart exclusions
+for cache, temporary files, and large directories. Supports automatic cleanup of
+old backups and restore functionality.
 
 ## Requirements
 
-| Dependency | Description |
-|------------|-------------|
-| `tar` | Archive creation and extraction |
-| `gzip` | Compression (usually bundled with tar) |
-| `pv` | Optional: progress bar during backup |
+| Dependency | Description                            |
+| ---------- | -------------------------------------- |
+| `tar`      | Archive creation and extraction        |
+| `gzip`     | Compression (usually bundled with tar) |
+| `pv`       | Optional: progress bar during backup   |
 
 ## Usage
 
@@ -29,23 +30,23 @@ utix run backup-home [COMMAND] [OPTIONS]
 
 ### Commands
 
-| Command | Description |
-|---------|-------------|
-| `create` | Create a new backup (default) |
-| `list` | List existing backups |
-| `restore <file>` | Restore from backup file |
-| `info <file>` | Show backup information |
-| `clean` | Remove old backups |
+| Command          | Description                   |
+| ---------------- | ----------------------------- |
+| `create`         | Create a new backup (default) |
+| `list`           | List existing backups         |
+| `restore <file>` | Restore from backup file      |
+| `info <file>`    | Show backup information       |
+| `clean`          | Remove old backups            |
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--dir DIR` | `-d` | Backup directory (default: ~/backups) |
-| `--keep N` | `-k` | Keep N most recent backups (default: 5) |
-| `--exclude PAT` | `-e` | Exclude pattern (can be repeated) |
-| `--source DIR` | `-s` | Source directory (default: ~) |
-| `--help` | `-h` | Show help |
+| Option          | Short | Description                             |
+| --------------- | ----- | --------------------------------------- |
+| `--dir DIR`     | `-d`  | Backup directory (default: ~/backups)   |
+| `--keep N`      | `-k`  | Keep N most recent backups (default: 5) |
+| `--exclude PAT` | `-e`  | Exclude pattern (can be repeated)       |
+| `--source DIR`  | `-s`  | Source directory (default: ~)           |
+| `--help`        | `-h`  | Show help                               |
 
 ## Examples
 
@@ -83,14 +84,15 @@ utix run backup-home clean -k 5
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `BACKUP_DIR` | `~/backups` | Default backup directory |
-| `KEEP_BACKUPS` | `5` | Number of backups to keep |
+| Variable       | Default     | Description               |
+| -------------- | ----------- | ------------------------- |
+| `BACKUP_DIR`   | `~/backups` | Default backup directory  |
+| `KEEP_BACKUPS` | `5`         | Number of backups to keep |
 
 ## Default Exclusions
 
 The script automatically excludes:
+
 - `.cache`, `.local/share/Trash`
 - `node_modules`, `.npm`, `.nvm`
 - `go/pkg`, `.cargo`, `.rustup`
@@ -105,6 +107,7 @@ The script automatically excludes:
 **Problem:** Large directories slow down backup
 
 **Solution:** Add exclusions for large directories you don't need:
+
 ```bash
 utix run backup-home -e "Videos" -e "VirtualBox VMs"
 ```
@@ -114,6 +117,7 @@ utix run backup-home -e "Videos" -e "VirtualBox VMs"
 **Problem:** Cannot backup some files due to permissions
 
 **Solution:** Run with sudo or exclude system directories:
+
 ```bash
 sudo utix run backup-home
 ```
@@ -123,6 +127,7 @@ sudo utix run backup-home
 **Problem:** Backup destination is full
 
 **Solution:** Clean old backups or use external storage:
+
 ```bash
 utix run backup-home clean -k 2
 utix run backup-home -d /mnt/external

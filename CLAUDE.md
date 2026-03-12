@@ -1,10 +1,14 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with
+code in this repository.
 
 ## Project Overview
 
-Utix is a Unix utility management tool written in bash. It provides a unified interface for package management across Linux (Ubuntu/Debian, Alpine, Fedora) and macOS. The tool supports installing packages from system repos, GitHub releases, and direct URLs.
+Utix is a Unix utility management tool written in bash. It provides a unified
+interface for package management across Linux (Ubuntu/Debian, Alpine, Fedora)
+and macOS. The tool supports installing packages from system repos, GitHub
+releases, and direct URLs.
 
 ## Development Commands
 
@@ -68,7 +72,8 @@ website/                     # Astro documentation site
 **Key patterns:**
 
 - Scripts are lazy-loaded: downloaded on first use, cached locally
-- `manifest.json` contains script metadata + SHA256 hashes for integrity verification
+- `manifest.json` contains script metadata + SHA256 hashes for integrity
+  verification
 - Bash CLI uses gum for interactive menus (whiptail fallback)
 - Go CLI uses cobra (commands) + bubbletea (TUI)
 - Both CLIs share the same registry and cache format
@@ -103,6 +108,7 @@ website/                     # Astro documentation site
 ### Draft Scripts
 
 Add `# @draft` to script header to mark as work-in-progress:
+
 - Hidden from `utix list`, search, and website catalog
 - Still runnable via `utix run <script-name>`
 - Remove `# @draft` when ready for release
@@ -110,6 +116,7 @@ Add `# @draft` to script header to mark as work-in-progress:
 ## Environment Variables
 
 - `UTIX_LOG_LEVEL`: Set to `info`, `warn`, `error`, or `debug`
-- `UTIX_DEV_MODE`: Set to `1` to run from local source (no cache, instant updates)
+- `UTIX_DEV_MODE`: Set to `1` to run from local source (no cache, instant
+  updates)
 - `UTIX_OFFLINE`: Set to `1` to use cached manifest only
 - `UTIX_AUTO_UPDATE`: Set to `0` to disable auto-update checks

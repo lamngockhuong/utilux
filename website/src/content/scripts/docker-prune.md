@@ -8,16 +8,17 @@ requires: ["docker"]
 author: "lamngockhuong"
 ---
 
-
 ## Overview
 
-Reclaim disk space by removing unused Docker resources. Supports selective cleanup of containers, images, volumes, networks, and build cache with dry-run preview mode.
+Reclaim disk space by removing unused Docker resources. Supports selective
+cleanup of containers, images, volumes, networks, and build cache with dry-run
+preview mode.
 
 ## Requirements
 
-| Dependency | Description |
-|------------|-------------|
-| `docker` | Docker Engine must be installed and running |
+| Dependency | Description                                 |
+| ---------- | ------------------------------------------- |
+| `docker`   | Docker Engine must be installed and running |
 
 ## Usage
 
@@ -27,18 +28,18 @@ utix run docker-prune [OPTIONS]
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--all` | `-a` | Prune everything |
-| `--containers` | `-c` | Remove stopped containers |
-| `--images` | `-i` | Remove unused images |
-| `--dangling` | `-d` | Remove only dangling images |
-| `--volumes` | `-v` | Remove unused volumes |
-| `--networks` | `-n` | Remove unused networks |
-| `--builder` | `-b` | Remove build cache |
-| `--system` | `-s` | Run docker system prune |
-| `--dry-run` | | Preview what would be removed |
-| `--help` | `-h` | Show help |
+| Option         | Short | Description                   |
+| -------------- | ----- | ----------------------------- |
+| `--all`        | `-a`  | Prune everything              |
+| `--containers` | `-c`  | Remove stopped containers     |
+| `--images`     | `-i`  | Remove unused images          |
+| `--dangling`   | `-d`  | Remove only dangling images   |
+| `--volumes`    | `-v`  | Remove unused volumes         |
+| `--networks`   | `-n`  | Remove unused networks        |
+| `--builder`    | `-b`  | Remove build cache            |
+| `--system`     | `-s`  | Run docker system prune       |
+| `--dry-run`    |       | Preview what would be removed |
+| `--help`       | `-h`  | Show help                     |
 
 ## Examples
 
@@ -87,26 +88,32 @@ utix run docker-prune -s -v
 ## What Gets Removed
 
 ### Containers (`-c`)
+
 - Stopped containers (exited, created status)
 - Does NOT remove running containers
 
 ### Dangling Images (`-d`)
+
 - Images with `<none>` tag
 - Leftover from builds
 
 ### Unused Images (`-i`)
+
 - All images not used by any container
 - Includes tagged images!
 
 ### Volumes (`-v`)
+
 - Volumes not attached to any container
 - **Warning:** May contain important data!
 
 ### Networks (`-n`)
+
 - Custom networks not used by containers
 - Does NOT remove default networks
 
 ### Build Cache (`-b`)
+
 - Docker build layer cache
 - Safe to remove
 
@@ -117,6 +124,7 @@ utix run docker-prune -s -v
 **Problem:** Cannot connect to Docker daemon
 
 **Solution:** Add user to docker group or use sudo:
+
 ```bash
 sudo usermod -aG docker $USER
 # Then log out and back in
@@ -127,6 +135,7 @@ sudo usermod -aG docker $USER
 **Problem:** Error connecting to Docker
 
 **Solution:** Start Docker service:
+
 ```bash
 sudo systemctl start docker
 ```
@@ -136,6 +145,7 @@ sudo systemctl start docker
 **Problem:** Disk space not freed
 
 **Solution:** Some images may be in use. Check with:
+
 ```bash
 docker images
 docker ps -a
@@ -146,6 +156,7 @@ docker ps -a
 **Problem:** Accidentally removed volumes with data
 
 **Solution:** Always use `--dry-run` first, and backup important volumes:
+
 ```bash
 docker run --rm -v myvolume:/data -v $(pwd):/backup alpine tar czf /backup/volume-backup.tar.gz /data
 ```

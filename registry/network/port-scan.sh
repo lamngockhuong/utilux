@@ -91,7 +91,7 @@ scan_ports() {
   local total=$((end_port - start_port + 1))
   local count=0
 
-  for ((port=start_port; port<=end_port; port++)); do
+  for ((port = start_port; port <= end_port; port++)); do
     ((count++))
 
     # Progress indicator
@@ -104,7 +104,7 @@ scan_ports() {
     fi
   done
 
-  printf "\r\033[K"  # Clear progress line
+  printf "\r\033[K" # Clear progress line
 
   if [[ ${#open_ports[@]} -eq 0 ]]; then
     log_warn "No open ports found"
@@ -205,16 +205,16 @@ show_listening() {
   echo ""
 
   if command -v ss &>/dev/null; then
-    ss -tuln | grep LISTEN | awk '{print $5}' | \
-      sed 's/.*://' | sort -n | uniq | \
-      while read -r port; do
+    ss -tuln | grep LISTEN | awk '{print $5}' \
+      | sed 's/.*://' | sort -n | uniq \
+      | while read -r port; do
         local service="${SERVICES[$port]:-unknown}"
         printf "  %-8s %s\n" "$port" "$service"
       done
   elif command -v netstat &>/dev/null; then
-    netstat -tuln | grep LISTEN | awk '{print $4}' | \
-      sed 's/.*://' | sort -n | uniq | \
-      while read -r port; do
+    netstat -tuln | grep LISTEN | awk '{print $4}' \
+      | sed 's/.*://' | sort -n | uniq \
+      | while read -r port; do
         local service="${SERVICES[$port]:-unknown}"
         printf "  %-8s %s\n" "$port" "$service"
       done
@@ -226,7 +226,7 @@ show_listening() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Port Scanner
 
 Usage: $(basename "$0") [OPTIONS] HOST [PORTS]
@@ -263,30 +263,30 @@ main() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -r|--range)
+      -r | --range)
         mode="range"
         start_port="$2"
         end_port="$3"
         shift 3
         ;;
-      -c|--common)
+      -c | --common)
         mode="common"
         shift
         ;;
-      -p|--ports)
+      -p | --ports)
         mode="specific"
-        IFS=',' read -ra specific_ports <<< "$2"
+        IFS=',' read -ra specific_ports <<<"$2"
         shift 2
         ;;
-      -l|--listen)
+      -l | --listen)
         mode="listen"
         shift
         ;;
-      -t|--timeout)
+      -t | --timeout)
         timeout="$2"
         shift 2
         ;;
-      -h|--help)
+      -h | --help)
         show_usage
         exit 0
         ;;

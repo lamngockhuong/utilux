@@ -1,13 +1,16 @@
 ---
-import '../styles/global.css';
-import Icon from '../components/Icon.astro';
+import '../styles/global.css'
+import Icon from '../components/Icon.astro'
 
 interface Props {
-  title: string;
-  description?: string;
+  title: string
+  description?: string
 }
 
-const { title, description = "Lightweight Unix utility scripts with lazy loading" } = Astro.props;
+const {
+  title,
+  description = 'Lightweight Unix utility scripts with lazy loading',
+} = Astro.props
 ---
 
 <!DOCTYPE html>

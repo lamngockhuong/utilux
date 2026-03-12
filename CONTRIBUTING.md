@@ -1,10 +1,12 @@
 # Contributing to Utix
 
-Thank you for your interest in contributing to Utix! This guide will help you get started.
+Thank you for your interest in contributing to Utix! This guide will help you
+get started.
 
 ## Code of Conduct
 
-Be respectful, inclusive, and constructive. We welcome contributions from everyone.
+Be respectful, inclusive, and constructive. We welcome contributions from
+everyone.
 
 ## Ways to Contribute
 
@@ -113,6 +115,19 @@ set -euo pipefail
 - Log with `log_info`, `log_warn`, `log_error`
 - See [Code Standards](docs/code-standards.md) for details
 
+### Formatting
+
+```bash
+# Install dependencies
+npm install                 # dprint for markdown
+cd website && pnpm install  # biome for JS/TS
+
+# Format code
+npm run format              # Markdown files
+npm run format:sh           # Shell scripts (requires shfmt)
+cd website && pnpm run check:fix  # Website JS/TS
+```
+
 ### Manifest Entry
 
 Add to `registry/manifest.json`:
@@ -208,4 +223,5 @@ utix/
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the BSD-3-Clause License.
+By contributing, you agree that your contributions will be licensed under the
+BSD-3-Clause License.

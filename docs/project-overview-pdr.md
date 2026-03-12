@@ -2,7 +2,10 @@
 
 ## Project Vision
 
-Utix is a unified Unix utility management system that provides curated, production-ready scripts across Linux (Ubuntu/Debian, Alpine, Fedora) and macOS. The project aims to eliminate repetitive system administration tasks through a lazy-loading script registry accessible via both Bash and Go CLI interfaces.
+Utix is a unified Unix utility management system that provides curated,
+production-ready scripts across Linux (Ubuntu/Debian, Alpine, Fedora) and macOS.
+The project aims to eliminate repetitive system administration tasks through a
+lazy-loading script registry accessible via both Bash and Go CLI interfaces.
 
 ## Target Users
 
@@ -16,9 +19,11 @@ Utix is a unified Unix utility management system that provides curated, producti
 **User Personas:**
 
 1. **DevOps Engineer**: Needs reliable automation scripts for CI/CD pipelines
-2. **System Administrator**: Manages multiple Linux distributions, requires cross-distro compatibility
+2. **System Administrator**: Manages multiple Linux distributions, requires
+   cross-distro compatibility
 3. **Developer**: Wants development environment setup and maintenance utilities
-4. **Home Lab Enthusiast**: Maintains personal Linux servers with periodic maintenance needs
+4. **Home Lab Enthusiast**: Maintains personal Linux servers with periodic
+   maintenance needs
 
 ## Core Features
 
@@ -67,7 +72,8 @@ Utix is a unified Unix utility management system that provides curated, producti
 - SHA256 verification for documentation files
 - Local documentation caching in `~/.utix/docs_cache/`
 - Markdown rendering via glamour (Go) or glow/bat (Bash)
-- Website auto-generation from registry docs via `scripts/generate-website-docs.sh`
+- Website auto-generation from registry docs via
+  `scripts/generate-website-docs.sh`
 
 ### 6. Developer-Friendly Features
 

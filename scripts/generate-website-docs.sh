@@ -45,7 +45,7 @@ generate_frontmatter() {
   local requires="$6"
   local author="$7"
 
-  cat << EOF
+  cat <<EOF
 ---
 title: "$name"
 description: "$description"
@@ -100,7 +100,7 @@ process_script() {
   log_info "Processing $name..."
 
   # Generate frontmatter
-  generate_frontmatter "$name" "$category" "$description" "$version" "$tags" "$requires" "$author" > "$output_file"
+  generate_frontmatter "$name" "$category" "$description" "$version" "$tags" "$requires" "$author" >"$output_file"
 
   # Append docs content (skip any existing frontmatter in source)
   local content
@@ -121,7 +121,7 @@ process_script() {
     { print }
   ')
 
-  echo "$content" >> "$output_file"
+  echo "$content" >>"$output_file"
 
   log_success "Generated: $output_file"
 }
@@ -167,7 +167,7 @@ main() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Generate Website Documentation
 
 Usage: $(basename "$0") [OPTIONS]
@@ -195,11 +195,11 @@ EOF
 
 # Parse arguments
 case "${1:-}" in
-  -h|--help)
+  -h | --help)
     show_usage
     exit 0
     ;;
-  -c|--clean)
+  -c | --clean)
     log_info "Cleaning output directory..."
     rm -rf "$WEBSITE_CONTENT_DIR"
     main

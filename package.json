@@ -1,0 +1,14 @@
+{
+  "name": "utix",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "format": "dprint fmt",
+    "format:check": "dprint check",
+    "format:sh": "shfmt -w -i 2 -ci -bn .",
+    "format:sh:check": "shfmt -d -i 2 -ci -bn ."
+  },
+  "devDependencies": {
+    "dprint": "0.52.0"
+  }
+}

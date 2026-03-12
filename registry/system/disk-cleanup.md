@@ -4,7 +4,9 @@ Clean temporary files, old logs, and package cache.
 
 ## Overview
 
-Frees up disk space by removing temporary files, user cache, package manager cache, old logs, and systemd journal entries. Runs as user for safe cleanup or as root for full system cleanup.
+Frees up disk space by removing temporary files, user cache, package manager
+cache, old logs, and systemd journal entries. Runs as user for safe cleanup or
+as root for full system cleanup.
 
 ## Requirements
 
@@ -18,9 +20,9 @@ utix run disk-cleanup [OPTIONS]
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--dry-run` | `-n` | Preview what would be cleaned |
+| Option      | Short | Description                   |
+| ----------- | ----- | ----------------------------- |
+| `--dry-run` | `-n`  | Preview what would be cleaned |
 
 ## Examples
 
@@ -41,40 +43,40 @@ sudo utix run disk-cleanup
 
 ### User Mode (no sudo)
 
-| Location | What's Removed |
-|----------|----------------|
-| `/tmp/$USER*` | User temp files |
-| `~/.cache/thumbnails` | Thumbnail cache |
-| `~/.cache/pip` | Python pip cache |
-| `~/.cache/npm` | npm cache |
-| `~/.cache/yarn` | Yarn cache |
-| `~/.cache/pnpm` | pnpm cache |
-| `~/.cache/go-build` | Go build cache |
-| `~/.cache/fontconfig` | Font cache |
+| Location                     | What's Removed   |
+| ---------------------------- | ---------------- |
+| `/tmp/$USER*`                | User temp files  |
+| `~/.cache/thumbnails`        | Thumbnail cache  |
+| `~/.cache/pip`               | Python pip cache |
+| `~/.cache/npm`               | npm cache        |
+| `~/.cache/yarn`              | Yarn cache       |
+| `~/.cache/pnpm`              | pnpm cache       |
+| `~/.cache/go-build`          | Go build cache   |
+| `~/.cache/fontconfig`        | Font cache       |
 | `~/.cache/mesa_shader_cache` | GPU shader cache |
 
 ### Root Mode (with sudo)
 
 Everything above, plus:
 
-| Location | What's Removed |
-|----------|----------------|
-| `/tmp/*` | All temp files |
-| `/var/tmp/*` | Persistent temp files |
-| Package cache | apt/dnf/yum/apk cache |
-| `/var/log/*.log` | Logs older than 7 days |
-| `/var/log/*.gz` | Compressed logs > 7 days |
-| `/var/log/*.old` | Old log files |
-| Journal | systemd journal > 7 days |
+| Location         | What's Removed           |
+| ---------------- | ------------------------ |
+| `/tmp/*`         | All temp files           |
+| `/var/tmp/*`     | Persistent temp files    |
+| Package cache    | apt/dnf/yum/apk cache    |
+| `/var/log/*.log` | Logs older than 7 days   |
+| `/var/log/*.gz`  | Compressed logs > 7 days |
+| `/var/log/*.old` | Old log files            |
+| Journal          | systemd journal > 7 days |
 
 ### Package Manager Cleanup
 
-| Distribution | Commands Run |
-|--------------|--------------|
+| Distribution  | Commands Run                               |
+| ------------- | ------------------------------------------ |
 | Ubuntu/Debian | `apt-get clean`, `autoclean`, `autoremove` |
-| Fedora | `dnf clean all` |
-| CentOS/RHEL | `yum clean all` |
-| Alpine | Remove `/var/cache/apk/*` |
+| Fedora        | `dnf clean all`                            |
+| CentOS/RHEL   | `yum clean all`                            |
+| Alpine        | Remove `/var/cache/apk/*`                  |
 
 ## Output
 
@@ -112,6 +114,7 @@ Everything above, plus:
 **Problem:** Cannot clean system files
 
 **Solution:** Run with sudo:
+
 ```bash
 sudo utix run disk-cleanup
 ```
@@ -121,6 +124,7 @@ sudo utix run disk-cleanup
 **Problem:** Space not freed as expected
 
 **Solution:** Check for large files:
+
 ```bash
 # Find files over 100MB
 sudo find / -type f -size +100M 2>/dev/null | head -20
@@ -134,6 +138,7 @@ docker system df
 **Problem:** Needed cache was removed
 
 **Solution:** Cache files regenerate automatically. For package cache:
+
 ```bash
 # Reinstall package to restore cache
 sudo apt-get install --reinstall package-name
@@ -144,6 +149,7 @@ sudo apt-get install --reinstall package-name
 **Problem:** Cannot clean systemd journal
 
 **Solution:** May require root or journal permissions:
+
 ```bash
 sudo journalctl --vacuum-time=7d
 ```
@@ -151,6 +157,7 @@ sudo journalctl --vacuum-time=7d
 ## Safe to Clean
 
 These locations are safe to clean:
+
 - Temporary files (`/tmp`, `/var/tmp`)
 - Package manager cache
 - Browser cache (not cleaned by this script)

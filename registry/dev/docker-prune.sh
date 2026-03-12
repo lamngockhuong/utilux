@@ -236,7 +236,7 @@ system_prune() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Docker Prune Utility
 
 Usage: $(basename "$0") [OPTIONS]
@@ -284,7 +284,7 @@ main() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -a|--all)
+      -a | --all)
         do_containers=1
         do_images=1
         do_volumes=1
@@ -292,31 +292,31 @@ main() {
         do_builder=1
         shift
         ;;
-      -c|--containers)
+      -c | --containers)
         do_containers=1
         shift
         ;;
-      -i|--images)
+      -i | --images)
         do_images=1
         shift
         ;;
-      -d|--dangling)
+      -d | --dangling)
         do_dangling=1
         shift
         ;;
-      -v|--volumes)
+      -v | --volumes)
         do_volumes=1
         shift
         ;;
-      -n|--networks)
+      -n | --networks)
         do_networks=1
         shift
         ;;
-      -b|--builder)
+      -b | --builder)
         do_builder=1
         shift
         ;;
-      -s|--system)
+      -s | --system)
         do_system=1
         shift
         ;;
@@ -324,7 +324,7 @@ main() {
         dry_run=1
         shift
         ;;
-      -h|--help)
+      -h | --help)
         show_usage
         exit 0
         ;;

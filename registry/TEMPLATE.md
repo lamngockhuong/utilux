@@ -4,13 +4,14 @@ Brief one-line description of what the script does.
 
 ## Overview
 
-Extended description explaining the script's purpose, key features, and use cases.
+Extended description explaining the script's purpose, key features, and use
+cases.
 
 ## Requirements
 
-| Dependency | Description |
-|------------|-------------|
-| `cmd` | Why it's needed |
+| Dependency | Description     |
+| ---------- | --------------- |
+| `cmd`      | Why it's needed |
 
 ## Installation
 
@@ -27,15 +28,15 @@ utix run script-name [COMMAND] [OPTIONS]
 
 ### Commands
 
-| Command | Description |
-|---------|-------------|
+| Command   | Description  |
+| --------- | ------------ |
 | `command` | What it does |
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--option` | `-o` | Description |
+| Option     | Short | Description |
+| ---------- | ----- | ----------- |
+| `--option` | `-o`  | Description |
 
 ## Examples
 
@@ -58,8 +59,8 @@ utix run script-name command --flag
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
+| Variable   | Default | Description      |
+| ---------- | ------- | ---------------- |
 | `VAR_NAME` | `value` | What it controls |
 
 ## Troubleshooting
@@ -69,6 +70,7 @@ utix run script-name command --flag
 **Problem:** Description of the issue
 
 **Solution:**
+
 ```bash
 # How to fix it
 ```

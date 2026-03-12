@@ -79,9 +79,9 @@ create_backup() {
   # Create backup with progress
   if command -v pv &>/dev/null; then
     # With progress bar
-    tar "${exclude_args[@]}" -cf - -C "$(dirname "$source_dir")" "$(basename "$source_dir")" | \
-      pv -s "$(du -sb "$source_dir" 2>/dev/null | cut -f1)" | \
-      gzip > "$backup_path"
+    tar "${exclude_args[@]}" -cf - -C "$(dirname "$source_dir")" "$(basename "$source_dir")" \
+      | pv -s "$(du -sb "$source_dir" 2>/dev/null | cut -f1)" \
+      | gzip >"$backup_path"
   else
     # Without progress bar
     tar "${exclude_args[@]}" -czf "$backup_path" -C "$(dirname "$source_dir")" "$(basename "$source_dir")"
@@ -207,7 +207,7 @@ show_backup_info() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Home Directory Backup Utility
 
 Usage: $(basename "$0") [COMMAND] [OPTIONS]
@@ -248,11 +248,11 @@ main() {
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      create|list|clean)
+      create | list | clean)
         command="$1"
         shift
         ;;
-      restore|info)
+      restore | info)
         command="$1"
         if [[ -n "${2:-}" && ! "$2" =~ ^- ]]; then
           local target="$2"
@@ -260,23 +260,23 @@ main() {
         fi
         shift
         ;;
-      -d|--dir)
+      -d | --dir)
         BACKUP_DIR="$2"
         shift 2
         ;;
-      -k|--keep)
+      -k | --keep)
         KEEP_BACKUPS="$2"
         shift 2
         ;;
-      -e|--exclude)
+      -e | --exclude)
         excludes+=("$2")
         shift 2
         ;;
-      -s|--source)
+      -s | --source)
         source_dir="$2"
         shift 2
         ;;
-      -h|--help)
+      -h | --help)
         show_usage
         exit 0
         ;;

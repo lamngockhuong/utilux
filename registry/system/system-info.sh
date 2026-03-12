@@ -69,7 +69,7 @@ show_memory() {
 
   if command -v free &>/dev/null; then
     local total used free available
-    read -r total used free _ _ available <<< "$(free -m | awk '/^Mem:/ {print $2, $3, $4, $6, $7}')"
+    read -r total used free _ _ available <<<"$(free -m | awk '/^Mem:/ {print $2, $3, $4, $6, $7}')"
 
     item "Total" "${total} MB"
     item "Used" "${used} MB"
@@ -83,7 +83,7 @@ show_memory() {
 
   # Swap
   local swap_total swap_used
-  read -r swap_total swap_used <<< "$(free -m | awk '/^Swap:/ {print $2, $3}')"
+  read -r swap_total swap_used <<<"$(free -m | awk '/^Swap:/ {print $2, $3}')"
   if [[ "$swap_total" -gt 0 ]]; then
     item "Swap Total" "${swap_total} MB"
     item "Swap Used" "${swap_used} MB"
@@ -94,9 +94,9 @@ show_memory() {
 show_disk() {
   section "Disk"
 
-  df -h --output=source,size,used,avail,pcent,target 2>/dev/null | \
-    grep -E "^/dev/" | \
-    while read -r source size used avail pcent target; do
+  df -h --output=source,size,used,avail,pcent,target 2>/dev/null \
+    | grep -E "^/dev/" \
+    | while read -r source size used avail pcent target; do
       printf "  %-15s %6s / %6s (%s) → %s\n" "$source" "$used" "$size" "$pcent" "$target"
     done
 }
@@ -179,8 +179,8 @@ show_services() {
   if [[ "$failed" -gt 0 ]]; then
     echo ""
     echo -e "  ${YELLOW}Failed services:${NC}"
-    systemctl list-units --type=service --state=failed --no-pager --no-legend 2>/dev/null | \
-      awk '{print "    - " $1}' | head -5
+    systemctl list-units --type=service --state=failed --no-pager --no-legend 2>/dev/null \
+      | awk '{print "    - " $1}' | head -5
   fi
 }
 
@@ -192,15 +192,15 @@ main() {
   local section="${1:-all}"
 
   case "$section" in
-    os)       show_os ;;
-    cpu)      show_cpu ;;
-    memory)   show_memory ;;
-    disk)     show_disk ;;
-    network)  show_network ;;
-    users)    show_users ;;
-    process)  show_processes ;;
+    os) show_os ;;
+    cpu) show_cpu ;;
+    memory) show_memory ;;
+    disk) show_disk ;;
+    network) show_network ;;
+    users) show_users ;;
+    process) show_processes ;;
     services) show_services ;;
-    all|*)
+    all | *)
       show_os
       show_cpu
       show_memory

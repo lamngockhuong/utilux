@@ -27,7 +27,7 @@ VERSION="1.0.0"
 
 # Help text
 show_help() {
-  cat << EOF
+  cat <<EOF
 utix - Lightweight Script Aggregator v$VERSION
 
 USAGE:
@@ -170,7 +170,7 @@ cmd_info() {
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -d|--docs)
+      -d | --docs)
         show_docs=1
         shift
         ;;
@@ -276,7 +276,7 @@ cmd_cache() {
           local ver
           ver=$(cache_version "$name")
           echo "  - $name ($ver)"
-        done <<< "$cached_scripts"
+        done <<<"$cached_scripts"
       else
         echo "  (none)"
       fi
@@ -337,9 +337,9 @@ cmd_interactive() {
         "1" "Run a script" "2" "List scripts" "3" "Search scripts" "4" "Script info" \
         "5" "Update scripts" "6" "Cache management" "7" "Configuration" "8" "Exit" 3>&1 1>&2 2>&3)
       [[ $? -ne 0 ]] && exit 0
-      case $choice in 1) choice="Run a script";; 2) choice="List scripts";; 3) choice="Search scripts";;
-        4) choice="Script info";; 5) choice="Update scripts";; 6) choice="Cache management";;
-        7) choice="Configuration";; 8) choice="Exit";; esac
+      case $choice in 1) choice="Run a script" ;; 2) choice="List scripts" ;; 3) choice="Search scripts" ;;
+      4) choice="Script info" ;; 5) choice="Update scripts" ;; 6) choice="Cache management" ;;
+      7) choice="Configuration" ;; 8) choice="Exit" ;; esac
     fi
 
     case "$choice" in
@@ -347,10 +347,13 @@ cmd_interactive() {
       "List scripts") _interactive_list ;;
       "Search scripts") _interactive_search ;;
       "Script info") _interactive_info ;;
-      "Update scripts") cmd_update --all; _tui_msg "Update" "All scripts updated!" ;;
+      "Update scripts")
+        cmd_update --all
+        _tui_msg "Update" "All scripts updated!"
+        ;;
       "Cache management") _interactive_cache ;;
       "Configuration") _interactive_config ;;
-      "Exit"|"") exit 0 ;;
+      "Exit" | "") exit 0 ;;
     esac
   done
 }
@@ -397,7 +400,10 @@ _interactive_cache() {
   local choice=$(_tui_choose "Cache Management" "${actions[@]}")
   case "$choice" in
     "List cached"*) _tui_msg "Cached Scripts" "$(cmd_cache list 2>&1)" ;;
-    "Clear all"*) _tui_confirm "Clear all cached scripts?" && { cache_clear; _tui_msg "Cache" "Cache cleared!"; } ;;
+    "Clear all"*) _tui_confirm "Clear all cached scripts?" && {
+      cache_clear
+      _tui_msg "Cache" "Cache cleared!"
+    } ;;
     "Show cache"*) _tui_msg "Cache Size" "Cache size: $(cache_size_human)" ;;
   esac
 }
@@ -451,19 +457,27 @@ _has_tui() { _has_gum || _has_whiptail; }
 
 # TUI helpers (gum > whiptail)
 _tui_choose() {
-  local title="$1"; shift
+  local title="$1"
+  shift
   if _has_gum; then
     gum choose --header "$title" "$@"
   else
     local opts=() i=1
-    for o in "$@"; do opts+=("$i" "$o"); ((i++)); done
+    for o in "$@"; do
+      opts+=("$i" "$o")
+      ((i++))
+    done
     local c=$(whiptail --title "Utix" --menu "$title" 20 60 12 "${opts[@]}" 3>&1 1>&2 2>&3)
-    [[ $? -eq 0 && -n "$c" ]] && { shift $((c-1)); echo "$1"; }
+    [[ $? -eq 0 && -n "$c" ]] && {
+      shift $((c - 1))
+      echo "$1"
+    }
   fi
 }
 _tui_input() {
   local msg="$1" default="${2:-}"
-  if _has_gum; then gum input --placeholder "$msg" --value "$default"
+  if _has_gum; then
+    gum input --placeholder "$msg" --value "$default"
   else whiptail --title "Utix" --inputbox "$msg" 10 60 "$default" 3>&1 1>&2 2>&3; fi
 }
 _tui_msg() {
@@ -476,7 +490,8 @@ _tui_msg() {
 }
 _tui_confirm() {
   local msg="$1"
-  if _has_gum; then gum confirm "$msg"
+  if _has_gum; then
+    gum confirm "$msg"
   else whiptail --title "Utix" --yesno "$msg" 8 40; fi
 }
 
@@ -489,13 +504,13 @@ main() {
     run)
       cmd_run "$@"
       ;;
-    list|ls)
+    list | ls)
       cmd_list "$@"
       ;;
-    search|find)
+    search | find)
       cmd_search "$@"
       ;;
-    info|show)
+    info | show)
       cmd_info "$@"
       ;;
     docs)
@@ -507,13 +522,13 @@ main() {
     cache)
       cmd_cache "$@"
       ;;
-    config|cfg)
+    config | cfg)
       cmd_config "$@"
       ;;
-    help|-h|--help)
+    help | -h | --help)
       show_help
       ;;
-    version|-v|--version)
+    version | -v | --version)
       echo "utix v$VERSION"
       ;;
     "")

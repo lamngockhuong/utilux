@@ -1,6 +1,7 @@
 # Utix
 
-Lightweight script aggregator with lazy loading. Scripts are downloaded on-demand from GitHub, cached locally, and executed.
+Lightweight script aggregator with lazy loading. Scripts are downloaded
+on-demand from GitHub, cached locally, and executed.
 
 ## Installation
 
@@ -12,7 +13,8 @@ curl -fsSL https://raw.githubusercontent.com/lamngockhuong/utix/main/install.sh 
 
 ### Go CLI (Optional)
 
-Download pre-built binary from [Releases](https://github.com/lamngockhuong/utix/releases) or build from source:
+Download pre-built binary from
+[Releases](https://github.com/lamngockhuong/utix/releases) or build from source:
 
 ```bash
 cd cli
@@ -86,13 +88,13 @@ website/                   # Astro documentation site
 
 Environment variables:
 
-| Variable              | Description                          | Default    |
-| --------------------- | ------------------------------------ | ---------- |
-| `UTIX_LOG_LEVEL`    | Log level: debug, info, warn, error  | info       |
-| `UTIX_OFFLINE`      | Offline mode (1/0)                   | 0          |
-| `UTIX_DEV_MODE`     | Run from local source, no cache (1/0)| 0          |
-| `UTIX_CACHE_DIR`    | Custom cache directory               | ~/.utix  |
-| `UTIX_REGISTRY_URL` | Custom registry URL                  | GitHub raw |
+| Variable            | Description                           | Default    |
+| ------------------- | ------------------------------------- | ---------- |
+| `UTIX_LOG_LEVEL`    | Log level: debug, info, warn, error   | info       |
+| `UTIX_OFFLINE`      | Offline mode (1/0)                    | 0          |
+| `UTIX_DEV_MODE`     | Run from local source, no cache (1/0) | 0          |
+| `UTIX_CACHE_DIR`    | Custom cache directory                | ~/.utix    |
+| `UTIX_REGISTRY_URL` | Custom registry URL                   | GitHub raw |
 
 ## Development
 
@@ -106,6 +108,11 @@ make dev DISTRO=fedora      # Fedora
 # Build Go CLI
 cd cli && go build -o utix-go .
 
+# Format code
+npm install && npm run format      # Markdown (dprint)
+npm run format:sh                  # Shell (shfmt)
+cd website && pnpm install && pnpm run check:fix  # JS/TS (Biome)
+
 # Create release package
 ./package.sh <version>
 ```
@@ -114,7 +121,9 @@ cd cli && go build -o utix-go .
 
 - Bash 4.0+
 - curl
-- Optional: jq (better JSON parsing), [gum](https://github.com/charmbracelet/gum) (modern TUI) or whiptail (legacy TUI)
+- Optional: jq (better JSON parsing),
+  [gum](https://github.com/charmbracelet/gum) (modern TUI) or whiptail (legacy
+  TUI)
 - Go 1.22+ (for Go CLI)
 - Docker or Podman (for development containers)
 
@@ -124,7 +133,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute.
 
 ## Author
 
-**Lam Ngoc Khuong** - [khuong.dev](https://khuong.dev) - [hi@khuong.dev](mailto:hi@khuong.dev)
+**Lam Ngoc Khuong** - [khuong.dev](https://khuong.dev) -
+[hi@khuong.dev](mailto:hi@khuong.dev)
 
 ## License
 

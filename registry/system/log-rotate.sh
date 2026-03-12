@@ -35,10 +35,10 @@ parse_size() {
   local unit="${size: -1}"
 
   case "$unit" in
-    K|k) echo $((num * 1024)) ;;
-    M|m) echo $((num * 1024 * 1024)) ;;
-    G|g) echo $((num * 1024 * 1024 * 1024)) ;;
-    *)   echo "$size" ;;
+    K | k) echo $((num * 1024)) ;;
+    M | m) echo $((num * 1024 * 1024)) ;;
+    G | g) echo $((num * 1024 * 1024 * 1024)) ;;
+    *) echo "$size" ;;
   esac
 }
 
@@ -65,10 +65,10 @@ rotate_file() {
   # Rotate existing backups
   for i in $(seq 9 -1 1); do
     if [[ -f "${file}.$i" ]]; then
-      mv "${file}.$i" "${file}.$((i+1))"
+      mv "${file}.$i" "${file}.$((i + 1))"
     fi
     if [[ -f "${file}.$i.gz" ]]; then
-      mv "${file}.$i.gz" "${file}.$((i+1)).gz"
+      mv "${file}.$i.gz" "${file}.$((i + 1)).gz"
     fi
   done
 
@@ -123,7 +123,7 @@ process_directory() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Log Rotate Utility
 
 Usage: $(basename "$0") [OPTIONS] [DIRECTORY]
@@ -156,23 +156,23 @@ main() {
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -s|--size)
+      -s | --size)
         MAX_SIZE="$2"
         shift 2
         ;;
-      -k|--keep)
+      -k | --keep)
         KEEP_DAYS="$2"
         shift 2
         ;;
-      -n|--no-compress)
+      -n | --no-compress)
         COMPRESS=0
         shift
         ;;
-      -d|--dry-run)
+      -d | --dry-run)
         dry_run=1
         shift
         ;;
-      -h|--help)
+      -h | --help)
         show_usage
         exit 0
         ;;

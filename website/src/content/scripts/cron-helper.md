@@ -8,10 +8,11 @@ requires: []
 author: "lamngockhuong"
 ---
 
-
 ## Overview
 
-A friendly interface for managing cron jobs without memorizing cron syntax. Supports adding jobs with common schedules, removing by number, editing directly, and backup/restore of crontab.
+A friendly interface for managing cron jobs without memorizing cron syntax.
+Supports adding jobs with common schedules, removing by number, editing
+directly, and backup/restore of crontab.
 
 ## Requirements
 
@@ -25,17 +26,17 @@ utix run cron-helper [COMMAND] [OPTIONS]
 
 ### Commands
 
-| Command | Description |
-|---------|-------------|
-| `list` | List current cron jobs (default) |
-| `add SCHEDULE CMD` | Add a new cron job |
-| `remove [N]` | Remove cron job by number |
-| `edit` | Open crontab in editor |
-| `export [FILE]` | Export cron jobs to file |
-| `import FILE` | Import cron jobs from file |
-| `clear` | Remove all cron jobs |
-| `examples` | Show schedule examples |
-| `menu` | Interactive menu |
+| Command            | Description                      |
+| ------------------ | -------------------------------- |
+| `list`             | List current cron jobs (default) |
+| `add SCHEDULE CMD` | Add a new cron job               |
+| `remove [N]`       | Remove cron job by number        |
+| `edit`             | Open crontab in editor           |
+| `export [FILE]`    | Export cron jobs to file         |
+| `import FILE`      | Import cron jobs from file       |
+| `clear`            | Remove all cron jobs             |
+| `examples`         | Show schedule examples           |
+| `menu`             | Interactive menu                 |
 
 ## Examples
 
@@ -95,33 +96,33 @@ utix run cron-helper edit
 MIN HOUR DOM MON DOW command
 ```
 
-| Field | Values | Description |
-|-------|--------|-------------|
-| MIN | 0-59 | Minute |
-| HOUR | 0-23 | Hour |
-| DOM | 1-31 | Day of Month |
-| MON | 1-12 | Month |
-| DOW | 0-7 | Day of Week (0,7 = Sunday) |
+| Field | Values | Description                |
+| ----- | ------ | -------------------------- |
+| MIN   | 0-59   | Minute                     |
+| HOUR  | 0-23   | Hour                       |
+| DOM   | 1-31   | Day of Month               |
+| MON   | 1-12   | Month                      |
+| DOW   | 0-7    | Day of Week (0,7 = Sunday) |
 
 ### Special Characters
 
-| Char | Description | Example |
-|------|-------------|---------|
-| `*` | Any value | `* * * * *` = every minute |
-| `,` | Value list | `1,15 * * * *` = at :01 and :15 |
-| `-` | Range | `0 9-17 * * *` = 9 AM to 5 PM |
-| `/` | Step | `*/15 * * * *` = every 15 min |
+| Char | Description | Example                         |
+| ---- | ----------- | ------------------------------- |
+| `*`  | Any value   | `* * * * *` = every minute      |
+| `,`  | Value list  | `1,15 * * * *` = at :01 and :15 |
+| `-`  | Range       | `0 9-17 * * *` = 9 AM to 5 PM   |
+| `/`  | Step        | `*/15 * * * *` = every 15 min   |
 
 ### Special Schedules
 
-| Schedule | Equivalent | Description |
-|----------|------------|-------------|
-| `@reboot` | - | Run at startup |
-| `@hourly` | `0 * * * *` | Every hour |
-| `@daily` | `0 0 * * *` | Every day at midnight |
-| `@weekly` | `0 0 * * 0` | Every Sunday |
-| `@monthly` | `0 0 1 * *` | First of month |
-| `@yearly` | `0 0 1 1 *` | January 1st |
+| Schedule   | Equivalent  | Description           |
+| ---------- | ----------- | --------------------- |
+| `@reboot`  | -           | Run at startup        |
+| `@hourly`  | `0 * * * *` | Every hour            |
+| `@daily`   | `0 0 * * *` | Every day at midnight |
+| `@weekly`  | `0 0 * * 0` | Every Sunday          |
+| `@monthly` | `0 0 1 * *` | First of month        |
+| `@yearly`  | `0 0 1 1 *` | January 1st           |
 
 ## Troubleshooting
 
@@ -130,6 +131,7 @@ MIN HOUR DOM MON DOW command
 **Problem:** Cron job doesn't execute
 
 **Solution:**
+
 1. Check cron service is running: `systemctl status cron`
 2. Use full paths in commands
 3. Check script permissions: `chmod +x script.sh`
@@ -140,6 +142,7 @@ MIN HOUR DOM MON DOW command
 **Problem:** Cannot edit crontab
 
 **Solution:** Ensure user is not in `/etc/cron.deny`:
+
 ```bash
 cat /etc/cron.deny
 ```
@@ -149,6 +152,7 @@ cat /etc/cron.deny
 **Problem:** Script works manually but not from cron
 
 **Solution:** Set PATH at top of crontab:
+
 ```
 PATH=/usr/local/bin:/usr/bin:/bin
 0 * * * * /path/to/script.sh

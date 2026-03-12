@@ -8,16 +8,17 @@ requires: ["openssl"]
 author: "lamngockhuong"
 ---
 
-
 ## Overview
 
-Connects to HTTPS servers and displays certificate information including expiry date, issuer, subject, and SANs. Supports batch checking from file and configurable expiry warnings.
+Connects to HTTPS servers and displays certificate information including expiry
+date, issuer, subject, and SANs. Supports batch checking from file and
+configurable expiry warnings.
 
 ## Requirements
 
-| Dependency | Description |
-|------------|-------------|
-| `openssl` | SSL/TLS toolkit |
+| Dependency | Description     |
+| ---------- | --------------- |
+| `openssl`  | SSL/TLS toolkit |
 
 ## Usage
 
@@ -27,13 +28,13 @@ utix run ssl-check [OPTIONS] HOST[:PORT]
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--port PORT` | `-p` | Port number (default: 443) |
-| `--warn DAYS` | `-w` | Warning threshold in days (default: 30) |
-| `--file FILE` | `-f` | Check hosts from file |
-| `--chain` | `-c` | Show certificate chain |
-| `--help` | `-h` | Show help |
+| Option        | Short | Description                             |
+| ------------- | ----- | --------------------------------------- |
+| `--port PORT` | `-p`  | Port number (default: 443)              |
+| `--warn DAYS` | `-w`  | Warning threshold in days (default: 30) |
+| `--file FILE` | `-f`  | Check hosts from file                   |
+| `--chain`     | `-c`  | Show certificate chain                  |
+| `--help`      | `-h`  | Show help                               |
 
 ## Examples
 
@@ -121,11 +122,11 @@ Summary:
 
 ## Status Colors
 
-| Status | Color | Condition |
-|--------|-------|-----------|
-| Valid | Green | > warning days |
-| Expiring Soon | Yellow | < warning days |
-| Expired | Red | Past expiry date |
+| Status        | Color  | Condition        |
+| ------------- | ------ | ---------------- |
+| Valid         | Green  | > warning days   |
+| Expiring Soon | Yellow | < warning days   |
+| Expired       | Red    | Past expiry date |
 
 ## Troubleshooting
 
@@ -134,6 +135,7 @@ Summary:
 **Problem:** Cannot connect to host
 
 **Solution:** Verify the host and port:
+
 ```bash
 # Check if port is open
 utix run port-scan -p 443 hostname
@@ -147,8 +149,10 @@ utix run ssl-check hostname:443
 **Problem:** Could not parse certificate
 
 **Solution:**
+
 - Host may not have valid SSL
 - Try with openssl directly:
+
 ```bash
 echo | openssl s_client -connect hostname:443 2>/dev/null
 ```
@@ -157,13 +161,15 @@ echo | openssl s_client -connect hostname:443 2>/dev/null
 
 **Problem:** Wrong certificate returned for shared hosting
 
-**Solution:** The script uses `-servername` flag automatically. Ensure hostname is correct.
+**Solution:** The script uses `-servername` flag automatically. Ensure hostname
+is correct.
 
 ### Timeout on slow servers
 
 **Problem:** Connection times out
 
-**Solution:** The default timeout is 5 seconds. For slow servers, the script may need modification.
+**Solution:** The default timeout is 5 seconds. For slow servers, the script may
+need modification.
 
 ## Hosts File Format
 

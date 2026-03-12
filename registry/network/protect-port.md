@@ -4,7 +4,9 @@ Add basic auth to any port via nginx reverse proxy.
 
 ## Overview
 
-Creates nginx reverse proxy with HTTP Basic Authentication for protecting internal services. Useful for securing Docker services, development tools, or any localhost-bound applications.
+Creates nginx reverse proxy with HTTP Basic Authentication for protecting
+internal services. Useful for securing Docker services, development tools, or
+any localhost-bound applications.
 
 ## Requirements
 
@@ -68,7 +70,8 @@ utix run protect-port list
 
 **Example:** RedisInsight running at `0.0.0.0:5540`
 
-> **Note:** iptables INPUT chain doesn't work with Docker (Docker bypasses via DOCKER chain). Simplest solution is binding Docker to localhost.
+> **Note:** iptables INPUT chain doesn't work with Docker (Docker bypasses via
+> DOCKER chain). Simplest solution is binding Docker to localhost.
 
 ### Steps
 

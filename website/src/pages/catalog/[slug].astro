@@ -1,25 +1,26 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import CopyButton from '../../components/CopyButton.astro';
-import { getCollection } from 'astro:content';
-import manifest from '../../../../registry/manifest.json';
+import { getCollection, render } from 'astro:content'
+import manifest from '../../../../registry/manifest.json'
+import CopyButton from '../../components/CopyButton.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
 
 export async function getStaticPaths() {
-  const scripts = await getCollection('scripts');
+  const scripts = await getCollection('scripts')
 
-  return scripts.map(script => ({
-    params: { slug: script.slug },
-    props: { script }
-  }));
+  return scripts.map((script) => ({
+    params: { slug: script.id },
+    props: { script },
+  }))
 }
 
-const { script } = Astro.props;
-const { Content } = await script.render();
-const { title, description, category, version, author, tags, requires } = script.data;
+const { script } = Astro.props
+const { Content } = await render(script)
+const { title, description, category, version, author, tags, requires } =
+  script.data
 
 // Get file path from manifest for GitHub link
-const manifestScript = manifest.scripts.find(s => s.name === script.slug);
-const runCommand = `utix run ${script.slug}`;
+const manifestScript = manifest.scripts.find((s) => s.name === script.id)
+const runCommand = `utix run ${script.id}`
 ---
 
 <BaseLayout title={title} description={description}>

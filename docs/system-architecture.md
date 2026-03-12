@@ -2,7 +2,9 @@
 
 ## Overview
 
-Utix is a distributed script management system with client-server architecture where the "server" is a static GitHub repository and clients are CLI tools (Bash or Go) that fetch, cache, and execute scripts on-demand.
+Utix is a distributed script management system with client-server architecture
+where the "server" is a static GitHub repository and clients are CLI tools (Bash
+or Go) that fetch, cache, and execute scripts on-demand.
 
 ## Architecture Diagram
 

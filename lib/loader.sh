@@ -202,7 +202,7 @@ loader_check_requires() {
   script_json=$(registry_get_script "$name")
 
   if [[ -z "$script_json" ]]; then
-    return 0  # No metadata, skip check
+    return 0 # No metadata, skip check
   fi
 
   local requires

@@ -8,10 +8,11 @@ requires: []
 author: "lamngockhuong"
 ---
 
-
 ## Overview
 
-Shows detailed information about OS, CPU, memory, disk, network, users, processes, and services in a formatted report. Useful for system diagnostics and documentation.
+Shows detailed information about OS, CPU, memory, disk, network, users,
+processes, and services in a formatted report. Useful for system diagnostics and
+documentation.
 
 ## Requirements
 
@@ -25,17 +26,17 @@ utix run system-info [SECTION]
 
 ### Sections
 
-| Section | Description |
-|---------|-------------|
-| `all` | Show all sections (default) |
-| `os` | Operating system info |
-| `cpu` | CPU information |
-| `memory` | Memory and swap usage |
-| `disk` | Disk usage |
-| `network` | Network configuration |
-| `users` | User information |
-| `process` | Process statistics |
-| `services` | systemd services status |
+| Section    | Description                 |
+| ---------- | --------------------------- |
+| `all`      | Show all sections (default) |
+| `os`       | Operating system info       |
+| `cpu`      | CPU information             |
+| `memory`   | Memory and swap usage       |
+| `disk`     | Disk usage                  |
+| `network`  | Network configuration       |
+| `users`    | User information            |
+| `process`  | Process statistics          |
+| `services` | systemd services status     |
 
 ## Examples
 
@@ -168,6 +169,7 @@ utix run system-info network
 **Problem:** Cannot fetch public IP
 
 **Solution:** Requires internet access. The script uses `ifconfig.me`:
+
 ```bash
 curl ifconfig.me
 ```
@@ -177,6 +179,7 @@ curl ifconfig.me
 **Problem:** Services section empty
 
 **Solution:** Only works on systemd systems:
+
 ```bash
 systemctl --version
 ```
@@ -186,6 +189,7 @@ systemctl --version
 **Problem:** Some details missing
 
 **Solution:** Run with sudo for complete info:
+
 ```bash
 sudo utix run system-info
 ```
@@ -195,6 +199,7 @@ sudo utix run system-info
 **Problem:** Takes long to display
 
 **Solution:** Public IP lookup has 2-second timeout. Skip with:
+
 ```bash
 utix run system-info os cpu memory disk
 ```

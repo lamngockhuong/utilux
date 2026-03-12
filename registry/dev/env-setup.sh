@@ -51,7 +51,7 @@ install_pkg() {
     apt)
       sudo apt-get install -y "$pkg"
       ;;
-    dnf|yum)
+    dnf | yum)
       sudo "$pkg_mgr" install -y "$pkg"
       ;;
     apk)
@@ -85,7 +85,7 @@ update_packages() {
     apt)
       sudo apt-get update
       ;;
-    dnf|yum)
+    dnf | yum)
       sudo "$pkg_mgr" check-update || true
       ;;
     apk)
@@ -138,7 +138,7 @@ install_build_tools() {
     apt)
       sudo apt-get install -y build-essential
       ;;
-    dnf|yum)
+    dnf | yum)
       sudo "$pkg_mgr" groupinstall -y "Development Tools"
       ;;
     apk)
@@ -208,9 +208,9 @@ install_go() {
   local arch
   arch=$(uname -m)
   case "$arch" in
-    x86_64)  arch="amd64" ;;
+    x86_64) arch="amd64" ;;
     aarch64) arch="arm64" ;;
-    armv*)   arch="arm" ;;
+    armv*) arch="arm" ;;
   esac
 
   curl -sLO "https://go.dev/dl/go${go_version}.linux-${arch}.tar.gz"
@@ -220,7 +220,7 @@ install_go() {
 
   # Add to PATH
   if ! grep -q '/usr/local/go/bin' ~/.bashrc; then
-    echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+    echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.bashrc
   fi
 
   export PATH=$PATH:/usr/local/go/bin
@@ -264,8 +264,8 @@ install_docker() {
       sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
       # Add repository
-      echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
+        | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
       sudo apt-get update
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
@@ -331,7 +331,7 @@ show_summary() {
 
 # Show usage
 show_usage() {
-  cat << EOF
+  cat <<EOF
 Development Environment Setup
 
 Usage: $(basename "$0") [OPTIONS]
@@ -374,7 +374,7 @@ main() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -a|--all)
+      -a | --all)
         do_basic=1
         do_build=1
         do_node=1
@@ -385,15 +385,39 @@ main() {
         do_git=1
         shift
         ;;
-      -b|--basic)   do_basic=1; shift ;;
-      -B|--build)   do_build=1; shift ;;
-      -n|--node)    do_node=1; shift ;;
-      -p|--python)  do_python=1; shift ;;
-      -g|--go)      do_go=1; shift ;;
-      -r|--rust)    do_rust=1; shift ;;
-      -d|--docker)  do_docker=1; shift ;;
-      -G|--git)     do_git=1; shift ;;
-      -h|--help)
+      -b | --basic)
+        do_basic=1
+        shift
+        ;;
+      -B | --build)
+        do_build=1
+        shift
+        ;;
+      -n | --node)
+        do_node=1
+        shift
+        ;;
+      -p | --python)
+        do_python=1
+        shift
+        ;;
+      -g | --go)
+        do_go=1
+        shift
+        ;;
+      -r | --rust)
+        do_rust=1
+        shift
+        ;;
+      -d | --docker)
+        do_docker=1
+        shift
+        ;;
+      -G | --git)
+        do_git=1
+        shift
+        ;;
+      -h | --help)
         show_usage
         exit 0
         ;;

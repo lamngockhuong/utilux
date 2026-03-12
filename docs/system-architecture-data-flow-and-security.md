@@ -1,6 +1,7 @@
 # System Architecture: Data Flow & Security
 
-Advanced architecture documentation covering data flows, network communication, security, and scalability.
+Advanced architecture documentation covering data flows, network communication,
+security, and scalability.
 
 ## Script Execution Flow
 

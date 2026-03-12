@@ -249,48 +249,48 @@ Detailed explanation of what the script does and use cases.
 ## Requirements
 
 | Dependency | Description |
-|------------|-------------|
-| `tool` | Purpose |
+| ---------- | ----------- |
+| `tool`     | Purpose     |
 
 ## Usage
 
-\`\`\`bash
-utix run script-name [COMMAND] [OPTIONS]
-\`\`\`
+\`\`\`bash utix run script-name [COMMAND] [OPTIONS] \`\`\`
 
 ### Commands (if applicable)
 
-| Command | Description |
-|---------|-------------|
+| Command  | Description  |
+| -------- | ------------ |
 | `action` | What it does |
 
 ### Options
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--flag` | `-f` | Purpose |
+| Option   | Short | Description |
+| -------- | ----- | ----------- |
+| `--flag` | `-f`  | Purpose     |
 
 ## Examples
 
 ### Basic Usage
 
 \`\`\`bash
+
 # Example with explanation
-utix run script-name
-\`\`\`
+
+utix run script-name \`\`\`
 
 ### Advanced Usage
 
 \`\`\`bash
+
 # More complex examples
-utix run script-name --advanced
-\`\`\`
+
+utix run script-name --advanced \`\`\`
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `VAR_NAME` | `value` | Purpose |
+| Variable   | Default | Description |
+| ---------- | ------- | ----------- |
+| `VAR_NAME` | `value` | Purpose     |
 
 ## Troubleshooting
 
