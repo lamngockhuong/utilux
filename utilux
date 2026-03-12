@@ -249,12 +249,10 @@ cmd_update() {
 
   if [[ "$target" == "--all" || -z "$target" ]]; then
     log_info "Updating all cached scripts..."
-    registry_fetch 1  # Force refresh
     loader_update
     log_success "All scripts updated"
   else
     log_info "Updating $target..."
-    registry_fetch 1
     loader_update "$target"
     log_success "$target updated"
   fi

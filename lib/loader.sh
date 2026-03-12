@@ -231,6 +231,9 @@ loader_check_requires() {
 loader_update() {
   local name="${1:-}"
 
+  # Force refresh manifest to get latest versions
+  registry_fetch 1
+
   if [[ -n "$name" ]]; then
     # Update specific script
     cache_clear "$name"

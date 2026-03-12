@@ -135,6 +135,11 @@ func (l *Loader) checkRequires(requires []string) error {
 
 // Update refreshes cached scripts
 func (l *Loader) Update(name string) error {
+	// Force refresh manifest to get latest versions
+	if _, err := l.Registry.Fetch(true); err != nil {
+		return fmt.Errorf("failed to refresh manifest: %w", err)
+	}
+
 	if name != "" {
 		script, err := l.Registry.GetScript(name)
 		if err != nil {
