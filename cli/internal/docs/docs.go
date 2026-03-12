@@ -164,7 +164,7 @@ func (m *Manager) Show(name string) error {
 // Clear removes cached docs
 func (m *Manager) Clear(name string) error {
 	if name != "" {
-		os.Remove(m.VersionPath(name))
+		_ = os.Remove(m.VersionPath(name))
 		return os.Remove(m.CachePath(name))
 	}
 

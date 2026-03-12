@@ -359,11 +359,11 @@ func manageConfigInteractive() error {
 		}
 	case "offline":
 		cfg.Offline = !cfg.Offline
-		cfg.Save()
+		_ = cfg.Save()
 		fmt.Printf("Offline mode: %v\n", cfg.Offline)
 	case "autoupdate":
 		cfg.AutoUpdate = !cfg.AutoUpdate
-		cfg.Save()
+		_ = cfg.Save()
 		fmt.Printf("Auto-update: %v\n", cfg.AutoUpdate)
 	case "reset":
 		if err := cfg.Reset(); err != nil {
@@ -374,6 +374,3 @@ func manageConfigInteractive() error {
 	return nil
 }
 
-func getConfig() *config.Config {
-	return cfg
-}

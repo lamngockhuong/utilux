@@ -91,7 +91,7 @@ func (c *Cache) Remove(name string) error {
 	scriptPath := c.ScriptPath(name)
 	versionPath := c.VersionPath(name)
 
-	os.Remove(versionPath) // Ignore error
+	_ = os.Remove(versionPath) // Ignore error
 	return os.Remove(scriptPath)
 }
 
