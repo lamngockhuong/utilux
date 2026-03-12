@@ -22,7 +22,7 @@ jobs:
         with:
           scandir: .
           additional_files: utix
-          severity: warning
+          severity: error
         env:
           SHELLCHECK_OPTS: -x
 
