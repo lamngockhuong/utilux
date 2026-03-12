@@ -6,6 +6,7 @@
 # @requires:
 # @tags: cleanup, disk, storage
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

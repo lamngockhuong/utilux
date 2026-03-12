@@ -6,6 +6,7 @@
 # @requires: tar
 # @tags: backup, archive, home
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

@@ -84,11 +84,32 @@ website/                     # Astro documentation site
 
 ## Adding New Scripts
 
-1. Create script in `registry/{category}/{script-name}.sh`
-2. Add entry to `registry/manifest.json` with name, description, version, sha256, tags, requires
-3. Test: `utilux run {script-name}`
+1. Create script in `registry/{category}/{script-name}.sh` with metadata header:
+   ```bash
+   #!/bin/bash
+   # @name: script-name
+   # @version: v1.0.0
+   # @description: What this script does
+   # @category: automation|dev|network|system
+   # @requires: curl, jq
+   # @tags: tag1, tag2
+   # @author: your-name
+   # @draft              # Optional: hides from list/website, still runnable
+   ```
+2. Create docs in `registry/{category}/{script-name}.md`
+3. Run `./generate-manifest.sh` to update manifest.json
+4. Test: `UTILUX_DEV_MODE=1 ./utilux run {script-name}`
+
+### Draft Scripts
+
+Add `# @draft` to script header to mark as work-in-progress:
+- Hidden from `utilux list`, search, and website catalog
+- Still runnable via `utilux run <script-name>`
+- Remove `# @draft` when ready for release
 
 ## Environment Variables
 
 - `UTILUX_LOG_LEVEL`: Set to `info`, `warn`, `error`, or `debug`
-- `UTILUX_API_KEY`: API key for custom package servers (optional)
+- `UTILUX_DEV_MODE`: Set to `1` to run from local source (no cache, instant updates)
+- `UTILUX_OFFLINE`: Set to `1` to use cached manifest only
+- `UTILUX_AUTO_UPDATE`: Set to `0` to disable auto-update checks

@@ -6,6 +6,7 @@
 # @requires:
 # @tags: system, info, hardware
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

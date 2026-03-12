@@ -86,12 +86,13 @@ website/                   # Astro documentation site
 
 Environment variables:
 
-| Variable              | Description                         | Default    |
-| --------------------- | ----------------------------------- | ---------- |
-| `UTILUX_LOG_LEVEL`    | Log level: debug, info, warn, error | info       |
-| `UTILUX_OFFLINE`      | Offline mode (1/0)                  | 0          |
-| `UTILUX_CACHE_DIR`    | Custom cache directory              | ~/.utilux  |
-| `UTILUX_REGISTRY_URL` | Custom registry URL                 | GitHub raw |
+| Variable              | Description                          | Default    |
+| --------------------- | ------------------------------------ | ---------- |
+| `UTILUX_LOG_LEVEL`    | Log level: debug, info, warn, error  | info       |
+| `UTILUX_OFFLINE`      | Offline mode (1/0)                   | 0          |
+| `UTILUX_DEV_MODE`     | Run from local source, no cache (1/0)| 0          |
+| `UTILUX_CACHE_DIR`    | Custom cache directory               | ~/.utilux  |
+| `UTILUX_REGISTRY_URL` | Custom registry URL                  | GitHub raw |
 
 ## Development
 

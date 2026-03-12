@@ -41,13 +41,13 @@ log_debug() {
 
 log_info() {
   if [[ $UTILUX_CURRENT_LOG_LEVEL -le $UTILUX_LOG_INFO ]]; then
-    echo -e "${UTILUX_BLUE}[INFO]${UTILUX_NC} $*"
+    echo -e "${UTILUX_BLUE}[INFO]${UTILUX_NC} $*" >&2
   fi
 }
 
 log_success() {
   if [[ $UTILUX_CURRENT_LOG_LEVEL -le $UTILUX_LOG_INFO ]]; then
-    echo -e "${UTILUX_GREEN}[OK]${UTILUX_NC} $*"
+    echo -e "${UTILUX_GREEN}[OK]${UTILUX_NC} $*" >&2
   fi
 }
 

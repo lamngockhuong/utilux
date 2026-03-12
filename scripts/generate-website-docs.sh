@@ -63,7 +63,7 @@ EOF
 process_script() {
   local script_json="$1"
 
-  local name category description version file docs tags requires author
+  local name category description version file docs tags requires author draft
 
   name=$(echo "$script_json" | jq -r '.name')
   category=$(echo "$script_json" | jq -r '.category')
@@ -73,6 +73,13 @@ process_script() {
   tags=$(echo "$script_json" | jq -c '.tags // []')
   requires=$(echo "$script_json" | jq -c '.requires // []')
   author=$(echo "$script_json" | jq -r '.author // "unknown"')
+  draft=$(echo "$script_json" | jq -r '.draft // false')
+
+  # Skip draft scripts
+  if [[ "$draft" == "true" ]]; then
+    log_info "Skipping $name: draft script"
+    return 0
+  fi
 
   # Skip if no docs
   if [[ -z "$docs" ]]; then

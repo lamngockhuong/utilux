@@ -6,6 +6,7 @@
 # @requires: curl
 # @tags: dev, setup, tools
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

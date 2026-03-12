@@ -6,6 +6,7 @@
 # @requires:
 # @tags: cron, schedule, automation
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

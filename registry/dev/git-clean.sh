@@ -6,6 +6,7 @@
 # @requires: git
 # @tags: git, cleanup, branches
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

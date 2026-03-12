@@ -1,20 +1,26 @@
 {
   "version": "1.0.0",
-  "updated": "2026-03-10",
+  "updated": "2026-03-12T02:17:30Z",
   "base_url": "https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry",
   "scripts": [
-
     {
       "name": "backup-home",
       "category": "automation",
       "description": "Backup home directory to compressed archive",
       "version": "v1.0.0",
       "file": "automation/backup-home.sh",
-      "sha256": "37b6165ce014be3b1c3ee046a21871d3f5445634c0ee63a78988c647e5b64e1f",
+      "sha256": "e9a2b0dddbb9f0c2ca31799d48bb0e3980b484e1438a1d14780ae8fbc84fc462",
       "docs": "automation/backup-home.md",
       "docs_sha256": "13286a05587a392f46a259b12d629805836cdae254fb476919b3a7a19d2e112c",
-      "tags": ["backup","archive","home"],
-      "requires": ["tar"],
+      "draft": true,
+      "tags": [
+        "backup",
+        "archive",
+        "home"
+      ],
+      "requires": [
+        "tar"
+      ],
       "author": "lamngockhuong"
     },
     {
@@ -23,10 +29,15 @@
       "description": "Interactively manage cron jobs",
       "version": "v1.0.0",
       "file": "automation/cron-helper.sh",
-      "sha256": "599614847032508b614b42d8f7234c4eaabf8c737be5e9b4565535c0ae0baafc",
+      "sha256": "5f817a489833b3ca0198f18ae2ff2cc10a17fb4120c3c4becef77a3cff080fe9",
       "docs": "automation/cron-helper.md",
       "docs_sha256": "063c9472a0104fe76f66d9db8e83536af3dc1f5ff74ed0ec1ae7b8c6d708b24e",
-      "tags": ["cron","schedule","automation"],
+      "draft": true,
+      "tags": [
+        "cron",
+        "schedule",
+        "automation"
+      ],
       "requires": [],
       "author": "lamngockhuong"
     },
@@ -36,11 +47,18 @@
       "description": "Clean unused Docker images, containers, volumes, and networks",
       "version": "v1.0.0",
       "file": "dev/docker-prune.sh",
-      "sha256": "6d1daee97f25d789a7ed3aea46aba3f0f50a68fafc2f9de4abe25fe6d24cf569",
+      "sha256": "489d0f61278a05d98e02c1f402089c3c0b7a0379ac81fd7c624530e003f9eb92",
       "docs": "dev/docker-prune.md",
       "docs_sha256": "df05788bb75f9b524484eb7afae3b40a005909458f67e893ba389dbb8c567716",
-      "tags": ["docker","cleanup","containers"],
-      "requires": ["docker"],
+      "draft": true,
+      "tags": [
+        "docker",
+        "cleanup",
+        "containers"
+      ],
+      "requires": [
+        "docker"
+      ],
       "author": "lamngockhuong"
     },
     {
@@ -49,11 +67,18 @@
       "description": "Setup development environment with common tools",
       "version": "v1.0.0",
       "file": "dev/env-setup.sh",
-      "sha256": "d7c3c103ee59a91ab07d184c3569949f4a6688bf77cee0e01b124097431be179",
+      "sha256": "af9d5f59fbfb93274355932f7a8c75ad8391e8fa1801a1a6c2649761e0e2215c",
       "docs": "dev/env-setup.md",
       "docs_sha256": "01c52af2462f09167f16dfb439b4c31c840b37875e6d38f8f24aa842ad3ff7a0",
-      "tags": ["dev","setup","tools"],
-      "requires": ["curl"],
+      "draft": true,
+      "tags": [
+        "dev",
+        "setup",
+        "tools"
+      ],
+      "requires": [
+        "curl"
+      ],
       "author": "lamngockhuong"
     },
     {
@@ -62,11 +87,18 @@
       "description": "Clean merged branches, prune remotes, and tidy git repos",
       "version": "v1.0.0",
       "file": "dev/git-clean.sh",
-      "sha256": "12bf62c4d279c62960fc4b71965cde802f5805407c9a49a9cb4d57eb77f00cd1",
+      "sha256": "04adce1c1302034084f4277eaebe2dd5ad09793e160b7bceacdb7b9f64ec9b7c",
       "docs": "dev/git-clean.md",
       "docs_sha256": "7de6a5796c5f6a8c6a06c7c008548bb21aaa23994d1a6e9ff597f30c5115d6df",
-      "tags": ["git","cleanup","branches"],
-      "requires": ["git"],
+      "draft": true,
+      "tags": [
+        "git",
+        "cleanup",
+        "branches"
+      ],
+      "requires": [
+        "git"
+      ],
       "author": "lamngockhuong"
     },
     {
@@ -75,24 +107,16 @@
       "description": "Scan open ports on a host",
       "version": "v1.0.0",
       "file": "network/port-scan.sh",
-      "sha256": "9a37925beaec9ebe2df58683c337e9149311469ca2147846f46c86a5b080ccc7",
+      "sha256": "3b97cc17a7399223e8d23e2e92187446c51f47f006e7562e722bc9beb5b13e6c",
       "docs": "network/port-scan.md",
       "docs_sha256": "c00ac5781c8ab069eac0b34ac20225fe11c39224029a7bc99a9e3fce856594bc",
-      "tags": ["network","ports","security"],
+      "draft": true,
+      "tags": [
+        "network",
+        "ports",
+        "security"
+      ],
       "requires": [],
-      "author": "lamngockhuong"
-    },
-    {
-      "name": "ssl-check",
-      "category": "network",
-      "description": "Check SSL certificate expiry and details",
-      "version": "v1.0.0",
-      "file": "network/ssl-check.sh",
-      "sha256": "c46522e78c9ae874c3e25556a297ae2cc26deff93982eb3845e67c813120f714",
-      "docs": "network/ssl-check.md",
-      "docs_sha256": "818c0af540e0a1acf080cca15b5bb17c1bdcf1cf26297acbbd7547c134443beb",
-      "tags": ["ssl","certificate","security"],
-      "requires": ["openssl"],
       "author": "lamngockhuong"
     },
     {
@@ -101,11 +125,39 @@
       "description": "Add basic auth to any port via nginx reverse proxy",
       "version": "v1.0.0",
       "file": "network/protect-port.sh",
-      "sha256": "29a298d166d1d1f3358862128b5d905e66528e944d2c9b09a9e4a154c96029bf",
+      "sha256": "33f3bf8c3d0dce79122f359b9e56d7e4f22dc706af742cb6be03fe8819a713aa",
       "docs": "network/protect-port.md",
-      "docs_sha256": "e9ca0c7546ec8b03068df3f66faba57180dc41b407aa6ffe3335edf72468e37a",
-      "tags": ["nginx","auth","proxy","security"],
-      "requires": ["nginx"],
+      "docs_sha256": "9a816e49c17454f55afe94e639ea59dc058a6462d158f7be22aee9e97d284d7d",
+      "draft": true,
+      "tags": [
+        "nginx",
+        "auth",
+        "proxy",
+        "security"
+      ],
+      "requires": [
+        "nginx"
+      ],
+      "author": "lamngockhuong"
+    },
+    {
+      "name": "ssl-check",
+      "category": "network",
+      "description": "Check SSL certificate expiry and details",
+      "version": "v1.0.0",
+      "file": "network/ssl-check.sh",
+      "sha256": "6310208e637d8368e274412957d235ef00e141ac47028da84c69a0b439f432ac",
+      "docs": "network/ssl-check.md",
+      "docs_sha256": "818c0af540e0a1acf080cca15b5bb17c1bdcf1cf26297acbbd7547c134443beb",
+      "draft": true,
+      "tags": [
+        "ssl",
+        "certificate",
+        "security"
+      ],
+      "requires": [
+        "openssl"
+      ],
       "author": "lamngockhuong"
     },
     {
@@ -114,10 +166,15 @@
       "description": "Clean temporary files, old logs, and package cache",
       "version": "v1.0.0",
       "file": "system/disk-cleanup.sh",
-      "sha256": "c5c34504569ba3b94a5d7bc1e48e05a874a1e1a71160803f9f7a4414e5962488",
+      "sha256": "70cb22b198d78295c9864a46da6bd263cfe0fb46e1a33cd4a8a13f171c61c65e",
       "docs": "system/disk-cleanup.md",
       "docs_sha256": "5fb0a1acac328634a69cbbdcf0e1eb933a047dc18a699a2aa946afaef4b88212",
-      "tags": ["cleanup","disk","storage"],
+      "draft": true,
+      "tags": [
+        "cleanup",
+        "disk",
+        "storage"
+      ],
       "requires": [],
       "author": "lamngockhuong"
     },
@@ -127,11 +184,18 @@
       "description": "Rotate, compress, and manage log files",
       "version": "v1.0.0",
       "file": "system/log-rotate.sh",
-      "sha256": "8a479738bedc6539531a828a74d771d5c97793dfefc399a99d6542fee0b5de72",
+      "sha256": "9d6d4941368e590886ac90e07da8f5b10ac85b989e12bbd6c1a953f98ee83bba",
       "docs": "system/log-rotate.md",
       "docs_sha256": "fa3d3192ecec9d63afae5a3274e5d9d29f60ae0dfa01bb1dcd68d9bd2769e593",
-      "tags": ["logs","rotate","maintenance"],
-      "requires": ["gzip"],
+      "draft": true,
+      "tags": [
+        "logs",
+        "rotate",
+        "maintenance"
+      ],
+      "requires": [
+        "gzip"
+      ],
       "author": "lamngockhuong"
     },
     {
@@ -140,13 +204,17 @@
       "description": "Display comprehensive system information",
       "version": "v1.0.0",
       "file": "system/system-info.sh",
-      "sha256": "41cbb842b959450e33521786efbb611f22bcf7c82a34cc8c8b6fea789bb9905e",
+      "sha256": "3702ed40e2dbacc74b9c47c55b2b919a80cd7b531dce0c9e846ed37bc42f3aea",
       "docs": "system/system-info.md",
       "docs_sha256": "e271bdca76fcc1abe5720087939a8c3fc4a2b4adbfcfe23c42b9ba5066ca933e",
-      "tags": ["system","info","hardware"],
+      "draft": true,
+      "tags": [
+        "system",
+        "info",
+        "hardware"
+      ],
       "requires": [],
       "author": "lamngockhuong"
     }
-
   ]
 }

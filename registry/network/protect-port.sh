@@ -6,6 +6,7 @@
 # @requires: nginx
 # @tags: nginx, auth, proxy, security
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

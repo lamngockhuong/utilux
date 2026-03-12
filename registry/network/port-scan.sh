@@ -6,6 +6,7 @@
 # @requires:
 # @tags: network, ports, security
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

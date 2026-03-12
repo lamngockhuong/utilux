@@ -1,10 +1,11 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ScriptCard from '../../components/ScriptCard.astro';
-import manifest from '../../../../registry/manifest.json';
+import manifest from "../../../../registry/manifest.json";
+import ScriptCard from "../../components/ScriptCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const scripts = manifest.scripts;
-const categories = [...new Set(scripts.map(s => s.category))].sort();
+// Filter out draft scripts
+const scripts = manifest.scripts.filter((s: any) => !s.draft);
+const categories = [...new Set(scripts.map((s: any) => s.category))].sort();
 ---
 
 <BaseLayout title="Script Catalog">

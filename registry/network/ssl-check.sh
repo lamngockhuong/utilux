@@ -6,6 +6,7 @@
 # @requires: openssl
 # @tags: ssl, certificate, security
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

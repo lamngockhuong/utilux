@@ -11,6 +11,18 @@ _UTILUX_REGISTRY_LOADED=1
 registry_fetch() {
   local force="${1:-0}"
 
+  # Dev mode: use local manifest from source
+  if [[ "$UTILUX_DEV_MODE" == "1" ]]; then
+    local local_manifest="$UTILUX_SCRIPT_DIR/registry/manifest.json"
+    if [[ -f "$local_manifest" ]]; then
+      log_debug "Dev mode: using local manifest"
+      cp "$local_manifest" "$UTILUX_MANIFEST_FILE"
+      return 0
+    else
+      die "Dev mode: local manifest not found: $local_manifest"
+    fi
+  fi
+
   # Skip if offline mode
   if [[ "$UTILUX_OFFLINE" == "1" ]]; then
     if [[ -f "$UTILUX_MANIFEST_FILE" ]]; then
@@ -141,7 +153,7 @@ registry_get_field() {
   fi
 }
 
-# List all scripts from manifest
+# List all scripts from manifest (excludes drafts)
 registry_list() {
   local category="${1:-}"
   local manifest
@@ -151,9 +163,9 @@ registry_list() {
 
   if has_cmd jq; then
     if [[ -n "$category" ]]; then
-      echo "$manifest" | jq -r ".scripts[] | select(.category == \"$category\") | .name" 2>/dev/null
+      echo "$manifest" | jq -r ".scripts[] | select(.category == \"$category\") | select(.draft | not) | .name" 2>/dev/null
     else
-      echo "$manifest" | jq -r '.scripts[].name' 2>/dev/null
+      echo "$manifest" | jq -r '.scripts[] | select(.draft | not) | .name' 2>/dev/null
     fi
   else
     # Grep fallback
@@ -167,15 +179,24 @@ registry_list() {
         script_json=$(registry_get_script "$name")
         local cat
         cat=$(registry_get_field "$script_json" "category")
-        [[ "$cat" == "$category" ]] && echo "$name"
+        local draft
+        draft=$(registry_get_field "$script_json" "draft")
+        [[ "$cat" == "$category" && "$draft" != "true" ]] && echo "$name"
       done
     else
-      echo "$names"
+      # Filter out drafts
+      for name in $names; do
+        local script_json
+        script_json=$(registry_get_script "$name")
+        local draft
+        draft=$(registry_get_field "$script_json" "draft")
+        [[ "$draft" != "true" ]] && echo "$name"
+      done
     fi
   fi
 }
 
-# Search scripts by query (name, description, tags)
+# Search scripts by query (name, description, tags) - excludes drafts
 registry_search() {
   local query="$1"
   local manifest
@@ -184,12 +205,26 @@ registry_search() {
   manifest=$(cat "$UTILUX_MANIFEST_FILE")
 
   if has_cmd jq; then
-    echo "$manifest" | jq -r ".scripts[] | select(.name | test(\"$query\"; \"i\")) | .name" 2>/dev/null
-    echo "$manifest" | jq -r ".scripts[] | select(.description | test(\"$query\"; \"i\")) | .name" 2>/dev/null
-    echo "$manifest" | jq -r ".scripts[] | select(.tags[]? | test(\"$query\"; \"i\")) | .name" 2>/dev/null
+    # Single jq call: filter drafts, then match name OR description OR tags
+    echo "$manifest" | jq -r --arg q "$query" '
+      .scripts[] | select(.draft | not) |
+      select(
+        (.name | test($q; "i")) or
+        (.description | test($q; "i")) or
+        ((.tags // [])[] | test($q; "i"))
+      ) | .name
+    ' 2>/dev/null
   else
-    # Grep fallback - simple text search
-    echo "$manifest" | grep -i "$query" | grep -o '"name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4
+    # Grep fallback - filter drafts by excluding scripts with "draft": true
+    local names
+    names=$(echo "$manifest" | grep -i "$query" | grep -o '"name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)
+    for name in $names; do
+      local script_json
+      script_json=$(registry_get_script "$name")
+      local draft
+      draft=$(registry_get_field "$script_json" "draft")
+      [[ "$draft" != "true" ]] && echo "$name"
+    done
   fi | sort -u
 }
 
@@ -209,15 +244,29 @@ registry_base_url() {
   _parse_json "$manifest" '.base_url'
 }
 
-# List categories
+# List categories (only from non-draft scripts)
 registry_categories() {
   local manifest
   [[ -f "$UTILUX_MANIFEST_FILE" ]] || registry_fetch
   manifest=$(cat "$UTILUX_MANIFEST_FILE")
 
   if has_cmd jq; then
-    echo "$manifest" | jq -r '.scripts[].category' 2>/dev/null | sort -u
+    echo "$manifest" | jq -r '.scripts[] | select(.draft | not) | .category' 2>/dev/null | sort -u
   else
-    echo "$manifest" | grep -o '"category"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4 | sort -u
+    # Grep fallback - get unique categories from non-draft scripts
+    local names categories=""
+    names=$(echo "$manifest" | grep -o '"name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)
+    for name in $names; do
+      local script_json
+      script_json=$(registry_get_script "$name")
+      local draft
+      draft=$(registry_get_field "$script_json" "draft")
+      if [[ "$draft" != "true" ]]; then
+        local cat
+        cat=$(registry_get_field "$script_json" "category")
+        categories+="$cat"$'\n'
+      fi
+    done
+    echo "$categories" | sort -u | grep -v '^$'
   fi
 }

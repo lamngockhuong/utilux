@@ -6,6 +6,7 @@
 # @requires: gzip
 # @tags: logs, rotate, maintenance
 # @author: lamngockhuong
+# @draft
 
 set -euo pipefail
 

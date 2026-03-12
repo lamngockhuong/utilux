@@ -15,6 +15,7 @@ UTILUX_MANIFEST_FILE="${UTILUX_MANIFEST_FILE:-$UTILUX_HOME/manifest.json}"
 UTILUX_REGISTRY_URL="${UTILUX_REGISTRY_URL:-https://raw.githubusercontent.com/lamngockhuong/utilux/main/registry/manifest.json}"
 UTILUX_OFFLINE="${UTILUX_OFFLINE:-0}"
 UTILUX_AUTO_UPDATE="${UTILUX_AUTO_UPDATE:-1}"
+UTILUX_DEV_MODE="${UTILUX_DEV_MODE:-0}"
 
 # Initialize utilux directories
 config_init() {

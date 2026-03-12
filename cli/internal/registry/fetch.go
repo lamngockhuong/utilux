@@ -146,26 +146,26 @@ func (r *Registry) GetScript(name string) (*Script, error) {
 	return nil, fmt.Errorf("script not found: %s", name)
 }
 
-// ListScripts returns all scripts, optionally filtered by category
+// ListScripts returns all non-draft scripts, optionally filtered by category
 func (r *Registry) ListScripts(category string) []Script {
 	if r.manifest == nil {
 		return nil
 	}
 
-	if category == "" {
-		return r.manifest.Scripts
-	}
-
 	var filtered []Script
 	for _, s := range r.manifest.Scripts {
-		if s.Category == category {
+		// Skip draft scripts
+		if s.Draft {
+			continue
+		}
+		if category == "" || s.Category == category {
 			filtered = append(filtered, s)
 		}
 	}
 	return filtered
 }
 
-// Categories returns unique categories
+// Categories returns unique categories (only from non-draft scripts)
 func (r *Registry) Categories() []string {
 	if r.manifest == nil {
 		return nil
@@ -174,6 +174,10 @@ func (r *Registry) Categories() []string {
 	seen := make(map[string]bool)
 	var cats []string
 	for _, s := range r.manifest.Scripts {
+		// Skip draft scripts
+		if s.Draft {
+			continue
+		}
 		if !seen[s.Category] {
 			seen[s.Category] = true
 			cats = append(cats, s.Category)
@@ -182,7 +186,7 @@ func (r *Registry) Categories() []string {
 	return cats
 }
 
-// Search finds scripts matching query in name, description, or tags
+// Search finds non-draft scripts matching query in name, description, or tags
 func (r *Registry) Search(query string) []Script {
 	if r.manifest == nil {
 		return nil
@@ -190,6 +194,10 @@ func (r *Registry) Search(query string) []Script {
 
 	var results []Script
 	for _, s := range r.manifest.Scripts {
+		// Skip draft scripts
+		if s.Draft {
+			continue
+		}
 		if containsIgnoreCase(s.Name, query) || containsIgnoreCase(s.Description, query) || containsAny(s.Tags, query) {
 			results = append(results, s)
 		}

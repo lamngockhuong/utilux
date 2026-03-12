@@ -21,4 +21,5 @@ type Script struct {
 	Tags        []string `json:"tags"`
 	Requires    []string `json:"requires"`
 	Author      string   `json:"author"`
+	Draft       bool     `json:"draft,omitempty"`
 }

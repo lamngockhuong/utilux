@@ -47,6 +47,20 @@ generate_manifest() {
       local sha256=$(sha256sum "$script" | cut -d' ' -f1)
       local path="$category/$name.sh"
 
+      # Check for @draft flag (any value or empty = true)
+      local is_draft="false"
+      if grep -q "^# @draft" "$script" 2>/dev/null; then
+        is_draft="true"
+      fi
+
+      # Check for docs file
+      local docs_path="$category/$name.md"
+      local docs_file="$REGISTRY_DIR/$docs_path"
+      local docs_sha256=""
+      if [[ -f "$docs_file" ]]; then
+        docs_sha256=$(sha256sum "$docs_file" | cut -d' ' -f1)
+      fi
+
       # Default values
       [[ -z "$version" ]] && version="v1.0.0"
       [[ -z "$author" ]] && author="lamngockhuong"
@@ -63,19 +77,32 @@ generate_manifest() {
         tags_json=$(echo "$tags" | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | jq -R . | jq -s .)
       fi
 
+      # Build optional fields
+      local draft_field=""
+      [[ "$is_draft" == "true" ]] && draft_field="\"draft\": true,"
+
+      local docs_fields=""
+      if [[ -n "$docs_sha256" ]]; then
+        docs_fields="\"docs\": \"$docs_path\", \"docs_sha256\": \"$docs_sha256\","
+      fi
+
       scripts+=("{
         \"name\": \"$name\",
+        \"category\": \"$category\",
         \"description\": \"$desc\",
         \"version\": \"$version\",
-        \"category\": \"$category\",
-        \"path\": \"$path\",
+        \"file\": \"$path\",
         \"sha256\": \"$sha256\",
+        ${docs_fields}
+        ${draft_field}
         \"tags\": $tags_json,
         \"requires\": $requires_json,
         \"author\": \"$author\"
       }")
 
-      log_info "  Found: $name ($category)"
+      local draft_label=""
+      [[ "$is_draft" == "true" ]] && draft_label=" [DRAFT]"
+      log_info "  Found: $name ($category)$draft_label"
     done
   done
 

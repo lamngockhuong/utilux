@@ -60,6 +60,26 @@ loader_load() {
   name=$(sanitize_name "$name")
   [[ -z "$name" ]] && die "Invalid script name"
 
+  # Dev mode: always use local source (skip cache)
+  if [[ "$UTILUX_DEV_MODE" == "1" ]]; then
+    registry_fetch
+    local script_json
+    script_json=$(registry_get_script "$name")
+    [[ -z "$script_json" ]] && die "Script not found: $name"
+
+    local file_path
+    file_path=$(registry_get_field "$script_json" "file")
+    local local_path="$UTILUX_SCRIPT_DIR/registry/${file_path}"
+
+    if [[ -f "$local_path" ]]; then
+      log_debug "Dev mode: running $local_path directly"
+      echo "$local_path"
+      return 0
+    else
+      die "Dev mode: script not found: $local_path"
+    fi
+  fi
+
   # Check cache first
   local cached_path
   if cached_path=$(cache_get "$name"); then
@@ -99,7 +119,7 @@ loader_load() {
   fi
 
   _loader_fetch_and_cache "$name" "$script_json"
-  cache_get "$name"
+  echo "$(cache_get "$name")"
 }
 
 # Internal: fetch script and save to cache
@@ -107,16 +127,30 @@ _loader_fetch_and_cache() {
   local name="$1"
   local script_json="$2"
 
-  local file_path version sha256 base_url url
+  local file_path version sha256
   file_path=$(registry_get_field "$script_json" "file")
   version=$(registry_get_field "$script_json" "version")
   sha256=$(registry_get_field "$script_json" "sha256")
-  base_url=$(registry_base_url)
 
-  # Build full URL
+  # Dev mode: use local source files (skip download and verification)
+  if [[ "$UTILUX_DEV_MODE" == "1" ]]; then
+    local local_path="$UTILUX_SCRIPT_DIR/registry/${file_path}"
+    if [[ -f "$local_path" ]]; then
+      log_debug "Dev mode: using local $local_path"
+      cp "$local_path" "$UTILUX_CACHE_DIR/${name}.sh"
+      chmod +x "$UTILUX_CACHE_DIR/${name}.sh"
+      cache_set_version "$name" "$version" "$sha256"
+      return 0
+    else
+      die "Dev mode: local script not found: $local_path"
+    fi
+  fi
+
+  # Production: download from remote
+  local base_url url
+  base_url=$(registry_base_url)
   url="${base_url}/${file_path}"
 
-  # Download
   local tmp_file
   tmp_file=$(loader_download "$name" "$url")
 
