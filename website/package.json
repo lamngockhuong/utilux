@@ -21,7 +21,7 @@
   "dependencies": {
     "@tailwindcss/typography": "0.5.19",
     "@tailwindcss/vite": "4.2.1",
-    "astro": "6.0.3",
+    "astro": "6.0.8",
     "tailwindcss": "4.2.1"
   }
 }
